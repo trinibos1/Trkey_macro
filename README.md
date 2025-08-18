@@ -5,7 +5,7 @@ This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, r
 
 * **OLED Display:** [Amazon Link](https://a.co/d/afDOQYH)
 * **PCB Design:** [OSH Park Project](https://oshpark.com/shared_projects/1jOtq57X)
-* **Web Key Mapper:** [trinibos1/micropad\_web](https://github.com/trinibos1/micropad_web)
+* **Web Key Mapper:** [trinibos1/Trkey\_web](https://trinibos1.github.io/TRkey_mapper/)
 
 ---
 
