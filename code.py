@@ -78,9 +78,9 @@ kbd = Keyboard(usb_hid.devices)
 consumer_control = ConsumerControl(usb_hid.devices)
 
 # === Buttons ===
-button_pins = [board.GP5, board.GP8, board.GP11,
-               board.GP6, board.GP9, board.GP12,
-               board.GP7, board.GP10, board.GP13]
+button_pins = [board.GP2, board.GP3, board.GP4,
+               board.GP5, board.GP6, board.GP7,
+               board.GP8, board.GP9, board.GP10]
 buttons = []
 button_times = []
 for pin in button_pins:
@@ -288,3 +288,4 @@ while True:
         update_ui(current_layer)
 
     time.sleep(0.01)
+
