@@ -1,7 +1,4 @@
-# 3×3 Macropad
-
-![Macropad Banner](https://via.placeholder.com/800x200.png?text=3x3+Macropad)
-
+# trkey Macropad
 ## Overview
 
 This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, running **CircuitPython**. It connects via **USB** using the **Adafruit HID library**, allowing you to assign keyboard shortcuts, media keys, and macros. An **OLED display** shows layer and status information for easy feedback.
