@@ -3,8 +3,6 @@
 
 This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, running **CircuitPython**. It connects via **USB** using the **Adafruit HID library**, allowing you to assign keyboard shortcuts, media keys, and macros. An **OLED display** shows layer and status information for easy feedback.
 
-Designed for simplicity: **no battery, no diodes, no firmware updates**, with **Cherry MX Brown Hyperglide 45g tactile switches wired directly to GND**.
-
 * **OLED Display:** [Amazon Link](https://a.co/d/afDOQYH)
 * **PCB Design:** [OSH Park Project](https://oshpark.com/shared_projects/1jOtq57X)
 * **Web Key Mapper:** [trinibos1/micropad\_web](https://github.com/trinibos1/micropad_web)
@@ -34,9 +32,9 @@ Designed for simplicity: **no battery, no diodes, no firmware updates**, with **
 | PCB             | Custom 3×3 macropad ([link](https://oshpark.com/shared_projects/1jOtq57X)) |
 | Power           | USB only                                                                   |
 
-![OLED Display](https://via.placeholder.com/150x50.png?text=OLED+Display)
+PCB 
 ![PCB Image](https://via.placeholder.com/300x200.png?text=PCB+Layout)
-![Cherry MX Brown Switch](https://via.placeholder.com/100x100.png?text=Cherry+MX+Brown)
+
 
 ---
 
@@ -94,8 +92,3 @@ Submit issues or pull requests to collaborate.
 
 MIT License – see [LICENSE](LICENSE) for details.
 
----
-
-If you want, I can **also create a version with a GIF animation showing keypresses and OLED updates**, so your README will be very visually engaging and demonstrate the macropad in action.
-
-Do you want me to add that GIF?
