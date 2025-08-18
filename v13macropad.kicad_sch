@@ -1,0 +1,5286 @@
+(kicad_sch
+	(version 20250114)
+	(generator "eeschema")
+	(generator_version "9.0")
+	(uuid "1ca75e7e-6003-4d70-8cc6-4acf294b4c5e")
+	(paper "A" portrait)
+	(title_block
+		(date "2025-08-15")
+		(rev "v16")
+	)
+	(lib_symbols
+		(symbol "DM-OLED096-636:DM-OLED096-636"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -7.62 10.922 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "DM-OLED096-636"
+				(at -7.62 -10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Footprint" "DM-OLED096-636:MODULE_DM-OLED096-636"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MF" "Display Module"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MAXIMUM_PACKAGE_HEIGHT" "11.3 mm"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Package" "Package"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Price" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Check_prices" "https://www.snapeda.com/parts/DM-OLED096-636/Display+Module/view-part/?ref=eda"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "STANDARD" "Manufacturer Recommendations"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "PARTREV" "2018-09-10"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "SnapEDA_Link" "https://www.snapeda.com/parts/DM-OLED096-636/Display+Module/view-part/?ref=snap"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MP" "DM-OLED096-636"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Description_1" "0.96” 128 X 64 MONOCHROME GRAPHIC OLED DISPLAY MODULE - I2C"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Availability" "Not in stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MANUFACTURER" "Displaymodule"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(symbol "DM-OLED096-636_0_0"
+				(rectangle
+					(start -7.62 -7.62)
+					(end 7.62 10.16)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin power_in line
+					(at 12.7 7.62 180)
+					(length 5.08)
+					(name "VCC_IN"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin input clock
+					(at 12.7 2.54 180)
+					(length 5.08)
+					(name "SCL"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 12.7 0 180)
+					(length 5.08)
+					(name "SDA"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 12.7 -5.08 180)
+					(length 5.08)
+					(name "GND"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "MCU_Module_RaspberryPi_Pico:RaspberryPi_Pico"
+			(pin_names
+				(offset 0.762)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "A"
+				(at -19.05 38.1 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "RaspberryPi_Pico"
+				(at 7.62 38.1 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Module_RaspberryPi_Pico:RaspberryPi_Pico_Common"
+				(at 0 -49.53 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf"
+				(at 0 -52.07 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Versatile and inexpensive microcontroller module powered by RP2040 dual-core Arm Cortex-M0+ processor up to 133 MHz, 264kB SRAM, 2MB QSPI flash"
+				(at 0 -54.61 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "Raspberry Pi Pico microcontroller module RP2040 M0+ usb"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_fp_filters" "RaspberryPi?Pico?Common* RaspberryPi?Pico?Original*"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "RaspberryPi_Pico_0_1"
+				(rectangle
+					(start -19.05 36.83)
+					(end 19.05 -34.29)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 36.83) (xy 1.27 36.195) (xy 1.27 34.29) (xy 1.905 34.29)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -34.29) (xy 1.27 -33.655) (xy 1.27 -21.59) (xy 18.415 -21.59) (xy 19.05 -20.32)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.651 35.306) (xy 1.651 35.56) (xy 1.905 35.56) (xy 1.905 33.02) (xy 2.159 33.02) (xy 2.159 33.274)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.905 34.29) (xy 3.175 35.56) (xy 3.175 33.02) (xy 1.905 34.29)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.08 36.83) (xy 3.81 36.195) (xy 3.81 34.29) (xy 3.175 34.29)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "RaspberryPi_Pico_1_1"
+				(pin bidirectional line
+					(at -22.86 22.86 0)
+					(length 3.81)
+					(name "GPIO0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM0_A" output line)
+					(alternate "SPI0_RX" input line)
+					(alternate "UART0_TX" output line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 20.32 0)
+					(length 3.81)
+					(name "GPIO1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM0_B" bidirectional line)
+					(alternate "UART0_RX" input line)
+					(alternate "USB_VBUS_DET" passive line)
+					(alternate "~{SPI0_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at -22.86 17.78 0)
+					(length 3.81)
+					(name "GPIO2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM1_A" output line)
+					(alternate "SPI0_SCK" bidirectional clock)
+					(alternate "UART0_CTS" input line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 15.24 0)
+					(length 3.81)
+					(name "GPIO3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM1_B" bidirectional line)
+					(alternate "SPI0_TX" output line)
+					(alternate "UART0_RTS" output line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 12.7 0)
+					(length 3.81)
+					(name "GPIO4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM2_A" output line)
+					(alternate "SPI0_RX" input line)
+					(alternate "UART1_TX" output line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 10.16 0)
+					(length 3.81)
+					(name "GPIO5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM2_B" bidirectional line)
+					(alternate "UART1_RX" input line)
+					(alternate "USB_VBUS_EN" output line)
+					(alternate "~{SPI0_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at -22.86 7.62 0)
+					(length 3.81)
+					(name "GPIO6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM3_A" output line)
+					(alternate "SPI0_SCK" bidirectional clock)
+					(alternate "UART1_CTS" input line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 5.08 0)
+					(length 3.81)
+					(name "GPIO7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM3_B" bidirectional line)
+					(alternate "SPI0_TX" output line)
+					(alternate "UART1_RTS" output line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 2.54 0)
+					(length 3.81)
+					(name "GPIO8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM4_A" output line)
+					(alternate "SPI1_RX" input line)
+					(alternate "UART1_TX" output line)
+					(alternate "USB_VBUS_EN" output line)
+				)
+				(pin bidirectional line
+					(at -22.86 0 0)
+					(length 3.81)
+					(name "GPIO9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM4_B" bidirectional line)
+					(alternate "UART1_RX" input line)
+					(alternate "USB_OVCUR_DET" input line)
+					(alternate "~{SPI1_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at -22.86 -2.54 0)
+					(length 3.81)
+					(name "GPIO10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM5_A" output line)
+					(alternate "SPI1_SCK" bidirectional clock)
+					(alternate "UART1_CTS" input line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 -5.08 0)
+					(length 3.81)
+					(name "GPIO11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM5_B" bidirectional line)
+					(alternate "SPI1_TX" output line)
+					(alternate "UART1_RTS" output line)
+					(alternate "USB_VBUS_EN" output line)
+				)
+				(pin bidirectional line
+					(at -22.86 -7.62 0)
+					(length 3.81)
+					(name "GPIO12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM6_A" output line)
+					(alternate "SPI1_RX" input line)
+					(alternate "UART0_TX" output line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at -22.86 -10.16 0)
+					(length 3.81)
+					(name "GPIO13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM6_B" bidirectional line)
+					(alternate "UART0_RX" input line)
+					(alternate "USB_VBUS_DET" input line)
+					(alternate "~{SPI1_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at -22.86 -12.7 0)
+					(length 3.81)
+					(name "GPIO14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM7_A" output line)
+					(alternate "SPI1_SCK" bidirectional clock)
+					(alternate "UART0_CTS" input line)
+					(alternate "USB_VBUS_EN" output line)
+				)
+				(pin bidirectional line
+					(at -22.86 -15.24 0)
+					(length 3.81)
+					(name "GPIO15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM7_B" bidirectional line)
+					(alternate "SPI1_TX" output line)
+					(alternate "UART0_RTS" output line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin input line
+					(at -22.86 -20.32 0)
+					(length 3.81)
+					(name "RUN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "30"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "~{RESET}" input line)
+				)
+				(pin input line
+					(at -22.86 -22.86 0)
+					(length 3.81)
+					(name "3V3_EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "37"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "~{3V3_DISABLE}" input line)
+				)
+				(pin power_out line
+					(at -5.08 40.64 270)
+					(length 3.81)
+					(name "3V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "36"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 40.64 270)
+					(length 3.81)
+					(name "VSYS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "39"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "VSYS_IN" power_in line)
+					(alternate "VSYS_OUT" power_out line)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "28"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "GND_IN" power_in line)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "38"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -38.1 90)
+					(length 3.81)
+					(hide yes)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 5.08 40.64 270)
+					(length 3.81)
+					(name "VBUS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "40"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "VBUS_HOST" power_in line)
+				)
+				(pin bidirectional line
+					(at 22.86 15.24 180)
+					(length 3.81)
+					(name "GPIO16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM0_A" output line)
+					(alternate "SPI0_RX" input line)
+					(alternate "UART0_TX" output line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at 22.86 12.7 180)
+					(length 3.81)
+					(name "GPIO17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM0_B" bidirectional line)
+					(alternate "UART0_RX" input line)
+					(alternate "USB_VBUS_EN" output line)
+					(alternate "~{SPI0_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at 22.86 10.16 180)
+					(length 3.81)
+					(name "GPIO18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM1_A" output line)
+					(alternate "SPI0_SCK" bidirectional clock)
+					(alternate "UART0_CTS" input line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at 22.86 7.62 180)
+					(length 3.81)
+					(name "GPIO19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "25"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM1_B" bidirectional line)
+					(alternate "SPI0_TX" output line)
+					(alternate "UART0_RTS" output line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin bidirectional line
+					(at 22.86 5.08 180)
+					(length 3.81)
+					(name "GPIO20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "26"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "CLOCK_GPIN0" input clock)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM2_A" output line)
+					(alternate "SPI0_RX" input line)
+					(alternate "UART1_TX" output line)
+					(alternate "USB_VBUS_EN" output line)
+				)
+				(pin bidirectional line
+					(at 22.86 2.54 180)
+					(length 3.81)
+					(name "GPIO21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "27"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "CLOCK_GPOUT0" output clock)
+					(alternate "I2C0_SCL" bidirectional clock)
+					(alternate "PWM2_B" bidirectional line)
+					(alternate "UART1_RX" input line)
+					(alternate "USB_OVCUR_DET" input line)
+					(alternate "~{SPI0_CSn}" bidirectional line)
+				)
+				(pin bidirectional line
+					(at 22.86 0 180)
+					(length 3.81)
+					(name "GPIO22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "29"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "CLOCK_GPIN1" input clock)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM3_A" output line)
+					(alternate "SPI0_SCK" bidirectional clock)
+					(alternate "UART1_CTS" input line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin power_in line
+					(at 22.86 -5.08 180)
+					(length 3.81)
+					(name "ADC_VREF"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "35"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin bidirectional line
+					(at 22.86 -10.16 180)
+					(length 3.81)
+					(name "GPIO26_ADC0"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "31"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "ADC0" input line)
+					(alternate "GPIO26" bidirectional line)
+					(alternate "I2C1_SDA" bidirectional line)
+					(alternate "PWM5_A" output line)
+					(alternate "SPI1_SCK" bidirectional clock)
+					(alternate "UART1_CTS" input line)
+					(alternate "USB_VBUS_EN" output line)
+				)
+				(pin bidirectional line
+					(at 22.86 -12.7 180)
+					(length 3.81)
+					(name "GPIO27_ADC1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "32"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "ADC1" input line)
+					(alternate "GPIO27" bidirectional line)
+					(alternate "I2C1_SCL" bidirectional clock)
+					(alternate "PWM5_B" bidirectional line)
+					(alternate "SPI1_TX" output line)
+					(alternate "UART1_RTS" output line)
+					(alternate "USB_OVCUR_DET" input line)
+				)
+				(pin bidirectional line
+					(at 22.86 -15.24 180)
+					(length 3.81)
+					(name "GPIO28_ADC2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "34"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "ADC2" input line)
+					(alternate "GPIO28" bidirectional line)
+					(alternate "I2C0_SDA" bidirectional line)
+					(alternate "PWM6_A" output line)
+					(alternate "SPI1_RX" input line)
+					(alternate "UART0_TX" output line)
+					(alternate "USB_VBUS_DET" input line)
+				)
+				(pin power_out line
+					(at 22.86 -20.32 180)
+					(length 3.81)
+					(name "AGND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "33"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(alternate "GND" passive line)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "logo sign:LOGO"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "#G"
+				(at 0 6.8701 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" "LOGO"
+				(at 0 -6.8701 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "LOGO_0_0"
+				(polyline
+					(pts
+						(xy -6.2856 -2.3804) (xy -6.2973 -2.3687) (xy -6.309 -2.3804) (xy -6.2973 -2.3922) (xy -6.2856 -2.3804)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -6.1683 -7.1884) (xy -6.18 -7.1767) (xy -6.1918 -7.1884) (xy -6.18 -7.2001) (xy -6.1683 -7.1884)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -6.0932 -7.1529) (xy -6.0745 -7.1272) (xy -6.0705 -7.1176) (xy -6.0393 -7.1063) (xy -6.0182 -7.1018)
+						(xy -6.0052 -7.0771) (xy -6.0291 -7.0468) (xy -6.051 -7.0452) (xy -6.0919 -7.0672) (xy -6.1288 -7.105)
+						(xy -6.1449 -7.1444) (xy -6.1399 -7.1588) (xy -6.1097 -7.1617) (xy -6.0932 -7.1529)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -6.0268 -7.0085) (xy -5.9957 -6.9773) (xy -5.9916 -6.9594) (xy -6.002 -6.9421) (xy -6.0176 -6.9478)
+						(xy -6.051 -6.9773) (xy -6.0532 -6.9799) (xy -6.0675 -7.0061) (xy -6.0447 -7.0125) (xy -6.0268 -7.0085)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -5.3709 -4.3036) (xy -5.3826 -4.2919) (xy -5.3943 -4.3036) (xy -5.3826 -4.3153) (xy -5.3709 -4.3036)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -5.1906 -4.8527) (xy -5.1954 -4.802) (xy -5.1962 -4.7982) (xy -5.2208 -4.7228) (xy -5.2562 -4.6478)
+						(xy -5.2638 -4.6337) (xy -5.2856 -4.5805) (xy -5.2876 -4.5479) (xy -5.2846 -4.5317) (xy -5.3057 -4.5177)
+						(xy -5.3595 -4.5057) (xy -5.453 -4.4935) (xy -5.4937 -4.4902) (xy -5.5613 -4.4911) (xy -5.6018 -4.5002)
+						(xy -5.6154 -4.5179) (xy -5.6117 -4.5625) (xy -5.5928 -4.5968) (xy -5.4413 -4.5968) (xy -5.4373 -4.586)
+						(xy -5.4061 -4.5733) (xy -5.3899 -4.576) (xy -5.3709 -4.5968) (xy -5.3749 -4.6076) (xy -5.4061 -4.6202)
+						(xy -5.4223 -4.6176) (xy -5.4413 -4.5968) (xy -5.5928 -4.5968) (xy -5.5821 -4.6163) (xy -5.5338 -4.6676)
+						(xy -5.474 -4.7048) (xy -5.4652 -4.7088) (xy -5.4067 -4.7485) (xy -5.3714 -4.7948) (xy -5.3482 -4.8329)
+						(xy -5.3077 -4.8618) (xy -5.2579 -4.8733) (xy -5.2088 -4.875) (xy -5.1906 -4.8527)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -4.2182 -7.5047) (xy -3.954 -7.5043) (xy -3.728 -7.5036) (xy -3.5374 -7.5025) (xy -3.3792 -7.501)
+						(xy -3.2503 -7.4991) (xy -3.1479 -7.4967) (xy -3.069 -7.4937) (xy -3.0106 -7.49) (xy -2.9697 -7.4857)
+						(xy -2.9434 -7.4807) (xy -2.9287 -7.4748) (xy -2.9226 -7.4681) (xy -2.9187 -7.4402) (xy -2.9318 -7.3876)
+						(xy -2.951 -7.348) (xy -2.9456 -7.3303) (xy -2.9061 -7.3274) (xy -2.9054 -7.3274) (xy -2.8746 -7.333)
+						(xy -2.8649 -7.3583) (xy -2.8712 -7.4162) (xy -2.8854 -7.505) (xy -2.7327 -7.505) (xy -2.6586 -7.5022)
+						(xy -2.6015 -7.4938) (xy -2.5799 -7.4816) (xy -2.5806 -7.4759) (xy -2.6034 -7.4581) (xy -2.6175 -7.448)
+						(xy -2.6268 -7.4085) (xy -2.6268 -7.4083) (xy -2.6169 -7.3719) (xy -2.5799 -7.3711) (xy -2.5503 -7.3734)
+						(xy -2.533 -7.3504) (xy -2.5446 -7.3292) (xy -2.5858 -7.3147) (xy -2.5945 -7.3142) (xy -2.6184 -7.3097)
+						(xy -2.5975 -7.3012) (xy -2.5802 -7.2962) (xy -2.5624 -7.2843) (xy -2.5661 -7.2622) (xy -2.5944 -7.2213)
+						(xy -2.6503 -7.1532) (xy -2.692 -7.0982) (xy -2.7296 -7.0353) (xy -2.7441 -6.9916) (xy -2.7488 -6.9619)
+						(xy -2.7671 -6.9421) (xy -2.7872 -6.9243) (xy -2.8055 -6.8776) (xy -2.8214 -6.8279) (xy -2.844 -6.7838)
+						(xy -2.8544 -6.7662) (xy -2.8408 -6.7545) (xy -2.8235 -6.7399) (xy -2.8145 -6.6959) (xy -2.8219 -6.6573)
+						(xy -2.8444 -6.6372) (xy -2.8523 -6.6355) (xy -2.8913 -6.6103) (xy -2.9382 -6.5645) (xy -2.9551 -6.5461)
+						(xy -2.9897 -6.5181) (xy -3.0021 -6.5267) (xy -3.0045 -6.5352) (xy -3.0363 -6.5597) (xy -3.0902 -6.5785)
+						(xy -3.1477 -6.5864) (xy -3.1901 -6.5784) (xy -3.1986 -6.5745) (xy -3.2132 -6.5845) (xy -3.2206 -6.5921)
+						(xy -3.261 -6.6015) (xy -3.3226 -6.606) (xy -3.3891 -6.6054) (xy -3.4445 -6.5994) (xy -3.4725 -6.5879)
+						(xy -3.5009 -6.5709) (xy -3.5546 -6.5581) (xy -3.6753 -6.5366) (xy -3.8347 -6.4847) (xy -3.8573 -6.4747)
+						(xy -3.9527 -6.4331) (xy -4.0174 -6.4079) (xy -4.0613 -6.3962) (xy -4.0944 -6.3953) (xy -4.1265 -6.4023)
+						(xy -4.1312 -6.4036) (xy -4.1979 -6.4038) (xy -4.2485 -6.3746) (xy -4.2686 -6.3239) (xy -4.2763 -6.2939)
+						(xy -4.2999 -6.2892) (xy -4.3246 -6.3222) (xy -4.3402 -6.3427) (xy -4.3858 -6.3441) (xy -4.4369 -6.3473)
+						(xy -4.4831 -6.3785) (xy -4.5031 -6.4237) (xy -4.5082 -6.4344) (xy -4.5385 -6.4345) (xy -4.5523 -6.4336)
+						(xy -4.6002 -6.4572) (xy -4.6641 -6.5139) (xy -4.6999 -6.5477) (xy -4.7678 -6.6002) (xy -4.8253 -6.6316)
+						(xy -4.8681 -6.6447) (xy -4.8879 -6.6406) (xy -4.8846 -6.6116) (xy -4.8746 -6.5863) (xy -4.8538 -6.5669)
+						(xy -4.8402 -6.5587) (xy -4.8204 -6.5219) (xy -4.7905 -6.4836) (xy -4.7367 -6.4528) (xy -4.6857 -6.4241)
+						(xy -4.6673 -6.3772) (xy -4.66 -6.3426) (xy -4.6263 -6.2958) (xy -4.6045 -6.2739) (xy -4.6013 -6.2498)
+						(xy -4.6096 -6.2457) (xy -4.6557 -6.2493) (xy -4.7277 -6.2719) (xy -4.8151 -6.3098) (xy -4.9075 -6.3591)
+						(xy -4.9556 -6.3863) (xy -5.0124 -6.415) (xy -5.0436 -6.4262) (xy -5.0518 -6.4282) (xy -5.0663 -6.4555)
+						(xy -5.0787 -6.4772) (xy -5.1193 -6.5044) (xy -5.1935 -6.5401) (xy -5.3069 -6.5872) (xy -5.3561 -6.6194)
+						(xy -5.3933 -6.6698) (xy -5.432 -6.73) (xy -5.4945 -6.778) (xy -5.1364 -6.778) (xy -5.1354 -6.7715)
+						(xy -5.1115 -6.7545) (xy -5.103 -6.7563) (xy -5.1012 -6.778) (xy -5.106 -6.785) (xy -5.126 -6.8014)
+						(xy -5.1284 -6.8008) (xy -5.1364 -6.778) (xy -5.4945 -6.778) (xy -5.4987 -6.7812) (xy -5.5715 -6.8014)
+						(xy -5.6109 -6.8146) (xy -5.6527 -6.8607) (xy -5.6726 -6.8878) (xy -5.6732 -6.8884) (xy -5.2441 -6.8884)
+						(xy -5.2306 -6.8603) (xy -5.2183 -6.858) (xy -5.2067 -6.8821) (xy -5.2072 -6.8939) (xy -5.2183 -6.9176)
+						(xy -5.2409 -6.8968) (xy -5.2441 -6.8884) (xy -5.6732 -6.8884) (xy -5.7279 -6.9397) (xy -5.7477 -6.9539)
+						(xy -5.1833 -6.9539) (xy -5.1715 -6.9421) (xy -5.1598 -6.9539) (xy -5.1715 -6.9656) (xy -5.1833 -6.9539)
+						(xy -5.7477 -6.9539) (xy -5.7974 -6.9895) (xy -5.8443 -7.0204) (xy -5.8919 -7.0577) (xy -5.9103 -7.0812)
+						(xy -5.8998 -7.1106) (xy -5.8694 -7.114) (xy -5.8336 -7.0834) (xy -5.8084 -7.056) (xy -5.7862 -7.0506)
+						(xy -5.7813 -7.0661) (xy -5.806 -7.0973) (xy -5.8644 -7.1321) (xy -5.9492 -7.1654) (xy -5.9846 -7.1773)
+						(xy -6.0253 -7.193) (xy -4.6875 -7.193) (xy -4.6782 -7.1409) (xy -4.6579 -7.0517) (xy -4.6453 -6.99)
+						(xy -4.6358 -6.9182) (xy -4.6365 -6.8738) (xy -4.6375 -6.8649) (xy -4.6227 -6.8159) (xy -4.5851 -6.7587)
+						(xy -4.5777 -6.7495) (xy -4.5317 -6.6781) (xy -4.5015 -6.6083) (xy -4.4994 -6.601) (xy -4.4697 -6.5257)
+						(xy -4.4306 -6.451) (xy -4.4248 -6.4416) (xy -4.3944 -6.398) (xy -4.3752 -6.3899) (xy -4.3576 -6.4122)
+						(xy -4.3469 -6.4396) (xy -4.36 -6.48) (xy -4.3667 -6.4878) (xy -4.384 -6.5309) (xy -4.3804 -6.5723)
+						(xy -4.3565 -6.5914) (xy -4.3562 -6.6046) (xy -4.3844 -6.6405) (xy -4.4357 -6.6911) (xy -4.4637 -6.7178)
+						(xy -4.5273 -6.7946) (xy -4.5569 -6.86) (xy -4.5588 -6.8697) (xy -4.5754 -6.9443) (xy -4.5758 -6.9457)
+						(xy -4.12 -6.9457) (xy -4.0876 -6.9494) (xy -4.0552 -6.9532) (xy -4.0376 -6.9456) (xy -4.0393 -6.9172)
+						(xy -4.0308 -6.8685) (xy -4.0106 -6.8483) (xy -3.9969 -6.8632) (xy -3.9887 -6.9083) (xy -3.9887 -6.9663)
+						(xy -3.9967 -7.0192) (xy -4.0126 -7.0489) (xy -4.0254 -7.0687) (xy -4.025 -7.1148) (xy -4.0247 -7.1162)
+						(xy -4.0239 -7.1737) (xy -4.0394 -7.2412) (xy -4.0425 -7.2495) (xy -4.0563 -7.2785) (xy -2.9854 -7.2785)
+						(xy -2.9846 -7.2443) (xy -2.9688 -7.1944) (xy -2.9459 -7.1493) (xy -2.9241 -7.1298) (xy -2.914 -7.1482)
+						(xy -2.9191 -7.1942) (xy -2.9341 -7.2416) (xy -2.959 -7.2817) (xy -2.9835 -7.2812) (xy -2.9854 -7.2785)
+						(xy -4.0563 -7.2785) (xy -4.0654 -7.2977) (xy -4.0838 -7.3174) (xy -4.0897 -7.3159) (xy -4.1078 -7.2857)
+						(xy -4.1171 -7.227) (xy -4.1162 -7.1542) (xy -4.104 -7.0814) (xy -4.0916 -7.0279) (xy -4.0908 -6.9844)
+						(xy -4.1085 -6.9602) (xy -4.1102 -6.959) (xy -4.12 -6.9457) (xy -4.5758 -6.9457) (xy -4.5962 -7.0242)
+						(xy -4.601 -7.0415) (xy -4.6182 -7.1118) (xy -4.6275 -7.163) (xy -4.6347 -7.189) (xy -4.6614 -7.2177)
+						(xy -4.6736 -7.221) (xy -4.6859 -7.2169) (xy -4.6875 -7.193) (xy -6.0253 -7.193) (xy -6.0647 -7.2082)
+						(xy -6.125 -7.2362) (xy -6.131 -7.2394) (xy -6.1943 -7.2661) (xy -6.2288 -7.2647) (xy -6.2302 -7.2353)
+						(xy -6.2294 -7.2333) (xy -6.2284 -7.2053) (xy -6.2582 -7.2056) (xy -6.3223 -7.2341) (xy -6.3236 -7.2348)
+						(xy -6.3748 -7.2547) (xy -6.4072 -7.2561) (xy -6.4196 -7.2554) (xy -6.441 -7.2814) (xy -6.4585 -7.3036)
+						(xy -6.5053 -7.3034) (xy -6.5338 -7.2976) (xy -6.5391 -7.3052) (xy -6.5369 -7.3291) (xy -6.539 -7.3319)
+						(xy -6.3474 -7.3319) (xy -6.3263 -7.3012) (xy -6.2967 -7.2798) (xy -6.2692 -7.279) (xy -6.2653 -7.2919)
+						(xy -6.2863 -7.3183) (xy -6.2913 -7.3214) (xy -6.3333 -7.3397) (xy -6.3474 -7.3319) (xy -6.539 -7.3319)
+						(xy -6.5635 -7.3644) (xy -6.5798 -7.376) (xy -6.4732 -7.376) (xy -6.4615 -7.3643) (xy -6.4497 -7.376)
+						(xy -4.1044 -7.376) (xy -4.0927 -7.3643) (xy -4.081 -7.376) (xy -4.0927 -7.3877) (xy -4.1044 -7.376)
+						(xy -6.4497 -7.376) (xy -6.4615 -7.3877) (xy -6.4732 -7.376) (xy -6.5798 -7.376) (xy -6.609 -7.3968)
+						(xy -6.6606 -7.4148) (xy -6.6997 -7.4293) (xy -6.7268 -7.464) (xy -6.7269 -7.4694) (xy -6.7224 -7.4761)
+						(xy -6.7097 -7.4819) (xy -6.6859 -7.4869) (xy -6.6479 -7.4911) (xy -6.5928 -7.4946) (xy -6.5177 -7.4975)
+						(xy -6.4194 -7.4998) (xy -6.2952 -7.5016) (xy -6.1419 -7.5029) (xy -5.9566 -7.5038) (xy -5.7363 -7.5044)
+						(xy -5.478 -7.5048) (xy -5.1788 -7.505) (xy -4.8357 -7.505) (xy -4.5238 -7.505) (xy -4.2182 -7.5047)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.9813 -0.1607) (xy -3.9044 -0.1372) (xy -3.823 -0.1128) (xy -3.8083 -0.1082) (xy -3.728 -0.0777)
+						(xy -3.6477 -0.041) (xy -3.6155 -0.0264) (xy -3.5127 0.0089) (xy -3.3914 0.0399) (xy -3.2717 0.062)
+						(xy -3.1735 0.0704) (xy -3.1314 0.0738) (xy -3.0919 0.0876) (xy -3.0848 0.1064) (xy -3.117 0.1235)
+						(xy -3.1836 0.1302) (xy -3.282 0.1272) (xy -3.3978 0.1161) (xy -3.5169 0.0986) (xy -3.6255 0.0765)
+						(xy -3.7093 0.0514) (xy -3.7175 0.0481) (xy -3.8142 0.0058) (xy -3.9061 -0.0413) (xy -3.9838 -0.0876)
+						(xy -4.0375 -0.1272) (xy -4.0575 -0.1545) (xy -4.0559 -0.1641) (xy -4.0348 -0.173) (xy -3.9813 -0.1607)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.3774 -6.5551) (xy -3.3891 -6.5434) (xy -3.4008 -6.5551) (xy -3.3891 -6.5669) (xy -3.3774 -6.5551)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.1763 -4.038) (xy -3.1262 -3.9964) (xy -3.0878 -3.9418) (xy -3.0725 -3.8837) (xy -3.0732 -3.8614)
+						(xy -3.0823 -3.8494) (xy -3.1114 -3.8559) (xy -3.1722 -3.8806) (xy -3.2327 -3.917) (xy -3.2656 -3.9738)
+						(xy -3.2699 -4.0153) (xy -3.2646 -4.0451) (xy -3.2267 -4.057) (xy -3.1763 -4.038)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -3.1663 -5.4528) (xy -3.178 -5.4411) (xy -3.1897 -5.4528) (xy -3.178 -5.4646) (xy -3.1663 -5.4528)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.8064 -6.4134) (xy -2.8152 -6.3963) (xy -2.8314 -6.3884) (xy -2.8344 -6.3939) (xy -2.8272 -6.4246)
+						(xy -2.8161 -6.44) (xy -2.8004 -6.4465) (xy -2.8064 -6.4134)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.6628 -1.6395) (xy -2.545 -1.6327) (xy -2.4249 -1.6224) (xy -2.3113 -1.6091) (xy -2.2134 -1.5933)
+						(xy -2.14 -1.5755) (xy -2.052 -1.5424) (xy -1.9294 -1.4831) (xy -1.8175 -1.4155) (xy -1.7337 -1.3494)
+						(xy -1.7069 -1.3282) (xy -1.6705 -1.3133) (xy -1.6406 -1.303) (xy -1.6259 -1.2638) (xy -1.6424 -1.2066)
+						(xy -1.6547 -1.1671) (xy -1.6419 -1.1034) (xy -1.5942 -1.0505) (xy -1.5189 -1.0194) (xy -1.5013 -1.0153)
+						(xy -1.4257 -0.9887) (xy -1.349 -0.9518) (xy -1.2911 -0.9136) (xy -1.2559 -0.8669) (xy -1.2365 -0.7954)
+						(xy -1.2263 -0.7119) (xy -1.239 -0.5508) (xy -1.2969 -0.4017) (xy -1.4004 -0.2638) (xy -1.4216 -0.242)
+						(xy -1.4633 -0.203) (xy -1.4856 -0.1876) (xy -1.4922 -0.1848) (xy -1.5261 -0.1597) (xy -1.5752 -0.1172)
+						(xy -1.596 -0.0994) (xy -1.6505 -0.0618) (xy -1.6903 -0.0468) (xy -1.7227 -0.0373) (xy -1.7676 -0.0035)
+						(xy -1.8126 0.0263) (xy -1.8773 0.0419) (xy -1.9063 0.0438) (xy -1.9848 0.0534) (xy -2.0704 0.0679)
+						(xy -2.0793 0.0696) (xy -2.153 0.0788) (xy -2.2453 0.0852) (xy -2.3452 0.0888) (xy -2.4418 0.0893)
+						(xy -2.5243 0.0867) (xy -2.5818 0.081) (xy -2.6034 0.0721) (xy -2.6004 0.0618) (xy -2.5765 0.0295)
+						(xy -2.5692 0.0123) (xy -2.5941 -0.007) (xy -2.6546 -0.0184) (xy -2.7441 -0.0199) (xy -2.7891 -0.0204)
+						(xy -2.9044 -0.0323) (xy -3.0429 -0.0563) (xy -3.1908 -0.0895) (xy -3.3342 -0.129) (xy -3.4594 -0.1718)
+						(xy -3.4603 -0.1722) (xy -3.5164 -0.192) (xy -3.5533 -0.2014) (xy -3.5607 -0.2022) (xy -3.6281 -0.2157)
+						(xy -3.7029 -0.2373) (xy -3.7582 -0.2593) (xy -3.7924 -0.2722) (xy -3.855 -0.2814) (xy -3.8947 -0.2883)
+						(xy -3.9391 -0.3151) (xy -3.9623 -0.3347) (xy -4.0163 -0.3562) (xy -4.0252 -0.3578) (xy -4.0665 -0.379)
+						(xy -4.071 -0.4086) (xy -4.0353 -0.4334) (xy -4.0282 -0.4372) (xy -3.4301 -0.4372) (xy -3.4264 -0.4117)
+						(xy -3.4173 -0.4077) (xy -3.3711 -0.3925) (xy -3.2998 -0.3713) (xy -3.2174 -0.3481) (xy -3.138 -0.3267)
+						(xy -3.0754 -0.3109) (xy -3.0436 -0.3048) (xy -3.0366 -0.3145) (xy -3.0345 -0.3257) (xy -2.791 -0.3257)
+						(xy -2.791 -0.3238) (xy -2.7854 -0.2935) (xy -2.7605 -0.2847) (xy -2.7031 -0.2926) (xy -2.6482 -0.307)
+						(xy -2.5946 -0.3426) (xy -2.5818 -0.3984) (xy -2.6072 -0.4796) (xy -2.6091 -0.4834) (xy -2.4807 -0.4834)
+						(xy -2.4744 -0.4455) (xy -2.4741 -0.4451) (xy -2.4448 -0.4256) (xy -2.4095 -0.4245) (xy -2.3923 -0.4427)
+						(xy -2.3971 -0.4573) (xy -2.4254 -0.4907) (xy -2.4577 -0.5021) (xy -2.4807 -0.4834) (xy -2.6091 -0.4834)
+						(xy -2.622 -0.5086) (xy -2.6497 -0.5352) (xy -2.6785 -0.5185) (xy -2.7137 -0.4573) (xy -2.7214 -0.4418)
+						(xy -2.7506 -0.3943) (xy -2.7719 -0.3752) (xy -2.7834 -0.3652) (xy -2.791 -0.3257) (xy -3.0345 -0.3257)
+						(xy -3.0282 -0.3591) (xy -3.0245 -0.428) (xy -3.0229 -0.4662) (xy -3.0103 -0.5631) (xy -2.9897 -0.6449)
+						(xy -2.9811 -0.669) (xy -2.9629 -0.7211) (xy -2.9606 -0.7284) (xy -1.8212 -0.7284) (xy -1.8086 -0.6968)
+						(xy -1.7971 -0.6811) (xy -1.7825 -0.6311) (xy -1.7708 -0.5897) (xy -1.7386 -0.5373) (xy -1.7062 -0.5021)
+						(xy -1.6779 -0.4979) (xy -1.6331 -0.5235) (xy -1.5894 -0.565) (xy -1.5714 -0.6328) (xy -1.5716 -0.6423)
+						(xy -1.5793 -0.6832) (xy -1.6084 -0.7079) (xy -1.6711 -0.7285) (xy -1.6976 -0.7357) (xy -1.756 -0.7533)
+						(xy -1.7868 -0.7649) (xy -1.7911 -0.767) (xy -1.8131 -0.7588) (xy -1.8212 -0.7284) (xy -2.9606 -0.7284)
+						(xy -2.9555 -0.7446) (xy -2.9558 -0.745) (xy -2.9798 -0.7489) (xy -3.0318 -0.7504) (xy -3.0848 -0.7419)
+						(xy -3.1484 -0.7088) (xy -3.2291 -0.6449) (xy -3.2295 -0.6445) (xy -3.2928 -0.5915) (xy -3.3431 -0.5537)
+						(xy -3.3694 -0.5392) (xy -3.3924 -0.5213) (xy -3.4158 -0.4805) (xy -3.4301 -0.4372) (xy -4.0282 -0.4372)
+						(xy -4.0067 -0.4488) (xy -3.9871 -0.4805) (xy -3.9833 -0.4926) (xy -3.9476 -0.5209) (xy -3.8867 -0.5438)
+						(xy -3.8162 -0.5566) (xy -3.7514 -0.5544) (xy -3.7006 -0.5519) (xy -3.6685 -0.5662) (xy -3.6678 -0.5671)
+						(xy -3.6339 -0.5807) (xy -3.5757 -0.5789) (xy -3.573 -0.5785) (xy -3.5058 -0.5794) (xy -3.4578 -0.6115)
+						(xy -3.4207 -0.6399) (xy -3.3657 -0.6566) (xy -3.3443 -0.6596) (xy -3.2819 -0.6802) (xy -3.211 -0.7142)
+						(xy -3.1598 -0.7425) (xy -3.0629 -0.7936) (xy -2.9822 -0.8309) (xy -2.9363 -0.8483) (xy -1.441 -0.8483)
+						(xy -1.4361 -0.8181) (xy -1.4067 -0.7877) (xy -1.3675 -0.7739) (xy -1.3498 -0.7801) (xy -1.3413 -0.8147)
+						(xy -1.3589 -0.8456) (xy -1.399 -0.8648) (xy -1.4375 -0.8531) (xy -1.441 -0.8483) (xy -2.9363 -0.8483)
+						(xy -2.9263 -0.8521) (xy -2.7598 -0.8521) (xy -2.7563 -0.8493) (xy -2.7285 -0.8521) (xy -2.7248 -0.8591)
+						(xy -2.7441 -0.8677) (xy -2.7565 -0.866) (xy -2.7598 -0.8521) (xy -2.9263 -0.8521) (xy -2.901 -0.8617)
+						(xy -2.8027 -0.8932) (xy -2.7931 -0.8962) (xy -2.7131 -0.9224) (xy -2.6536 -0.9448) (xy -2.6268 -0.9588)
+						(xy -2.5986 -0.9792) (xy -2.546 -1.0071) (xy -2.4899 -1.0318) (xy -2.4509 -1.0435) (xy -2.4508 -1.0435)
+						(xy -2.4128 -1.0585) (xy -2.3569 -1.0916) (xy -2.3011 -1.1312) (xy -2.2633 -1.1655) (xy -2.2487 -1.1753)
+						(xy -2.1952 -1.1903) (xy -2.1226 -1.1977) (xy -2.0377 -1.2019) (xy -1.971 -1.2118) (xy -1.9328 -1.2297)
+						(xy -1.9133 -1.2586) (xy -1.9113 -1.2659) (xy -1.9238 -1.3079) (xy -1.9433 -1.325) (xy -1.8763 -1.325)
+						(xy -1.8646 -1.3133) (xy -1.8529 -1.325) (xy -1.8646 -1.3368) (xy -1.8763 -1.325) (xy -1.9433 -1.325)
+						(xy -1.9646 -1.3437) (xy -2.0193 -1.3595) (xy -2.0526 -1.3704) (xy -2.0975 -1.4053) (xy -2.1187 -1.4224)
+						(xy -2.1817 -1.4539) (xy -2.2594 -1.4787) (xy -2.3055 -1.4901) (xy -2.369 -1.5079) (xy -2.4036 -1.5205)
+						(xy -2.4091 -1.5237) (xy -2.4234 -1.5299) (xy -2.4463 -1.535) (xy -2.4874 -1.5406) (xy -2.5561 -1.5478)
+						(xy -2.662 -1.5582) (xy -2.7519 -1.5675) (xy -2.8414 -1.5792) (xy -2.8964 -1.5909) (xy -2.9241 -1.6045)
+						(xy -2.9317 -1.6217) (xy -2.9127 -1.6333) (xy -2.8556 -1.6403) (xy -2.7693 -1.6422) (xy -2.6628 -1.6395)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.6319 2.7085) (xy -2.6347 2.7363) (xy -2.6417 2.74) (xy -2.6503 2.7207) (xy -2.6486 2.7082)
+						(xy -2.6347 2.705) (xy -2.6319 2.7085)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.6268 1.0797) (xy -2.6433 1.106) (xy -2.6817 1.1225) (xy -2.7151 1.1157) (xy -2.7182 1.1038)
+						(xy -2.6965 1.078) (xy -2.6845 1.0708) (xy -2.6415 1.0572) (xy -2.6268 1.0797)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.0652 3.1902) (xy -2.0416 3.2013) (xy -2.0623 3.2239) (xy -2.0708 3.2271) (xy -2.0989 3.2136)
+						(xy -2.1012 3.2013) (xy -2.0771 3.1897) (xy -2.0652 3.1902)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.8942 1.8067) (xy -1.8763 1.8294) (xy -1.877 1.835) (xy -1.8998 1.8529) (xy -1.9054 1.8522)
+						(xy -1.9232 1.8294) (xy -1.9226 1.8238) (xy -1.8998 1.806) (xy -1.8942 1.8067)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.2399 -3.5092) (xy -1.2196 -3.4937) (xy -1.2244 -3.4817) (xy -1.2588 -3.4566) (xy -1.3092 -3.4395)
+						(xy -1.3545 -3.4389) (xy -1.4088 -3.4553) (xy -1.4448 -3.4694) (xy -1.4493 -3.4809) (xy -1.4301 -3.4954)
+						(xy -1.4061 -3.5055) (xy -1.3503 -3.5153) (xy -1.2891 -3.5164) (xy -1.2399 -3.5092)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0.5863 -6.5786) (xy 0.5745 -6.5669) (xy 0.5628 -6.5786) (xy 0.5745 -6.5903) (xy 0.5863 -6.5786)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.3893 -6.5662) (xy 1.4071 -6.5434) (xy 1.4064 -6.5378) (xy 1.3837 -6.52) (xy 1.3781 -6.5206)
+						(xy 1.3602 -6.5434) (xy 1.3609 -6.549) (xy 1.3837 -6.5669) (xy 1.3893 -6.5662)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.2749 -3.9284) (xy 2.2632 -3.9166) (xy 2.2515 -3.9284) (xy 2.2632 -3.9401) (xy 2.2749 -3.9284)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 5.6287 7.4934) (xy 5.617 7.5051) (xy 5.6053 7.4934) (xy 5.617 7.4817) (xy 5.6287 7.4934)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 6.5669 6.7429) (xy 6.5551 6.7546) (xy 6.5434 6.7429) (xy 6.5551 6.7312) (xy 6.5669 6.7429)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.0697 5.9842) (xy 7.0828 6.0145) (xy 7.081 6.0288) (xy 7.0594 6.0628) (xy 7.045 6.0614) (xy 7.0359 6.029)
+						(xy 7.0405 6.0004) (xy 7.0594 5.9807) (xy 7.0697 5.9842)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+				(polyline
+					(pts
+						(xy 7.5048 0.0041) (xy 7.5048 0.4733) (xy 7.5048 1.0541) (xy 7.5047 1.6212) (xy 7.5045 2.173)
+						(xy 7.5043 2.7077) (xy 7.5041 3.2234) (xy 7.5038 3.7186) (xy 7.5034 4.1913) (xy 7.503 4.64) (xy 7.5026 5.0627)
+						(xy 7.5021 5.4578) (xy 7.5016 5.8235) (xy 7.501 6.1581) (xy 7.5004 6.4597) (xy 7.4998 6.7268)
+						(xy 7.4991 6.9574) (xy 7.4985 7.1499) (xy 7.4978 7.3025) (xy 7.497 7.4134) (xy 7.4963 7.4809)
+						(xy 7.4955 7.5033) (xy 7.4936 7.4961) (xy 7.4889 7.4507) (xy 7.4835 7.3708) (xy 7.4779 7.265)
+						(xy 7.4727 7.1416) (xy 7.471 7.097) (xy 7.4653 6.963) (xy 7.4593 6.8395) (xy 7.4536 6.7386) (xy 7.4489 6.6726)
+						(xy 7.4478 6.6596) (xy 7.4423 6.5828) (xy 7.4357 6.4749) (xy 7.4287 6.3482) (xy 7.4221 6.2152)
+						(xy 7.4202 6.1767) (xy 7.4141 6.0484) (xy 7.4086 5.9327) (xy 7.4042 5.8411) (xy 7.4015 5.7849)
+						(xy 7.4002 5.7661) (xy 7.3839 5.6976) (xy 7.3557 5.6691) (xy 7.3212 5.6826) (xy 7.2863 5.7405)
+						(xy 7.2619 5.7916) (xy 7.2174 5.8602) (xy 7.1709 5.9116) (xy 7.13 5.9377) (xy 7.1028 5.9302) (xy 7.0954 5.9209)
+						(xy 7.0725 5.9177) (xy 7.0376 5.9514) (xy 7.0029 5.9881) (xy 6.9797 6.0041) (xy 6.9712 6.0057)
+						(xy 6.9294 6.0341) (xy 6.8774 6.0897) (xy 6.8235 6.1607) (xy 6.776 6.2354) (xy 6.7434 6.302) (xy 6.7339 6.3489)
+						(xy 6.7319 6.3739) (xy 6.7125 6.4347) (xy 6.6807 6.505) (xy 6.645 6.5668) (xy 6.6141 6.602) (xy 6.6071 6.6062)
+						(xy 6.5942 6.6099) (xy 6.5957 6.5944) (xy 6.6137 6.5519) (xy 6.6503 6.475) (xy 6.6754 6.419) (xy 6.6951 6.3643)
+						(xy 6.6978 6.3383) (xy 6.691 6.3359) (xy 6.6646 6.3528) (xy 6.6345 6.3908) (xy 6.6117 6.4339)
+						(xy 6.6073 6.4666) (xy 6.6099 6.4799) (xy 6.5955 6.4967) (xy 6.5852 6.5025) (xy 6.5532 6.5389)
+						(xy 6.5104 6.5984) (xy 6.4642 6.6695) (xy 6.4219 6.7405) (xy 6.3912 6.7997) (xy 6.3792 6.8356)
+						(xy 6.3759 6.8505) (xy 6.3459 6.8797) (xy 6.3277 6.8937) (xy 6.2895 6.9403) (xy 6.2477 7.0053)
+						(xy 6.17 7.1249) (xy 6.0644 7.2569) (xy 5.9264 7.4055) (xy 5.8684 7.4595) (xy 5.8106 7.495) (xy 5.7538 7.5051)
+						(xy 5.751 7.5051) (xy 5.6918 7.4941) (xy 5.6639 7.4582) (xy 5.66 7.4468) (xy 5.6396 7.4167) (xy 5.607 7.4205)
+						(xy 5.552 7.4582) (xy 5.5457 7.4629) (xy 5.5373 7.4677) (xy 5.5257 7.4722) (xy 5.509 7.4763) (xy 5.4855 7.48)
+						(xy 5.4533 7.4834) (xy 5.4105 7.4865) (xy 5.3554 7.4892) (xy 5.2862 7.4917) (xy 5.201 7.4939)
+						(xy 5.0981 7.4959) (xy 4.9755 7.4976) (xy 4.8315 7.4991) (xy 4.6642 7.5004) (xy 4.4719 7.5015)
+						(xy 4.2527 7.5024) (xy 4.0048 7.5031) (xy 3.7263 7.5037) (xy 3.4155 7.5042) (xy 3.0706 7.5045)
+						(xy 2.6896 7.5048) (xy 2.2709 7.505) (xy 1.8125 7.5051) (xy 1.3127 7.5051) (xy 0.7696 7.5051)
+						(xy 0.1814 7.5051) (xy -5.1296 7.5051) (xy -5.2393 7.3985) (xy -5.2605 7.3762) (xy 5.8164 7.3762)
+						(xy 5.8281 7.3879) (xy 5.8398 7.3762) (xy 5.8281 7.3644) (xy 5.8164 7.3762) (xy -5.2605 7.3762)
+						(xy -5.2917 7.3434) (xy -5.3026 7.3296) (xy 5.8746 7.3296) (xy 5.8979 7.3262) (xy 5.9147 7.3159)
+						(xy 5.9336 7.2798) (xy 5.9307 7.2557) (xy 5.9149 7.2529) (xy 5.887 7.2935) (xy 5.8815 7.3042)
+						(xy 5.8746 7.3296) (xy -5.3026 7.3296) (xy -5.3311 7.2934) (xy -5.3444 7.2637) (xy -5.3488 7.2028)
+						(xy -5.3837 7.1212) (xy -5.4432 7.046) (xy -5.4557 7.0333) (xy -5.4771 7.0048) (xy -3.7213 7.0048)
+						(xy -3.7179 7.0076) (xy -3.6901 7.0048) (xy -3.6864 6.9978) (xy -3.7057 6.9892) (xy -3.7181 6.9909)
+						(xy -3.7213 7.0048) (xy -5.4771 7.0048) (xy -5.4955 6.9803) (xy -5.5116 6.9371) (xy -5.5117 6.9343)
+						(xy -5.5239 6.8855) (xy -5.5508 6.8352) (xy -5.5821 6.7988) (xy -5.608 6.7914) (xy -5.6193 6.7921)
+						(xy -5.6289 6.7649) (xy -5.629 6.7566) (xy -5.6372 6.7381) (xy -5.6662 6.7564) (xy -5.6792 6.7677)
+						(xy -5.6901 6.791) (xy -5.662 6.8177) (xy -5.639 6.839) (xy -5.6327 6.8601) (xy -5.6396 6.8619)
+						(xy -5.6713 6.8455) (xy -5.7136 6.8092) (xy -5.7532 6.7649) (xy -5.7772 6.725) (xy -5.7976 6.6948)
+						(xy -5.8452 6.6615) (xy -5.907 6.6279) (xy -5.9123 6.6234) (xy -4.9913 6.6234) (xy -4.9898 6.6883)
+						(xy -4.9821 6.7583) (xy -4.9692 6.8185) (xy -4.9525 6.854) (xy -4.941 6.8532) (xy -4.9354 6.8166)
+						(xy -4.9367 6.7398) (xy -4.9424 6.6532) (xy -4.7377 6.6532) (xy -4.7376 6.6539) (xy -4.7162 6.6814)
+						(xy -4.6611 6.7213) (xy -4.5821 6.7684) (xy -4.4888 6.8179) (xy -4.391 6.865) (xy -4.2982 6.9046)
+						(xy -4.2202 6.932) (xy -4.1667 6.9423) (xy -4.1622 6.9423) (xy -4.1054 6.947) (xy -4.0736 6.9575)
+						(xy -4.0735 6.9576) (xy -4.0452 6.9659) (xy -3.9884 6.9735) (xy -3.918 6.9792) (xy -3.8492 6.9823)
+						(xy -3.7968 6.9816) (xy -3.7761 6.9763) (xy -3.7819 6.9606) (xy -3.8128 6.923) (xy -3.8542 6.8876)
+						(xy -3.8876 6.8719) (xy -3.9033 6.8679) (xy -3.9318 6.8367) (xy -3.9546 6.814) (xy -4.0045 6.8015)
+						(xy -4.049 6.7924) (xy -4.1017 6.7586) (xy -4.1367 6.7296) (xy -4.1982 6.7011) (xy -4.2156 6.6969)
+						(xy -4.2401 6.6937) (xy -4.2319 6.7075) (xy -4.1897 6.7453) (xy -4.1889 6.746) (xy -4.1431 6.7915)
+						(xy -4.1368 6.8123) (xy -4.1691 6.8081) (xy -4.2392 6.7783) (xy -4.26 6.7689) (xy -4.3417 6.7402)
+						(xy -4.4133 6.7257) (xy -4.4158 6.7255) (xy -4.4773 6.711) (xy -4.5177 6.6858) (xy -4.5195 6.6839)
+						(xy -4.5537 6.6668) (xy -4.6093 6.6528) (xy -4.6695 6.6442) (xy -4.7179 6.6435) (xy -4.7377 6.6532)
+						(xy -4.9424 6.6532) (xy -4.9446 6.6198) (xy -4.953 6.587) (xy -4.9755 6.567) (xy -4.9854 6.5786)
+						(xy -4.9913 6.6234) (xy -5.9123 6.6234) (xy -5.9734 6.5717) (xy -6.0119 6.5139) (xy -6.0331 6.4834)
+						(xy -6.0815 6.4515) (xy -6.1023 6.438) (xy -4.1982 6.438) (xy -4.1865 6.4497) (xy -4.1748 6.438)
+						(xy -4.1865 6.4263) (xy -4.1982 6.438) (xy -6.1023 6.438) (xy -6.1375 6.4151) (xy -6.1915 6.3406)
+						(xy -6.1984 6.3175) (xy -4.2317 6.3175) (xy -4.2057 6.3645) (xy -4.16 6.4) (xy -4.1081 6.4216)
+						(xy -4.0857 6.4225) (xy -4.081 6.4028) (xy -4.0925 6.3881) (xy -4.1337 6.379) (xy -4.1391 6.379)
+						(xy -4.1681 6.3737) (xy -4.1541 6.3581) (xy -4.1387 6.345) (xy -4.1346 6.317) (xy -4.1539 6.2647)
+						(xy -4.157 6.2579) (xy -4.1839 6.211) (xy -4.2053 6.1918) (xy -4.2119 6.1942) (xy -4.2083 6.2178)
+						(xy -4.204 6.2295) (xy -4.2178 6.2597) (xy -4.2313 6.275) (xy -4.2317 6.3175) (xy -6.1984 6.3175)
+						(xy -6.2192 6.2483) (xy -6.2221 6.2282) (xy -6.2412 6.1898) (xy -6.2847 6.18) (xy -6.3232 6.172)
+						(xy -6.3299 6.1655) (xy -6.1449 6.1655) (xy -6.144 6.1724) (xy -6.1214 6.2035) (xy -6.1124 6.2072)
+						(xy -6.0979 6.1945) (xy -6.0988 6.1877) (xy -6.1214 6.1566) (xy -6.1304 6.1528) (xy -6.1449 6.1655)
+						(xy -6.3299 6.1655) (xy -6.3689 6.1274) (xy -6.3913 6.0892) (xy -6.3935 6.0862) (xy -6.2152 6.0862)
+						(xy -6.2035 6.0979) (xy -6.1918 6.0862) (xy -6.2035 6.0745) (xy -6.2152 6.0862) (xy -6.3935 6.0862)
+						(xy -6.4342 6.0318) (xy -6.4584 5.9973) (xy -6.4732 5.9527) (xy -6.4848 5.9128) (xy -6.5158 5.8607)
+						(xy -6.5176 5.8583) (xy -6.5562 5.7952) (xy -6.5901 5.7227) (xy -6.5935 5.714) (xy -6.6218 5.6512)
+						(xy -6.6469 5.608) (xy -6.6554 5.5941) (xy -6.6797 5.5343) (xy -6.7036 5.4541) (xy -6.7222 5.3719)
+						(xy -6.7302 5.3064) (xy -6.7351 5.2736) (xy -6.7508 5.2536) (xy -6.7606 5.2427) (xy -6.7733 5.2169)
+						(xy -6.567 5.2169) (xy -6.5645 5.2345) (xy -6.5465 5.2536) (xy -6.5454 5.2537) (xy -6.527 5.2766)
+						(xy -6.5113 5.3272) (xy -6.5108 5.3295) (xy -6.5091 5.3925) (xy -6.5376 5.434) (xy -6.5577 5.451)
+						(xy -6.5593 5.4605) (xy -6.5201 5.4527) (xy -6.519 5.4524) (xy -6.484 5.4473) (xy -6.492 5.4594)
+						(xy -6.5027 5.4685) (xy -6.5102 5.4965) (xy -6.4923 5.5471) (xy -6.4831 5.5684) (xy -6.4744 5.6067)
+						(xy -6.4911 5.6231) (xy -6.5171 5.6409) (xy -6.5123 5.6645) (xy -6.4732 5.6758) (xy -6.4459 5.6804)
+						(xy -6.4263 5.7006) (xy -6.4277 5.7085) (xy -6.4481 5.712) (xy -6.475 5.7115) (xy -6.4887 5.7399)
+						(xy -6.4798 5.7804) (xy -6.4631 5.805) (xy -6.4197 5.8567) (xy -6.3645 5.9155) (xy -6.308 5.9707)
+						(xy -6.2609 6.0116) (xy -6.2339 6.0276) (xy -6.2287 6.0258) (xy -6.2315 6.001) (xy -6.2585 5.9537)
+						(xy -6.3037 5.893) (xy -6.3614 5.8282) (xy -6.3804 5.8084) (xy -6.4097 5.7736) (xy -6.4091 5.7576)
+						(xy -6.3811 5.7504) (xy -6.3594 5.743) (xy -6.3349 5.706) (xy -6.3415 5.6489) (xy -6.3757 5.5886)
+						(xy -6.0038 5.5886) (xy -5.9973 5.6045) (xy -5.9673 5.6478) (xy -5.9225 5.7031) (xy -5.8736 5.7578)
+						(xy -5.8313 5.7998) (xy -5.8065 5.8165) (xy -5.8007 5.8108) (xy -5.8094 5.7773) (xy -5.8378 5.7234)
+						(xy -5.8805 5.6602) (xy -5.9066 5.6289) (xy -4.5266 5.6289) (xy -4.5249 5.6413) (xy -4.5109 5.6445)
+						(xy -4.5081 5.6411) (xy -4.5109 5.6132) (xy -4.518 5.6096) (xy -4.5266 5.6289) (xy -5.9066 5.6289)
+						(xy -5.9128 5.6215) (xy -5.9582 5.5814) (xy -5.9912 5.5688) (xy -6.0038 5.5886) (xy -6.3757 5.5886)
+						(xy -6.3794 5.582) (xy -6.3795 5.5818) (xy -6.412 5.5326) (xy -6.4258 5.4965) (xy -6.4258 5.4959)
+						(xy -6.4084 5.4662) (xy -6.3727 5.4531) (xy -6.3436 5.4657) (xy -6.3175 5.4888) (xy -6.2983 5.4756)
+						(xy -6.2988 5.4321) (xy -6.3007 5.4118) (xy -6.1299 5.4118) (xy -6.1144 5.4438) (xy -6.0881 5.4765)
+						(xy -6.0617 5.4855) (xy -6.051 5.4557) (xy -6.0592 5.4351) (xy -6.0965 5.4114) (xy -6.1118 5.4078)
+						(xy -6.1299 5.4118) (xy -6.3007 5.4118) (xy -6.3024 5.3927) (xy -6.2899 5.3618) (xy -6.2851 5.3456)
+						(xy -6.2973 5.295) (xy -6.329 5.2208) (xy -6.3551 5.1696) (xy -6.3563 5.1677) (xy -4.6313 5.1677)
+						(xy -4.606 5.1976) (xy -4.5553 5.2332) (xy -4.4915 5.2665) (xy -4.4269 5.2895) (xy -4.3919 5.295)
+						(xy -4.3626 5.2854) (xy -4.3665 5.2591) (xy -4.4011 5.2233) (xy -4.4636 5.1854) (xy -4.4986 5.1689)
+						(xy -4.5664 5.1426) (xy -4.6075 5.1394) (xy -4.6309 5.1578) (xy -4.6313 5.1677) (xy -6.3563 5.1677)
+						(xy -6.3868 5.1213) (xy -6.4177 5.1005) (xy -6.4578 5.0975) (xy -6.4952 5.1048) (xy -6.5479 5.1462)
+						(xy -6.567 5.2169) (xy -6.7733 5.2169) (xy -6.7837 5.1956) (xy -6.8144 5.1199) (xy -6.8249 5.0909)
+						(xy -4.7333 5.0909) (xy -4.7278 5.1023) (xy -4.6922 5.132) (xy -4.6781 5.1332) (xy -4.6717 5.1114)
+						(xy -4.6772 5.1001) (xy -4.7127 5.0704) (xy -4.7269 5.0691) (xy -4.7333 5.0909) (xy -6.8249 5.0909)
+						(xy -6.8487 5.025) (xy -6.8714 4.9604) (xy -6.9075 4.8642) (xy -6.9113 4.8549) (xy -4.6907 4.8549)
+						(xy -4.6904 4.8583) (xy -4.6729 4.8915) (xy -4.6389 4.9296) (xy -4.6031 4.9582) (xy -4.5801 4.9631)
+						(xy -4.58 4.963) (xy -4.5824 4.9363) (xy -4.606 4.8908) (xy -4.6115 4.8828) (xy -4.6489 4.8426)
+						(xy -4.6786 4.8319) (xy -4.6907 4.8549) (xy -6.9113 4.8549) (xy -6.9389 4.7878) (xy -6.9607 4.7435)
+						(xy -6.9792 4.7073) (xy -6.9773 4.6907) (xy -6.9722 4.6852) (xy -6.9827 4.6659) (xy -4.808 4.6659)
+						(xy -4.8034 4.6945) (xy -4.7846 4.7142) (xy -4.7742 4.7107) (xy -4.7688 4.6983) (xy -4.4926 4.6983)
+						(xy -4.4778 4.7282) (xy -4.4533 4.7513) (xy -4.422 4.7579) (xy -4.4093 4.7273) (xy -4.4095 4.7206)
+						(xy -4.4288 4.6838) (xy -4.4748 4.6845) (xy -4.4926 4.6983) (xy -4.7688 4.6983) (xy -4.7611 4.6804)
+						(xy -4.763 4.666) (xy -4.7846 4.6321) (xy -4.799 4.6335) (xy -4.808 4.6659) (xy -6.9827 4.6659)
+						(xy -6.9867 4.6585) (xy -6.998 4.6376) (xy -6.9988 4.5882) (xy -6.9945 4.5674) (xy -7.0071 4.55)
+						(xy -7.0083 4.5499) (xy -7.0294 4.5254) (xy -7.0508 4.4629) (xy -7.0663 4.3923) (xy -6.2151 4.3923)
+						(xy -6.2116 4.4459) (xy -6.1936 4.5109) (xy -6.1632 4.5735) (xy -6.1471 4.5987) (xy -6.1219 4.633)
+						(xy -6.1097 4.6321) (xy -6.1025 4.5995) (xy -6.1016 4.5874) (xy -6.1105 4.5239) (xy -6.1346 4.4529)
+						(xy -6.1454 4.4304) (xy -6.1743 4.3818) (xy -6.1953 4.3624) (xy -6.2021 4.364) (xy -6.2151 4.3923)
+						(xy -7.0663 4.3923) (xy -7.0711 4.3707) (xy -7.0893 4.2574) (xy -7.0976 4.1865) (xy -6.078 4.1865)
+						(xy -6.0679 4.292) (xy -6.0654 4.3117) (xy -6.0417 4.4016) (xy -6.0055 4.4797) (xy -5.9531 4.5618)
+						(xy -5.9639 4.4515) (xy -5.9675 4.4255) (xy -5.9915 4.3371) (xy -6.0165 4.2845) (xy -4.362 4.2845)
+						(xy -4.356 4.3065) (xy -4.3272 4.3473) (xy -4.3069 4.3713) (xy -4.292 4.4024) (xy -4.2911 4.408)
+						(xy -4.2658 4.4432) (xy -4.2174 4.4822) (xy -4.162 4.5119) (xy -4.1534 4.5151) (xy -4.1306 4.5194)
+						(xy -4.1455 4.4998) (xy -4.1651 4.4626) (xy -4.1748 4.4029) (xy -4.1824 4.3505) (xy -4.2042 4.308)
+						(xy -4.2269 4.2876) (xy -4.2745 4.2481) (xy -4.2918 4.2355) (xy -4.3115 4.2333) (xy -4.3159 4.2716)
+						(xy -4.3162 4.2862) (xy -4.3221 4.3098) (xy -4.3389 4.292) (xy -4.3527 4.2759) (xy -4.362 4.2845)
+						(xy -6.0165 4.2845) (xy -6.0263 4.2638) (xy -6.078 4.1865) (xy -7.0976 4.1865) (xy -7.1017 4.1513)
+						(xy -4.3624 4.1513) (xy -4.3607 4.1637) (xy -4.3468 4.167) (xy -4.344 4.1635) (xy -4.3464 4.1396)
+						(xy -3.8933 4.1396) (xy -3.8816 4.1513) (xy -3.8699 4.1396) (xy -3.8816 4.1279) (xy -3.8933 4.1396)
+						(xy -4.3464 4.1396) (xy -4.3468 4.1357) (xy -4.3538 4.132) (xy -4.3624 4.1513) (xy -7.1017 4.1513)
+						(xy -7.1041 4.1313) (xy -7.1145 4.0007) (xy -7.1191 3.8757) (xy -5.9569 3.8757) (xy -5.9507 3.92)
+						(xy -5.9338 3.9402) (xy -5.9251 3.9382) (xy -5.92 3.9285) (xy -3.8933 3.9285) (xy -3.8816 3.9402)
+						(xy -3.8699 3.9285) (xy -3.8816 3.9168) (xy -3.8933 3.9285) (xy -5.92 3.9285) (xy -5.9107 3.9109)
+						(xy -5.9136 3.8928) (xy -5.9338 3.8464) (xy -5.9412 3.836) (xy -5.9534 3.8348) (xy -5.9569 3.8757)
+						(xy -7.1191 3.8757) (xy -7.1192 3.8742) (xy -7.117 3.76) (xy -7.1169 3.7577) (xy -7.1165 3.7526)
+						(xy -3.9402 3.7526) (xy -3.9385 3.765) (xy -3.9246 3.7682) (xy -3.9218 3.7648) (xy -3.9246 3.737)
+						(xy -3.9317 3.7333) (xy -3.9402 3.7526) (xy -7.1165 3.7526) (xy -7.1065 3.6175) (xy -7.0978 3.5533)
+						(xy -3.7526 3.5533) (xy -3.7409 3.565) (xy -3.7292 3.5533) (xy -3.7409 3.5415) (xy -3.7526 3.5533)
+						(xy -7.0978 3.5533) (xy -7.0935 3.5212) (xy -7.0775 3.4656) (xy -7.0746 3.463) (xy -3.3601 3.463)
+						(xy -3.3523 3.4995) (xy -3.3062 3.5541) (xy -3.2366 3.6207) (xy -3.2366 3.5767) (xy -2.7676 3.5767)
+						(xy -2.7558 3.5884) (xy -2.7441 3.5767) (xy -2.7558 3.565) (xy -2.7676 3.5767) (xy -3.2366 3.5767)
+						(xy -3.2366 3.5623) (xy -3.2427 3.5201) (xy -3.2648 3.4759) (xy -3.281 3.4629) (xy -3.322 3.4477)
+						(xy -3.3288 3.4479) (xy -3.3601 3.463) (xy -7.0746 3.463) (xy -7.0577 3.4477) (xy -7.0428 3.4297)
+						(xy -7.0361 3.3826) (xy -7.0288 3.3304) (xy -7.0045 3.2712) (xy -6.9762 3.2211) (xy -6.934 3.1051)
+						(xy -6.9054 2.9686) (xy -6.8943 2.8279) (xy -6.8911 2.7395) (xy -6.8905 2.7324) (xy -3.0269 2.7324)
+						(xy -3.0113 2.8027) (xy -2.9948 2.8585) (xy -2.9753 2.8991) (xy -2.9721 2.905) (xy -2.9709 2.9514)
+						(xy -2.9885 3.0201) (xy -2.9966 3.0451) (xy -3.0096 3.1004) (xy -3.0082 3.1289) (xy -3.0069 3.1306)
+						(xy -2.9991 3.1655) (xy -2.9975 3.2239) (xy -2.9977 3.2317) (xy -2.9919 3.2887) (xy -2.9765 3.3201)
+						(xy -2.9562 3.3424) (xy -2.931 3.3909) (xy -2.9244 3.4056) (xy -2.8925 3.4338) (xy -2.8547 3.4192)
+						(xy -2.8177 3.3632) (xy -2.7997 3.3166) (xy -2.799 3.307) (xy -2.5565 3.307) (xy -2.5548 3.3194)
+						(xy -2.5409 3.3226) (xy -2.538 3.3192) (xy -2.5409 3.2914) (xy -2.5479 3.2877) (xy -2.5565 3.307)
+						(xy -2.799 3.307) (xy -2.7948 3.2464) (xy -2.8244 3.1699) (xy -2.8594 3.0982) (xy -2.8835 3.0213)
+						(xy -2.8864 2.9493) (xy -2.8892 2.9049) (xy -2.9042 2.8848) (xy -2.9092 2.8836) (xy -2.9396 2.8575)
+						(xy -2.977 2.8086) (xy -3.0269 2.7324) (xy -6.8905 2.7324) (xy -6.8863 2.6869) (xy -3.0021 2.6869)
+						(xy -2.9987 2.7036) (xy -2.9786 2.7089) (xy -2.9722 2.7041) (xy -2.9552 2.6724) (xy -2.9559 2.6671)
+						(xy -2.9786 2.6503) (xy -2.9899 2.6548) (xy -3.0021 2.6869) (xy -6.8863 2.6869) (xy -6.8817 2.6367)
+						(xy -6.8685 2.5565) (xy -6.8654 2.5427) (xy -3.1079 2.5427) (xy -3.0946 2.5825) (xy -3.0935 2.5844)
+						(xy -3.0676 2.6154) (xy -3.0412 2.6049) (xy -3.0275 2.5819) (xy -3.0492 2.5559) (xy -3.0885 2.536)
+						(xy -3.1079 2.5427) (xy -6.8654 2.5427) (xy -6.8523 2.4834) (xy -6.833 2.3634) (xy -6.8292 2.2551)
+						(xy -6.842 2.1449) (xy -6.8724 2.0192) (xy -6.9215 1.8646) (xy -6.9477 1.7861) (xy -6.9639 1.7331)
+						(xy -3.411 1.7331) (xy -3.4043 1.7511) (xy -3.3655 1.7687) (xy -3.3282 1.7861) (xy -3.307 1.8288)
+						(xy -3.2939 1.9072) (xy -3.2456 1.971) (xy -3.1628 2.0032) (xy -3.1586 2.0039) (xy -3.0901 2.0257)
+						(xy -3.0552 2.0585) (xy -3.0362 2.0939) (xy -2.9974 2.1446) (xy -2.9696 2.179) (xy -2.9552 2.2077)
+						(xy -2.9631 2.2286) (xy -2.9961 2.2438) (xy -3.0323 2.2308) (xy -3.0459 2.22) (xy -3.0889 2.2047)
+						(xy -3.0959 2.205) (xy -3.1184 2.22) (xy -3.1074 2.2481) (xy -3.0666 2.2771) (xy -3.0303 2.3055)
+						(xy -2.9835 2.3666) (xy -2.9467 2.4377) (xy -2.9317 2.4991) (xy -2.929 2.5219) (xy -2.9114 2.5744)
+						(xy -2.8751 2.6643) (xy -2.8547 2.7522) (xy -2.8556 2.8182) (xy -2.8562 2.8208) (xy -2.8583 2.8556)
+						(xy -2.8345 2.8561) (xy -2.824 2.8546) (xy -2.7883 2.879) (xy -2.7445 2.9476) (xy -2.7129 3.0012)
+						(xy -2.6787 3.0369) (xy -2.6449 3.0408) (xy -2.6083 3.0441) (xy -2.5789 3.0869) (xy -2.5652 3.1287)
+						(xy -2.5595 3.1612) (xy -2.5599 3.1641) (xy -2.5545 3.2177) (xy -2.5213 3.2366) (xy -2.5022 3.2428)
+						(xy -2.4826 3.2777) (xy -2.4821 3.283) (xy -2.4797 3.3079) (xy -2.4761 3.3347) (xy -2.4694 3.3743)
+						(xy -2.4579 3.4379) (xy -2.4396 3.5366) (xy -2.4388 3.5411) (xy -2.4169 3.6324) (xy -2.3905 3.7098)
+						(xy -2.3649 3.7571) (xy -2.336 3.7962) (xy -2.322 3.8284) (xy -2.3124 3.8531) (xy -2.2826 3.9062)
+						(xy -2.2398 3.9739) (xy -2.2031 4.0329) (xy -2.1587 4.1138) (xy -2.1306 4.1773) (xy -2.1215 4.203)
+						(xy -2.085 4.2843) (xy -2.0521 4.3202) (xy -2.0234 4.3101) (xy -2.0185 4.3) (xy -2.0071 4.2476)
+						(xy -1.9971 4.1659) (xy -1.9893 4.0675) (xy -1.9843 3.9646) (xy -1.9828 3.87) (xy -1.9855 3.7959)
+						(xy -1.9931 3.7549) (xy -2.005 3.7204) (xy -2.0223 3.6517) (xy -2.0396 3.5677) (xy -2.0527 3.4659)
+						(xy -2.0476 3.4022) (xy -2.0242 3.3799) (xy -1.9829 3.4) (xy -1.9741 3.407) (xy -1.9518 3.4145)
+						(xy -1.9467 3.381) (xy -1.9467 3.3808) (xy -1.9578 3.325) (xy -1.9851 3.2507) (xy -2.0195 3.1789)
+						(xy -2.0522 3.1308) (xy -2.0856 3.1069) (xy -2.1402 3.0786) (xy -2.1468 3.0755) (xy -2.1923 3.0392)
+						(xy -2.2047 2.9805) (xy -2.2113 2.9282) (xy -2.2281 2.8966) (xy -2.2302 2.895) (xy -2.2454 2.8598)
+						(xy -2.2516 2.8014) (xy -2.2516 2.7984) (xy -2.26 2.7417) (xy -2.2809 2.7198) (xy -2.2938 2.7114)
+						(xy -2.3284 2.6702) (xy -2.3751 2.6023) (xy -2.4275 2.5166) (xy -2.4878 2.4188) (xy -2.5579 2.3224)
+						(xy -2.6178 2.26) (xy -2.6648 2.2347) (xy -2.6957 2.2492) (xy -2.6975 2.2518) (xy -2.7269 2.2688)
+						(xy -2.7514 2.253) (xy -2.7523 2.2157) (xy -2.7488 2.1984) (xy -2.7619 2.1812) (xy -2.7745 2.1746)
+						(xy -2.809 2.1385) (xy -2.8511 2.0816) (xy -2.8523 2.0796) (xy -2.9059 2.0058) (xy -2.9605 1.9406)
+						(xy -3.007 1.8941) (xy -3.0363 1.8763) (xy -3.0587 1.8628) (xy -3.0973 1.828) (xy -3.1456 1.7797)
+						(xy -3.193 1.84) (xy -3.1966 1.8444) (xy -3.2349 1.8795) (xy -3.2631 1.8862) (xy -3.2722 1.8753)
+						(xy -3.2603 1.8415) (xy -3.2539 1.8318) (xy -3.2569 1.8014) (xy -3.2976 1.7615) (xy -3.3491 1.7252)
+						(xy -3.3868 1.7141) (xy -3.411 1.7331) (xy -6.9639 1.7331) (xy -7.0175 1.5583) (xy -6.825 1.5583)
+						(xy -6.8221 1.5758) (xy -6.8015 1.5949) (xy -6.796 1.5943) (xy -6.7781 1.5728) (xy -6.779 1.5663)
+						(xy -6.7927 1.548) (xy -3.6823 1.548) (xy -3.6817 1.5535) (xy -3.6624 1.5714) (xy -3.6328 1.585)
+						(xy -3.5884 1.6184) (xy -3.5413 1.6474) (xy -3.4867 1.6635) (xy -3.4425 1.6624) (xy -3.4243 1.6418)
+						(xy -3.4283 1.6309) (xy -3.4597 1.6184) (xy -3.4922 1.6071) (xy -3.5352 1.5714) (xy -3.5732 1.5428)
+						(xy -3.6226 1.5262) (xy -3.6645 1.5271) (xy -3.6823 1.548) (xy -6.7927 1.548) (xy -6.8015 1.5363)
+						(xy -6.8136 1.5341) (xy -6.825 1.5583) (xy -7.0175 1.5583) (xy -7.0452 1.4678) (xy -7.1187 1.1799)
+						(xy -7.145 1.0424) (xy -7.0272 1.0424) (xy -7.0236 1.0956) (xy -7.0042 1.172) (xy -6.9736 1.26)
+						(xy -6.9366 1.3484) (xy -6.8977 1.4256) (xy -6.8614 1.4803) (xy -6.8326 1.5011) (xy -6.8289 1.5006)
+						(xy -6.8094 1.4763) (xy -6.8017 1.4293) (xy -6.8067 1.38) (xy -6.8254 1.3484) (xy -6.8281 1.3462)
+						(xy -6.8522 1.3124) (xy -6.888 1.2497) (xy -6.9288 1.1698) (xy -6.9395 1.1482) (xy -6.9772 1.0801)
+						(xy -7.007 1.038) (xy -7.0232 1.0302) (xy -7.0272 1.0424) (xy -7.145 1.0424) (xy -7.1671 0.9265)
+						(xy -7.1737 0.8788) (xy -7.1897 0.709) (xy -7.1987 0.5191) (xy -7.2008 0.3224) (xy -7.1959 0.1321)
+						(xy -7.184 -0.0384) (xy -7.1653 -0.1758) (xy -7.1413 -0.2809) (xy -7.088 -0.4576) (xy -7.0536 -0.5499)
+						(xy -6.9407 -0.5499) (xy -6.9323 -0.5265) (xy -6.8949 -0.5397) (xy -6.8739 -0.5602) (xy -6.8889 -0.5892)
+						(xy -6.9138 -0.6036) (xy -6.9327 -0.5774) (xy -6.9407 -0.5499) (xy -7.0536 -0.5499) (xy -7.0203 -0.6395)
+						(xy -6.9925 -0.702) (xy -6.8719 -0.702) (xy -6.8681 -0.6709) (xy -6.8513 -0.6581) (xy -6.8267 -0.6826)
+						(xy -6.8008 -0.7409) (xy -6.7985 -0.7482) (xy -6.7854 -0.8135) (xy -6.7981 -0.8502) (xy -6.8203 -0.851)
+						(xy -6.8448 -0.8186) (xy -6.8641 -0.7647) (xy -6.8719 -0.702) (xy -6.9925 -0.702) (xy -6.9448 -0.8093)
+						(xy -6.868 -0.9498) (xy -6.8585 -0.9651) (xy -6.7997 -1.0598) (xy -6.732 -1.1696) (xy -6.6681 -1.2739)
+						(xy -6.6575 -1.2908) (xy -6.5838 -1.3966) (xy -6.4995 -1.5019) (xy -6.4209 -1.5863) (xy -6.4112 -1.5956)
+						(xy -6.3319 -1.6812) (xy -6.2929 -1.7457) (xy -6.2936 -1.7907) (xy -6.3335 -1.8179) (xy -6.3615 -1.8337)
+						(xy -6.3692 -1.8722) (xy -6.3659 -1.8943) (xy -6.3775 -1.944) (xy -6.3812 -1.9571) (xy -6.3666 -1.9978)
+						(xy -6.33 -2.0407) (xy -6.2852 -2.0718) (xy -6.2461 -2.0771) (xy -6.2303 -2.0769) (xy -6.2164 -2.1033)
+						(xy -6.2198 -2.1519) (xy -6.2411 -2.2091) (xy -6.2538 -2.2416) (xy -6.2429 -2.2723) (xy -6.2226 -2.2991)
+						(xy -6.2028 -2.3514) (xy -6.1894 -2.3895) (xy -6.162 -2.4118) (xy -6.1217 -2.3933) (xy -6.0644 -2.3335)
+						(xy -6.0435 -2.3092) (xy -5.9946 -2.2625) (xy -5.9663 -2.256) (xy -5.9572 -2.2891) (xy -5.9547 -2.3028)
+						(xy -5.9311 -2.3527) (xy -5.8908 -2.4123) (xy -5.8906 -2.4125) (xy -5.8453 -2.4931) (xy -5.8094 -2.5976)
+						(xy -5.7862 -2.7098) (xy -5.7791 -2.8135) (xy -5.7915 -2.8924) (xy -5.7956 -2.9042) (xy -5.8155 -2.9906)
+						(xy -5.8311 -3.1062) (xy -5.8416 -3.2363) (xy -5.8461 -3.3659) (xy -5.8446 -3.439) (xy -5.7461 -3.439)
+						(xy -5.742 -3.4293) (xy -5.7184 -3.4425) (xy -5.706 -3.4583) (xy -5.7028 -3.4824) (xy -5.7114 -3.4868)
+						(xy -5.7346 -3.4734) (xy -5.7461 -3.439) (xy -5.8446 -3.439) (xy -5.8437 -3.4804) (xy -5.8334 -3.5648)
+						(xy -5.8325 -3.5687) (xy -5.8176 -3.6386) (xy -5.8097 -3.6804) (xy -5.6992 -3.6804) (xy -5.6989 -3.6643)
+						(xy -5.691 -3.6456) (xy -5.6641 -3.667) (xy -5.6435 -3.6902) (xy -5.6289 -3.7156) (xy -5.6328 -3.7217)
+						(xy -5.6641 -3.729) (xy -5.685 -3.7199) (xy -5.6992 -3.6804) (xy -5.8097 -3.6804) (xy -5.8072 -3.6938)
+						(xy -5.7918 -3.7653) (xy -5.7404 -3.9102) (xy -5.668 -4.0442) (xy -5.5815 -4.1552) (xy -5.4882 -4.2313)
+						(xy -5.4061 -4.2788) (xy -5.5081 -4.1561) (xy -5.5564 -4.0909) (xy -5.6095 -4.0018) (xy -5.643 -3.9243)
+						(xy -5.6599 -3.8554) (xy -5.6631 -3.8095) (xy -5.6522 -3.7969) (xy -5.628 -3.8235) (xy -5.6154 -3.8389)
+						(xy -5.6047 -3.8346) (xy -5.6024 -3.8315) (xy -5.5853 -3.8505) (xy -5.5573 -3.8983) (xy -5.5476 -3.9156)
+						(xy -5.506 -3.9738) (xy -5.4674 -4.009) (xy -5.4646 -4.0105) (xy -5.4514 -4.0146) (xy -5.4412 -4.0085)
+						(xy -5.4334 -3.987) (xy -5.4274 -3.9448) (xy -5.4227 -3.8767) (xy -5.4187 -3.7774) (xy -5.415 -3.6418)
+						(xy -5.4109 -3.4645) (xy -5.4093 -3.3994) (xy -5.4037 -3.2152) (xy -5.3967 -3.0304) (xy -5.3886 -2.857)
+						(xy -5.3802 -2.7067) (xy -5.3719 -2.5915) (xy -5.3603 -2.4176) (xy -5.3583 -2.2068) (xy -5.371 -1.9846)
+						(xy -5.371 -1.9843) (xy -5.3832 -1.7639) (xy -5.3849 -1.5308) (xy -5.3767 -1.2998) (xy -5.3591 -1.0856)
+						(xy -5.3325 -0.9029) (xy -5.332 -0.8999) (xy -5.3114 -0.7868) (xy -5.2916 -0.67) (xy -5.2768 -0.5745)
+						(xy -5.2734 -0.5505) (xy -5.2312 -0.3023) (xy -5.1792 -0.0593) (xy -5.1195 0.1715) (xy -5.0541 0.3832)
+						(xy -4.9853 0.569) (xy -4.9151 0.7218) (xy -4.8457 0.8347) (xy -4.838 0.8445) (xy -4.782 0.9046)
+						(xy -4.7123 0.9672) (xy -4.6402 1.0232) (xy -4.5774 1.0635) (xy -4.5354 1.0789) (xy -4.5227 1.084)
+						(xy -4.4826 1.1144) (xy -4.4315 1.1633) (xy -4.4052 1.1891) (xy -4.3444 1.2395) (xy -4.2948 1.2694)
+						(xy -4.2798 1.2744) (xy -4.2196 1.2803) (xy -4.1712 1.2666) (xy -4.1513 1.2373) (xy -4.1638 1.2151)
+						(xy -4.2034 1.1658) (xy -4.2285 1.1376) (xy -3.307 1.1376) (xy -3.2953 1.1493) (xy -3.2835 1.1376)
+						(xy -3.2953 1.1258) (xy -3.307 1.1376) (xy -4.2285 1.1376) (xy -4.2637 1.0981) (xy -4.3381 1.0198)
+						(xy -4.3417 1.016) (xy -4.4541 0.8936) (xy -4.5278 0.7969) (xy -4.5632 0.7252) (xy -4.5605 0.6783)
+						(xy -4.5264 0.6578) (xy -4.4756 0.6668) (xy -4.4265 0.7037) (xy -4.3885 0.7334) (xy -4.3311 0.7506)
+						(xy -4.2858 0.7615) (xy -4.2334 0.7975) (xy -4.1945 0.8279) (xy -4.1418 0.8451) (xy -4.1038 0.8523)
+						(xy -4.0472 0.8803) (xy -4.0121 0.9013) (xy -3.9669 0.9148) (xy -3.9379 0.9222) (xy -3.8914 0.9517)
+						(xy -3.8819 0.9589) (xy -3.8179 0.9861) (xy -3.717 1.0108) (xy -3.5871 1.0315) (xy -3.436 1.0464)
+						(xy -3.4133 1.0479) (xy -3.334 1.0485) (xy -3.2806 1.0368) (xy -3.2366 1.0096) (xy -3.2301 1.0042)
+						(xy -3.2033 0.9746) (xy -3.2087 0.9622) (xy -3.2196 0.9615) (xy -3.2354 0.9519) (xy -3.2173 0.9352)
+						(xy -3.1737 0.9169) (xy -3.1134 0.9023) (xy -3.0872 0.897) (xy -3.0027 0.8717) (xy -2.9182 0.8368)
+						(xy -2.8488 0.7992) (xy -2.8099 0.7657) (xy -2.8019 0.7568) (xy -2.7772 0.7566) (xy -2.7729 0.765)
+						(xy -2.7831 0.7974) (xy -2.8135 0.8297) (xy -2.8498 0.8444) (xy -2.8693 0.8532) (xy -2.8916 0.8913)
+						(xy -2.8972 0.9152) (xy -2.8939 0.9342) (xy -2.8675 0.9289) (xy -2.8088 0.9001) (xy -2.7374 0.8678)
+						(xy -2.664 0.8416) (xy -2.5928 0.8212) (xy -2.6683 0.8967) (xy -2.712 0.9358) (xy -2.7717 0.9655)
+						(xy -2.8512 0.9742) (xy -2.8829 0.9758) (xy -2.9433 0.986) (xy -2.9745 1.0017) (xy -2.9951 1.0189)
+						(xy -3.0441 1.0355) (xy -3.0534 1.0372) (xy -3.0936 1.0564) (xy -3.0964 1.0809) (xy -3.0591 1.0988)
+						(xy -3.0362 1.1039) (xy -2.9955 1.1237) (xy -2.9978 1.1457) (xy -3.0446 1.1637) (xy -3.0496 1.1647)
+						(xy -3.0991 1.1802) (xy -3.1194 1.1965) (xy -3.1167 1.2031) (xy -3.0839 1.2181) (xy -3.0268 1.2263)
+						(xy -2.9623 1.2259) (xy -2.9068 1.2156) (xy -2.8532 1.2072) (xy -2.7777 1.2304) (xy -2.7145 1.2554)
+						(xy -2.655 1.2664) (xy -2.6062 1.2825) (xy -2.5502 1.3236) (xy -2.5048 1.3749) (xy -2.4861 1.4218)
+						(xy -2.4854 1.4263) (xy -2.4603 1.4585) (xy -2.4102 1.4922) (xy -2.3835 1.507) (xy -2.3001 1.5632)
+						(xy -2.2188 1.6299) (xy -2.1525 1.6957) (xy -2.1141 1.7496) (xy -2.0859 1.7872) (xy -2.0325 1.8189)
+						(xy -1.9905 1.841) (xy -1.9501 1.8899) (xy -1.9238 1.9274) (xy -1.8875 1.9467) (xy -1.8853 1.9468)
+						(xy -1.8438 1.9651) (xy -1.7963 2.0053) (xy -1.7923 2.0096) (xy -1.7482 2.0481) (xy -1.7153 2.064)
+						(xy -1.7 2.0725) (xy -1.6887 2.1103) (xy -1.6865 2.1309) (xy -1.6587 2.2029) (xy -1.6071 2.2798)
+						(xy -1.5423 2.3449) (xy -1.5315 2.354) (xy -1.4773 2.4122) (xy -1.4285 2.4806) (xy -1.3991 2.5277)
+						(xy -1.3471 2.5987) (xy -1.3081 2.636) (xy -1.2855 2.6382) (xy -1.2823 2.6042) (xy -1.3019 2.5324)
+						(xy -1.3129 2.5009) (xy -1.3237 2.4585) (xy -1.3146 2.4421) (xy -1.2831 2.4395) (xy -1.2652 2.4419)
+						(xy -1.2247 2.4707) (xy -1.1845 2.5382) (xy -1.1736 2.5593) (xy -1.1238 2.6359) (xy -1.0704 2.6962)
+						(xy -1.0637 2.7024) (xy -1.0142 2.7576) (xy -0.9831 2.8086) (xy -0.9548 2.8535) (xy -0.9207 2.8525)
+						(xy -0.8793 2.8055) (xy -0.869 2.7807) (xy -0.8551 2.7085) (xy -0.8455 2.6068) (xy -0.8404 2.4865)
+						(xy -0.8404 2.3585) (xy -0.8457 2.2336) (xy -0.8566 2.1226) (xy -0.8631 2.0873) (xy -0.8929 2.0031)
+						(xy -0.9355 1.945) (xy -0.9841 1.9232) (xy -0.9988 1.9134) (xy -1.0086 1.8741) (xy -1.0086 1.8707)
+						(xy -1.0215 1.8161) (xy -1.0498 1.7565) (xy -1.0827 1.7104) (xy -0.5849 1.7104) (xy -0.5639 1.7584)
+						(xy -0.5392 1.781) (xy -0.5238 1.7684) (xy -0.5297 1.7273) (xy -0.5403 1.7075) (xy -0.5655 1.6887)
+						(xy -0.5719 1.6893) (xy -0.5849 1.7104) (xy -1.0827 1.7104) (xy -1.0841 1.7084) (xy -1.1148 1.6887)
+						(xy -1.1191 1.6879) (xy -1.1521 1.6644) (xy -1.1719 1.6418) (xy -0.563 1.6418) (xy -0.5613 1.6542)
+						(xy -0.5473 1.6574) (xy -0.5445 1.654) (xy -0.5473 1.6262) (xy -0.5544 1.6225) (xy -0.563 1.6418)
+						(xy -1.1719 1.6418) (xy -1.1925 1.6184) (xy -1.2296 1.5755) (xy -1.2734 1.5495) (xy -1.3028 1.5647)
+						(xy -1.3135 1.6209) (xy -1.316 1.6655) (xy -1.3328 1.6845) (xy -1.3767 1.6779) (xy -1.3792 1.6773)
+						(xy -1.4352 1.6762) (xy -1.4773 1.7117) (xy -1.5132 1.7444) (xy -1.5532 1.7426) (xy -1.597 1.699)
+						(xy -1.6479 1.6117) (xy -1.6735 1.5662) (xy -1.7354 1.4769) (xy -1.799 1.4043) (xy -1.8065 1.3971)
+						(xy -1.8694 1.3469) (xy -1.934 1.3194) (xy -2.0229 1.3044) (xy -2.0903 1.2989) (xy -2.1419 1.3021)
+						(xy -2.1578 1.3173) (xy -2.1579 1.3192) (xy -2.1745 1.3223) (xy -2.2106 1.2968) (xy -2.2197 1.29)
+						(xy -0.5395 1.29) (xy -0.5378 1.3024) (xy -0.5239 1.3056) (xy -0.5211 1.3022) (xy -0.5239 1.2744)
+						(xy -0.5309 1.2707) (xy -0.5395 1.29) (xy -2.2197 1.29) (xy -2.2591 1.2605) (xy -2.3149 1.2329)
+						(xy -2.346 1.2194) (xy -2.3683 1.1936) (xy -2.3857 1.1445) (xy -2.4043 1.0605) (xy -2.4095 1.026)
+						(xy -2.4035 0.9865) (xy -2.3755 0.9461) (xy -2.3181 0.8905) (xy -2.2723 0.85) (xy -2.2254 0.8121)
+						(xy -2.2014 0.7975) (xy -2.1878 0.7831) (xy -2.1802 0.7623) (xy -0.774 0.7623) (xy -0.7623 0.774)
+						(xy -0.7506 0.7623) (xy -0.7623 0.7506) (xy -0.774 0.7623) (xy -2.1802 0.7623) (xy -2.1718 0.7395)
+						(xy -2.1525 0.6981) (xy -2.1403 0.6861) (xy -1.2601 0.6861) (xy -1.2414 0.7031) (xy -1.1953 0.7091)
+						(xy -1.1578 0.7115) (xy -1.122 0.7325) (xy -1.1075 0.7504) (xy -1.1027 0.7324) (xy -1.1184 0.7062)
+						(xy -1.1625 0.6796) (xy -1.2192 0.6614) (xy -1.257 0.661) (xy -1.2601 0.6861) (xy -2.1403 0.6861)
+						(xy -2.1099 0.6563) (xy -2.0832 0.6352) (xy -2.0818 0.6296) (xy -1.2783 0.6296) (xy -1.2021 0.6315)
+						(xy -1.1723 0.6311) (xy -1.1354 0.6193) (xy -1.1258 0.5864) (xy -1.128 0.5592) (xy -1.1376 0.5395)
+						(xy -1.1395 0.5398) (xy -1.1493 0.561) (xy -1.1676 0.5827) (xy -1.2138 0.6061) (xy -1.2783 0.6296)
+						(xy -2.0818 0.6296) (xy -2.0765 0.6085) (xy -2.0795 0.5986) (xy -2.0651 0.5633) (xy -2.0288 0.5305)
+						(xy -1.9863 0.516) (xy -1.9531 0.501) (xy -1.9153 0.4599) (xy -1.873 0.4218) (xy -1.8076 0.3965)
+						(xy -1.7369 0.3893) (xy -1.6764 0.4015) (xy -1.6416 0.4345) (xy -1.6102 0.4887) (xy -1.5588 0.5285)
+						(xy -1.504 0.5379) (xy -1.4575 0.5154) (xy -1.4309 0.4597) (xy -1.4273 0.4453) (xy -1.3964 0.398)
+						(xy -1.3493 0.3699) (xy -1.2992 0.3634) (xy -1.2593 0.3809) (xy -1.2431 0.425) (xy -1.2385 0.4497)
+						(xy -1.2166 0.4691) (xy -1.21 0.4681) (xy -1.1676 0.4505) (xy -1.1072 0.4181) (xy -1.0449 0.38)
+						(xy -0.9968 0.3454) (xy -0.9952 0.344) (xy -0.9576 0.3177) (xy -0.903 0.2835) (xy -0.8719 0.2589)
+						(xy -0.8136 0.1876) (xy -0.7596 0.0946) (xy -0.7197 -0.001) (xy 2.2414 -0.001) (xy 2.2712 0.0679)
+						(xy 2.3316 0.1396) (xy 2.3391 0.1462) (xy 2.4225 0.1881) (xy 2.5176 0.1905) (xy 2.6111 0.1529)
+						(xy 2.6112 0.1528) (xy 2.6616 0.1297) (xy 2.6978 0.1295) (xy 2.723 0.1283) (xy 2.7631 0.1021)
+						(xy 2.7989 0.0627) (xy 2.8143 0.0245) (xy 2.8164 0.0155) (xy 2.8436 -0.0005) (xy 2.8456 -0.0061)
+						(xy 2.8174 -0.0271) (xy 2.7615 -0.0584) (xy 2.6734 -0.094) (xy 2.6007 -0.0974) (xy 2.553 -0.063)
+						(xy 2.5291 -0.0571) (xy 2.4833 -0.0789) (xy 2.4696 -0.0878) (xy 2.3912 -0.1129) (xy 2.2945 -0.1014)
+						(xy 2.2792 -0.096) (xy 2.2436 -0.0586) (xy 2.2414 -0.001) (xy -0.7197 -0.001) (xy -0.7184 -0.0041)
+						(xy -0.6985 -0.0928) (xy -0.6951 -0.1215) (xy -0.6763 -0.1668) (xy -0.6346 -0.1874) (xy -0.5898 -0.2118)
+						(xy -0.558 -0.2751) (xy -0.5573 -0.2777) (xy -0.5427 -0.3175) (xy 1.9635 -0.3175) (xy 1.9845 -0.3052)
+						(xy 2.0389 -0.288) (xy 2.1106 -0.2734) (xy 2.1794 -0.2655) (xy 2.2311 -0.2659) (xy 2.2515 -0.276)
+						(xy 2.2397 -0.2938) (xy 2.1987 -0.3135) (xy 2.1842 -0.3166) (xy 2.1182 -0.3241) (xy 2.0404 -0.3265)
+						(xy 1.9809 -0.3241) (xy 1.9635 -0.3175) (xy -0.5427 -0.3175) (xy -0.5371 -0.3328) (xy -0.5158 -0.3635)
+						(xy 1.8527 -0.3635) (xy 1.8645 -0.3517) (xy 1.8762 -0.3635) (xy 1.8645 -0.3752) (xy 1.8527 -0.3635)
+						(xy -0.5158 -0.3635) (xy -0.5157 -0.3637) (xy -0.4998 -0.392) (xy -0.4926 -0.4456) (xy -0.4912 -0.4785)
+						(xy -0.4792 -0.5023) (xy -0.4443 -0.5113) (xy -0.3746 -0.5123) (xy -0.3337 -0.5133) (xy -0.2669 -0.521)
+						(xy -0.228 -0.5339) (xy -0.2218 -0.5371) (xy -0.175 -0.5469) (xy -0.0982 -0.5538) (xy -0.0047 -0.5564)
+						(xy 0.055 -0.5567) (xy 0.1323 -0.5601) (xy 0.1832 -0.5699) (xy 0.2208 -0.5893) (xy 0.242 -0.6077)
+						(xy 1.9982 -0.6077) (xy 2.0512 -0.573) (xy 2.109 -0.5509) (xy 2.1588 -0.5635) (xy 2.1895 -0.6062)
+						(xy 2.1954 -0.6705) (xy 2.1816 -0.7136) (xy 2.3052 -0.7136) (xy 2.3165 -0.676) (xy 2.3311 -0.6661)
+						(xy 2.357 -0.6801) (xy 2.3619 -0.6935) (xy 2.3506 -0.7311) (xy 2.336 -0.7409) (xy 2.3101 -0.727)
+						(xy 2.3052 -0.7136) (xy 2.1816 -0.7136) (xy 2.1707 -0.7479) (xy 2.1663 -0.7562) (xy 2.1366 -0.8021)
+						(xy 2.1146 -0.8208) (xy 2.105 -0.8139) (xy 2.0787 -0.7754) (xy 2.0472 -0.7142) (xy 1.9982 -0.6077)
+						(xy 0.242 -0.6077) (xy 0.2581 -0.6217) (xy 0.294 -0.6596) (xy 0.3117 -0.6966) (xy 0.3015 -0.7332)
+						(xy 0.3007 -0.7348) (xy 0.288 -0.7829) (xy 0.2782 -0.8608) (xy 0.2753 -0.9146) (xy 1.4881 -0.9146)
+						(xy 1.4881 -0.9138) (xy 1.5018 -0.8485) (xy 1.5305 -0.7783) (xy 1.5658 -0.7199) (xy 1.5993 -0.6904)
+						(xy 1.6296 -0.6762) (xy 1.6792 -0.6392) (xy 1.7126 -0.6171) (xy 1.7531 -0.6265) (xy 1.7916 -0.6803)
+						(xy 1.8294 -0.7796) (xy 1.848 -0.8348) (xy 1.8839 -0.9244) (xy 1.9181 -0.9935) (xy 1.9303 -1.0153)
+						(xy 1.9499 -1.068) (xy 1.9396 -1.0998) (xy 1.926 -1.1106) (xy 1.8891 -1.1219) (xy 1.8498 -1.1165)
+						(xy 1.79 -1.1089) (xy 1.7296 -1.0925) (xy 1.6874 -1.0657) (xy 1.6617 -1.0462) (xy 1.6072 -1.0319)
+						(xy 1.5522 -1.0149) (xy 1.5055 -0.9702) (xy 1.4881 -0.9146) (xy 0.2753 -0.9146) (xy 0.2732 -0.9525)
+						(xy 0.2728 -0.9663) (xy 0.2688 -1.047) (xy 0.2624 -1.1039) (xy 0.2549 -1.1255) (xy 0.2524 -1.1308)
+						(xy 0.248 -1.1724) (xy 0.2447 -1.2489) (xy 0.2431 -1.3521) (xy 0.2432 -1.4739) (xy 0.2436 -1.5456)
+						(xy 0.2421 -1.677) (xy 0.2372 -1.7695) (xy 0.2285 -1.8284) (xy 0.2155 -1.859) (xy 0.1994 -1.8876)
+						(xy 0.2082 -1.9389) (xy 0.2109 -1.9444) (xy 0.2296 -2.0005) (xy 0.2527 -2.0925) (xy 0.2782 -2.2116)
+						(xy 0.3042 -2.3487) (xy 0.3288 -2.4949) (xy 0.3366 -2.5379) (xy 0.3726 -2.6503) (xy 0.4244 -2.7189)
+						(xy 0.4924 -2.7439) (xy 0.5155 -2.7476) (xy 0.5729 -2.783) (xy 0.6146 -2.8439) (xy 0.6357 -2.9164)
+						(xy 0.6312 -2.9864) (xy 0.5963 -3.0397) (xy 0.5773 -3.0636) (xy 0.5628 -3.1165) (xy 0.5541 -3.1503)
+						(xy 0.51 -3.1876) (xy 0.4763 -3.2089) (xy 1.0161 -3.2089) (xy 1.0195 -3.2016) (xy 1.0612 -3.1737)
+						(xy 1.1085 -3.1292) (xy 1.1273 -3.061) (xy 1.129 -3.0248) (xy 1.1352 -3.0111) (xy 1.1491 -3.0371)
+						(xy 1.166 -3.0806) (xy 1.1653 -3.1106) (xy 1.1424 -3.1451) (xy 1.1118 -3.1721) (xy 1.0552 -3.1991)
+						(xy 1.0499 -3.2006) (xy 1.0161 -3.2089) (xy 0.4763 -3.2089) (xy 0.469 -3.2135) (xy 0.409 -3.2641)
+						(xy 0.3642 -3.3082) (xy 0.8912 -3.3082) (xy 0.8921 -3.3017) (xy 0.9146 -3.2717) (xy 0.9267 -3.2695)
+						(xy 0.9381 -3.2937) (xy 0.9352 -3.3112) (xy 0.9146 -3.3303) (xy 0.909 -3.3297) (xy 0.8912 -3.3082)
+						(xy 0.3642 -3.3082) (xy 0.3443 -3.3278) (xy 0.3409 -3.3314) (xy 0.2832 -3.3901) (xy 0.2381 -3.4319)
+						(xy 0.2153 -3.4479) (xy 0.201 -3.4547) (xy 0.1605 -3.4862) (xy 0.1082 -3.533) (xy 0.056 -3.5839)
+						(xy 0.0159 -3.6274) (xy -0.0001 -3.6522) (xy -0.0106 -3.6627) (xy -0.0553 -3.6836) (xy -0.1232 -3.706)
+						(xy -0.1701 -3.7216) (xy -0.2253 -3.7486) (xy -0.2463 -3.7727) (xy -0.2453 -3.7783) (xy -0.2175 -3.8113)
+						(xy -0.1616 -3.8485) (xy -0.0913 -3.882) (xy -0.0205 -3.9038) (xy 0.0218 -3.9219) (xy 0.0536 -3.9633)
+						(xy 0.0688 -3.9908) (xy 0.1091 -4.0109) (xy 0.1202 -4.0122) (xy 0.1667 -4.0348) (xy 0.2116 -4.0751)
+						(xy 0.2419 -4.1193) (xy 0.2446 -4.1537) (xy 0.2475 -4.1838) (xy 0.2676 -4.2059) (xy 2.142 -4.2059)
+						(xy 2.1454 -4.2031) (xy 2.1733 -4.2059) (xy 2.1769 -4.213) (xy 2.1576 -4.2215) (xy 2.1452 -4.2198)
+						(xy 2.142 -4.2059) (xy 0.2676 -4.2059) (xy 0.2827 -4.2225) (xy 0.3012 -4.2374) (xy 0.3226 -4.268)
+						(xy 0.3091 -4.2984) (xy 0.3065 -4.3017) (xy 0.2924 -4.3479) (xy 0.3064 -4.3905) (xy 0.3425 -4.4092)
+						(xy 0.3616 -4.4003) (xy 0.3752 -4.3623) (xy 0.3817 -4.3349) (xy 0.4096 -4.3153) (xy 0.425 -4.3193)
+						(xy 0.432 -4.3468) (xy 0.4317 -4.3476) (xy 0.4386 -4.3876) (xy 0.4789 -4.4218) (xy 0.5394 -4.4391)
+						(xy 0.5902 -4.4613) (xy 0.6232 -4.5091) (xy 0.624 -4.5634) (xy 0.5971 -4.5862) (xy 0.5446 -4.5968)
+						(xy 0.4907 -4.6046) (xy 0.4334 -4.6294) (xy 0.4006 -4.6474) (xy 0.3641 -4.6524) (xy 0.3527 -4.6534)
+						(xy 0.3134 -4.6774) (xy 0.2863 -4.7023) (xy 0.3752 -4.7023) (xy 0.3869 -4.6906) (xy 0.3986 -4.7023)
+						(xy 0.3869 -4.7141) (xy 0.3752 -4.7023) (xy 0.2863 -4.7023) (xy 0.264 -4.7228) (xy 0.2389 -4.7498)
+						(xy 0.21 -4.7862) (xy 0.2098 -4.8045) (xy 0.235 -4.8148) (xy 0.2618 -4.8266) (xy 0.2814 -4.8526)
+						(xy 0.2701 -4.8691) (xy 0.2181 -4.8811) (xy 0.1269 -4.8797) (xy 0.0949 -4.8835) (xy 0.049 -4.9108)
+						(xy 0.0277 -4.9281) (xy -0.0118 -4.9336) (xy -0.0314 -4.9327) (xy -0.0868 -4.9456) (xy -0.1567 -4.9723)
+						(xy -0.195 -4.9868) (xy -0.2835 -5.0096) (xy -0.3821 -5.0252) (xy -0.477 -5.0323) (xy -0.5544 -5.0296)
+						(xy -0.6005 -5.0156) (xy -0.6398 -4.9963) (xy -0.7191 -4.9745) (xy -0.8187 -4.9572) (xy -0.924 -4.9469)
+						(xy -1.0203 -4.9459) (xy -1.1326 -4.9508) (xy -1.4352 -4.9535) (xy -1.6975 -4.9383) (xy -1.922 -4.905)
+						(xy -2.1109 -4.8533) (xy -2.1726 -4.8314) (xy -2.2943 -4.7878) (xy -2.3856 -4.7542) (xy -2.4564 -4.7269)
+						(xy -2.5165 -4.702) (xy -2.5757 -4.6758) (xy -2.6262 -4.6538) (xy -2.6863 -4.6346) (xy -2.7371 -4.6334)
+						(xy -2.7985 -4.6477) (xy -2.8318 -4.6593) (xy -2.9379 -4.7276) (xy -3.0282 -4.8366) (xy -3.0992 -4.9826)
+						(xy -3.1264 -5.0517) (xy -3.1528 -5.11) (xy -3.1699 -5.1371) (xy -3.1701 -5.1372) (xy -3.1845 -5.1677)
+						(xy -3.1938 -5.2227) (xy -3.1932 -5.2477) (xy -3.1767 -5.3121) (xy -3.1451 -5.3769) (xy -3.1057 -5.431)
+						(xy -3.0662 -5.463) (xy -3.034 -5.4618) (xy -3.0185 -5.4453) (xy -3.0021 -5.4067) (xy -2.9904 -5.3772)
+						(xy -2.9552 -5.3356) (xy -2.9242 -5.301) (xy -2.9083 -5.2674) (xy -2.9003 -5.2481) (xy -2.8677 -5.2015)
+						(xy -2.8184 -5.1434) (xy -2.7858 -5.1065) (xy -2.722 -5.0291) (xy -2.6719 -4.9618) (xy -2.6574 -4.942)
+						(xy -2.6119 -4.8993) (xy -2.5567 -4.881) (xy -2.4845 -4.8873) (xy -2.3876 -4.9185) (xy -2.2588 -4.9748)
+						(xy -2.2076 -4.9986) (xy -2.1179 -5.0397) (xy -2.0464 -5.0716) (xy -2.0053 -5.0888) (xy -1.9984 -5.0915)
+						(xy -1.941 -5.1145) (xy -1.8726 -5.1433) (xy -1.7929 -5.1659) (xy -1.6849 -5.1707) (xy -1.5838 -5.1681)
+						(xy -1.5217 -5.1844) (xy -1.5011 -5.2199) (xy -1.4994 -5.2345) (xy -1.4835 -5.2551) (xy -1.4663 -5.2568)
+						(xy -1.3537 -5.2762) (xy -1.2627 -5.3105) (xy -1.2458 -5.3186) (xy -1.193 -5.3338) (xy -1.1571 -5.3206)
+						(xy -1.1555 -5.3193) (xy -1.1213 -5.3085) (xy -1.0794 -5.3352) (xy -1.0458 -5.3576) (xy -0.9918 -5.3581)
+						(xy -0.9663 -5.349) (xy -0.9305 -5.3442) (xy -0.9281 -5.3445) (xy -0.8897 -5.3401) (xy -0.8309 -5.3263)
+						(xy -0.7946 -5.3175) (xy -0.7597 -5.3173) (xy -0.7506 -5.3375) (xy -0.7448 -5.3617) (xy -0.7187 -5.3671)
+						(xy -0.6802 -5.3356) (xy -0.6796 -5.3348) (xy -0.6421 -5.3037) (xy -0.6197 -5.309) (xy -0.622 -5.3486)
+						(xy -0.6263 -5.368) (xy -0.6141 -5.3988) (xy -0.5649 -5.4241) (xy -0.5603 -5.4259) (xy -0.5123 -5.4534)
+						(xy -0.5091 -5.4579) (xy -0.0446 -5.4579) (xy -0.0298 -5.4382) (xy -0.0125 -5.4248) (xy 0.0123 -5.4222)
+						(xy 0.0121 -5.4327) (xy -0.0167 -5.4513) (xy -0.0211 -5.453) (xy -0.0446 -5.4579) (xy -0.5091 -5.4579)
+						(xy -0.4926 -5.4814) (xy -0.4878 -5.4962) (xy -0.4552 -5.5115) (xy -0.4316 -5.5198) (xy -0.4058 -5.5575)
+						(xy -0.4023 -5.57) (xy -0.3876 -5.5901) (xy -0.3594 -5.5693) (xy -0.3185 -5.5462) (xy -0.2564 -5.5349)
+						(xy -0.208 -5.5281) (xy -0.1877 -5.5115) (xy -0.1875 -5.5094) (xy -0.1651 -5.4928) (xy -0.1184 -5.4888)
+						(xy -0.0664 -5.4968) (xy -0.0282 -5.5162) (xy -0.0253 -5.5193) (xy -0.0019 -5.5733) (xy -0.0094 -5.6325)
+						(xy -0.0237 -5.6493) (xy 0.1702 -5.6493) (xy 0.1773 -5.6219) (xy 0.189 -5.6) (xy 0.2065 -5.5929)
+						(xy 0.209 -5.6042) (xy 0.1905 -5.635) (xy 0.1874 -5.638) (xy 0.1702 -5.6493) (xy -0.0237 -5.6493)
+						(xy -0.0454 -5.6748) (xy -0.1302 -5.6972) (xy -0.2326 -5.6894) (xy -0.3345 -5.6522) (xy -0.3532 -5.6426)
+						(xy -0.4176 -5.616) (xy -0.4644 -5.6053) (xy -0.4878 -5.6021) (xy -0.5326 -5.5793) (xy -0.5744 -5.5633)
+						(xy -0.6431 -5.5635) (xy -0.7205 -5.578) (xy -0.7896 -5.6034) (xy -0.7921 -5.6053) (xy -0.563 -5.6053)
+						(xy -0.5613 -5.5929) (xy -0.5473 -5.5896) (xy -0.5445 -5.5931) (xy -0.5473 -5.6209) (xy -0.5544 -5.6246)
+						(xy -0.563 -5.6053) (xy -0.7921 -5.6053) (xy -0.8331 -5.6365) (xy -0.8483 -5.6566) (xy -0.8775 -5.6734)
+						(xy -0.9181 -5.6555) (xy -0.9308 -5.6479) (xy -0.9656 -5.6364) (xy -0.9879 -5.6559) (xy -0.9961 -5.6713)
+						(xy -1.0082 -5.715) (xy -0.9988 -5.7327) (xy -0.0143 -5.7327) (xy 0.0012 -5.7088) (xy 0.0285 -5.7182)
+						(xy 0.0382 -5.7343) (xy 0.0293 -5.7815) (xy 0.0287 -5.7826) (xy 0.1406 -5.7826) (xy 0.1425 -5.7682)
+						(xy 0.1641 -5.7343) (xy 0.1785 -5.7356) (xy 0.1876 -5.7681) (xy 0.183 -5.7967) (xy 0.1641 -5.8164)
+						(xy 0.1538 -5.8129) (xy 0.1406 -5.7826) (xy 0.0287 -5.7826) (xy 0.0216 -5.7949) (xy 0.0059 -5.8092)
+						(xy -0.0084 -5.7816) (xy -0.0101 -5.7767) (xy -0.0143 -5.7327) (xy -0.9988 -5.7327) (xy -0.9918 -5.7459)
+						(xy -0.9485 -5.7904) (xy -0.8924 -5.8363) (xy -0.8373 -5.8722) (xy -0.7974 -5.8867) (xy -0.7615 -5.8954)
+						(xy -0.7092 -5.923) (xy -0.6735 -5.9396) (xy -0.6134 -5.9514) (xy -0.5227 -5.958) (xy -0.3932 -5.9605)
+						(xy -0.267 -5.9611) (xy -0.1329 -5.9623) (xy -0.0357 -5.9645) (xy 0.0304 -5.9682) (xy 0.0711 -5.974)
+						(xy 0.0922 -5.9825) (xy 0.0994 -5.9942) (xy 0.0986 -6.0099) (xy 0.1012 -6.0345) (xy 0.1288 -6.0477)
+						(xy 0.1924 -6.0512) (xy 0.2851 -6.0547) (xy 0.3523 -6.0679) (xy 0.3837 -6.093) (xy 0.3849 -6.1325)
+						(xy 0.3822 -6.1682) (xy 0.4086 -6.1994) (xy 0.4125 -6.2033) (xy 0.5394 -6.2033) (xy 0.5511 -6.1916)
+						(xy 0.5628 -6.2033) (xy 0.5511 -6.2151) (xy 0.5394 -6.2033) (xy 0.4125 -6.2033) (xy 0.4328 -6.2235)
+						(xy 0.4455 -6.2755) (xy 0.4473 -6.3071) (xy 0.4639 -6.3281) (xy 0.51 -6.3228) (xy 0.5396 -6.3167)
+						(xy 0.5551 -6.3175) (xy 0.5316 -6.3342) (xy 0.5236 -6.3393) (xy 0.5057 -6.3578) (xy 0.5169 -6.3808)
+						(xy 0.5613 -6.4204) (xy 0.5653 -6.4237) (xy 0.6123 -6.4761) (xy 0.6219 -6.5186) (xy 0.6294 -6.5536)
+						(xy 0.6801 -6.5832) (xy 0.6858 -6.5853) (xy 0.7316 -6.5957) (xy 0.7504 -6.5883) (xy 0.7524 -6.5767)
+						(xy 0.7735 -6.5661) (xy 0.8057 -6.5824) (xy 0.8116 -6.5903) (xy 0.9381 -6.5903) (xy 0.9398 -6.5779)
+						(xy 0.9537 -6.5747) (xy 0.9565 -6.5781) (xy 0.9537 -6.606) (xy 0.9466 -6.6096) (xy 0.9381 -6.5903)
+						(xy 0.8116 -6.5903) (xy 0.8337 -6.6196) (xy 0.8569 -6.6521) (xy 0.8867 -6.664) (xy 1.0841 -6.664)
+						(xy 1.1068 -6.6202) (xy 1.1269 -6.5882) (xy 1.1324 -6.5493) (xy 1.1303 -6.5366) (xy 1.1472 -6.52)
+						(xy 1.1545 -6.521) (xy 1.1726 -6.5434) (xy 1.1732 -6.5489) (xy 1.1926 -6.5669) (xy 1.2017 -6.5474)
+						(xy 1.2072 -6.493) (xy 1.2073 -6.4158) (xy 1.2069 -6.406) (xy 1.2074 -6.3208) (xy 1.2166 -6.2723)
+						(xy 1.2359 -6.2517) (xy 1.2579 -6.2274) (xy 1.2623 -6.1624) (xy 1.2603 -6.126) (xy 1.2714 -6.0916)
+						(xy 1.3075 -6.0786) (xy 1.3197 -6.0763) (xy 1.3517 -6.0542) (xy 1.3602 -6.0014) (xy 1.3651 -5.9587)
+						(xy 1.387 -5.8871) (xy 1.4198 -5.8182) (xy 1.4564 -5.7664) (xy 1.4894 -5.746) (xy 1.4935 -5.7455)
+						(xy 1.5258 -5.7207) (xy 1.5565 -5.6698) (xy 1.5566 -5.6696) (xy 1.5925 -5.602) (xy 1.633 -5.5464)
+						(xy 1.6616 -5.5141) (xy 1.7133 -5.4524) (xy 1.7703 -5.3822) (xy 1.7857 -5.363) (xy 1.8879 -5.2403)
+						(xy 1.9674 -5.1551) (xy 2.0261 -5.1054) (xy 2.0659 -5.0893) (xy 2.0946 -5.0834) (xy 2.1426 -5.0541)
+						(xy 2.1691 -5.0348) (xy 2.2218 -5.0189) (xy 2.272 -5.009) (xy 2.3258 -4.9636) (xy 2.3483 -4.89)
+						(xy 2.3501 -4.8577) (xy 2.3609 -4.7876) (xy 2.3846 -4.7457) (xy 2.4278 -4.7181) (xy 2.455 -4.7027)
+						(xy 2.4821 -4.6624) (xy 2.4691 -4.6078) (xy 2.4155 -4.5344) (xy 2.3784 -4.4871) (xy 2.3529 -4.4267)
+						(xy 2.349 -4.3479) (xy 2.348 -4.287) (xy 2.3318 -4.2321) (xy 2.2915 -4.1847) (xy 2.2423 -4.1501)
+						(xy 2.1525 -4.1277) (xy 2.1021 -4.1225) (xy 2.0672 -4.0974) (xy 2.0365 -4.0398) (xy 2.0146 -3.9838)
+						(xy 2.013 -3.9553) (xy 2.032 -3.9441) (xy 2.0502 -3.9326) (xy 2.0515 -3.8913) (xy 2.0479 -3.8779)
+						(xy 2.0553 -3.8526) (xy 2.0986 -3.8463) (xy 2.1006 -3.8463) (xy 2.1521 -3.8317) (xy 2.1827 -3.7818)
+						(xy 2.2179 -3.7256) (xy 2.2732 -3.6785) (xy 2.2844 -3.6721) (xy 2.3162 -3.6493) (xy 2.3315 -3.6205)
+						(xy 2.3343 -3.5722) (xy 2.3284 -3.4909) (xy 2.3217 -3.4356) (xy 2.3027 -3.3483) (xy 2.2701 -3.2495)
+						(xy 2.2204 -3.1294) (xy 2.1505 -2.9785) (xy 2.1505 -2.9784) (xy 2.1231 -2.9393) (xy 2.0696 -2.8764)
+						(xy 1.9977 -2.7984) (xy 1.915 -2.7139) (xy 1.843 -2.6403) (xy 1.7733 -2.5623) (xy 1.731 -2.5058)
+						(xy 1.72 -2.4755) (xy 1.7202 -2.475) (xy 1.7128 -2.443) (xy 1.6794 -2.4231) (xy 1.6407 -2.4279)
+						(xy 1.6226 -2.4254) (xy 1.5956 -2.3938) (xy 1.5914 -2.3854) (xy 1.586 -2.3487) (xy 1.6199 -2.3209)
+						(xy 1.6667 -2.3075) (xy 1.71 -2.3317) (xy 1.7122 -2.3337) (xy 1.7527 -2.3632) (xy 1.7854 -2.3598)
+						(xy 1.8293 -2.3218) (xy 1.8611 -2.2713) (xy 1.8751 -2.2083) (xy 1.8688 -2.1518) (xy 1.841 -2.1192)
+						(xy 1.8245 -2.1104) (xy 1.8058 -2.0848) (xy 1.8098 -2.0752) (xy 1.841 -2.0638) (xy 1.8572 -2.0612)
+						(xy 1.8762 -2.0404) (xy 1.8715 -2.0253) (xy 1.8459 -2.0186) (xy 1.8176 -2.0404) (xy 1.8172 -2.0409)
+						(xy 1.7853 -2.065) (xy 1.7573 -2.0543) (xy 1.7523 -2.0161) (xy 1.7546 -1.9959) (xy 1.735 -1.9394)
+						(xy 1.6877 -1.8945) (xy 1.6263 -1.8762) (xy 1.5915 -1.8695) (xy 1.5713 -1.8407) (xy 1.5708 -1.8354)
+						(xy 1.5488 -1.7912) (xy 1.5038 -1.7347) (xy 1.4481 -1.6785) (xy 1.3941 -1.6355) (xy 1.3544 -1.6182)
+						(xy 1.3231 -1.6034) (xy 1.3133 -1.5525) (xy 1.3067 -1.5023) (xy 1.2872 -1.4608) (xy 1.2698 -1.4361)
+						(xy 1.2737 -1.4089) (xy 1.3053 -1.4011) (xy 1.3532 -1.4198) (xy 1.3766 -1.4337) (xy 1.4208 -1.4464)
+						(xy 1.4369 -1.426) (xy 1.424 -1.3764) (xy 1.3812 -1.3015) (xy 1.3404 -1.2392) (xy 1.3225 -1.2012)
+						(xy 1.3263 -1.178) (xy 1.3491 -1.1575) (xy 1.3974 -1.1355) (xy 1.4644 -1.1238) (xy 1.5808 -1.1219)
+						(xy 1.6786 -1.1245) (xy 1.7566 -1.1328) (xy 1.8293 -1.1478) (xy 1.8433 -1.1513) (xy 1.9348 -1.1737)
+						(xy 2.0052 -1.1893) (xy 2.0758 -1.2025) (xy 2.1682 -1.2177) (xy 2.1974 -1.2231) (xy 2.3043 -1.26)
+						(xy 2.3692 -1.3175) (xy 2.392 -1.3954) (xy 2.3927 -1.4104) (xy 2.4064 -1.4569) (xy 2.4426 -1.4882)
+						(xy 2.9863 -1.4882) (xy 2.9884 -1.473) (xy 3.0059 -1.454) (xy 3.0097 -1.4545) (xy 3.0254 -1.4761)
+						(xy 3.0252 -1.4793) (xy 3.0059 -1.5103) (xy 2.9965 -1.5118) (xy 2.9863 -1.4882) (xy 2.4426 -1.4882)
+						(xy 2.4454 -1.4906) (xy 2.5201 -1.5219) (xy 2.5508 -1.5319) (xy 2.6013 -1.5409) (xy 2.6217 -1.5276)
+						(xy 2.6254 -1.5197) (xy 2.6588 -1.5018) (xy 2.708 -1.5128) (xy 2.7577 -1.5501) (xy 2.7644 -1.5576)
+						(xy 3.0489 -1.5576) (xy 3.0624 -1.532) (xy 3.0905 -1.5359) (xy 3.1139 -1.5669) (xy 3.1134 -1.5811)
+						(xy 3.086 -1.5948) (xy 3.0678 -1.5899) (xy 3.0489 -1.5576) (xy 2.7644 -1.5576) (xy 2.7682 -1.5618)
+						(xy 2.7822 -1.583) (xy 2.8143 -1.583) (xy 2.8261 -1.5713) (xy 2.8378 -1.583) (xy 2.8261 -1.5948)
+						(xy 2.8143 -1.583) (xy 2.7822 -1.583) (xy 2.7878 -1.5915) (xy 2.7783 -1.617) (xy 2.7365 -1.6557)
+						(xy 2.7219 -1.6651) (xy 2.7792 -1.6651) (xy 2.784 -1.6581) (xy 2.804 -1.6417) (xy 2.8063 -1.6423)
+						(xy 2.8143 -1.6651) (xy 2.8134 -1.6715) (xy 2.7895 -1.6886) (xy 2.781 -1.6867) (xy 2.7792 -1.6651)
+						(xy 2.7219 -1.6651) (xy 2.6766 -1.6942) (xy 2.6157 -1.6984) (xy 2.57 -1.6961) (xy 2.5069 -1.7134)
+						(xy 2.4645 -1.7295) (xy 2.4443 -1.716) (xy 2.4259 -1.7052) (xy 2.3789 -1.7269) (xy 2.3399 -1.7456)
+						(xy 2.261 -1.7488) (xy 2.2578 -1.748) (xy 2.1916 -1.746) (xy 2.1188 -1.7602) (xy 2.0881 -1.7716)
+						(xy 2.0506 -1.7986) (xy 2.0449 -1.8372) (xy 2.0574 -1.8679) (xy 2.099 -1.8957) (xy 2.1365 -1.9113)
+						(xy 2.1833 -1.9515) (xy 2.2229 -1.9839) (xy 2.2856 -2.0062) (xy 2.3424 -2.0171) (xy 2.4149 -2.0401)
+						(xy 2.433 -2.0461) (xy 2.5141 -2.0563) (xy 2.6176 -2.0523) (xy 2.6755 -2.0467) (xy 2.7673 -2.0398)
+						(xy 2.8378 -2.0367) (xy 2.8723 -2.0341) (xy 2.9525 -2.0225) (xy 3.0551 -2.004) (xy 3.1661 -1.9809)
+						(xy 3.238 -1.9654) (xy 3.3512 -1.9427) (xy 3.4497 -1.9249) (xy 3.5179 -1.9148) (xy 3.5432 -1.9118)
+						(xy 3.6196 -1.8999) (xy 3.6754 -1.8873) (xy 3.6794 -1.8863) (xy 3.7332 -1.8884) (xy 3.8011 -1.9088)
+						(xy 3.8683 -1.9406) (xy 3.9196 -1.9769) (xy 3.9401 -2.0105) (xy 3.9327 -2.0354) (xy 3.8962 -2.0851)
+						(xy 3.842 -2.134) (xy 3.7843 -2.1675) (xy 3.7743 -2.1716) (xy 3.7542 -2.1881) (xy 3.7761 -2.2121)
+						(xy 3.7957 -2.2393) (xy 3.8037 -2.2928) (xy 3.8032 -2.3184) (xy 3.8123 -2.3866) (xy 3.8311 -2.4656)
+						(xy 3.843 -2.5116) (xy 3.8543 -2.5785) (xy 3.8532 -2.6191) (xy 3.854 -2.6431) (xy 3.8911 -2.6663)
+						(xy 3.9313 -2.6918) (xy 3.9736 -2.7593) (xy 4.0044 -2.8587) (xy 4.0207 -2.9821) (xy 4.0252 -3.0379)
+						(xy 4.0342 -3.1041) (xy 4.0441 -3.1402) (xy 4.0456 -3.1437) (xy 4.037 -3.1793) (xy 4.0037 -3.226)
+						(xy 4.0008 -3.2292) (xy 3.9764 -3.2597) (xy 3.9612 -3.2938) (xy 3.9534 -3.3422) (xy 3.9512 -3.4157)
+						(xy 3.9527 -3.5253) (xy 3.9535 -3.6016) (xy 3.9519 -3.6731) (xy 3.9472 -3.7051) (xy 3.9399 -3.6938)
+						(xy 3.9306 -3.6595) (xy 3.923 -3.6476) (xy 3.9194 -3.6774) (xy 3.9082 -3.7322) (xy 3.8823 -3.7977)
+						(xy 3.856 -3.8667) (xy 3.8391 -3.9453) (xy 3.8385 -3.95) (xy 3.8266 -4.014) (xy 3.8109 -4.0577)
+						(xy 3.8042 -4.0778) (xy 3.7973 -4.1372) (xy 3.7967 -4.2138) (xy 3.7972 -4.2581) (xy 3.7911 -4.3171)
+						(xy 3.7771 -4.3388) (xy 3.7658 -4.3428) (xy 3.7525 -4.374) (xy 3.7568 -4.3907) (xy 3.7885 -4.4092)
+						(xy 3.812 -4.4266) (xy 3.817 -4.4681) (xy 3.8044 -4.5153) (xy 3.776 -4.5498) (xy 3.7564 -4.5711)
+						(xy 3.7719 -4.6037) (xy 3.7865 -4.6328) (xy 3.7778 -4.6934) (xy 3.7619 -4.7239) (xy 3.754 -4.7199)
+						(xy 3.7431 -4.7024) (xy 3.7031 -4.6906) (xy 3.6694 -4.6981) (xy 3.668 -4.728) (xy 3.6794 -4.7616)
+						(xy 3.6965 -4.8218) (xy 3.7107 -4.8584) (xy 3.7316 -4.8782) (xy 3.7526 -4.8881) (xy 3.7404 -4.9115)
+						(xy 3.7391 -4.9123) (xy 5.5654 -4.9123) (xy 5.5723 -4.8484) (xy 5.6159 -4.7854) (xy 5.621 -4.7805)
+						(xy 5.6598 -4.7342) (xy 5.6756 -4.6982) (xy 5.6776 -4.6858) (xy 5.6993 -4.6671) (xy 5.7072 -4.6635)
+						(xy 5.7331 -4.6296) (xy 5.7612 -4.5715) (xy 5.7643 -4.5641) (xy 5.8063 -4.4937) (xy 5.8548 -4.4548)
+						(xy 5.8897 -4.4322) (xy 5.9102 -4.3882) (xy 5.9133 -4.3714) (xy 5.9456 -4.3362) (xy 6.0182 -4.3014)
+						(xy 6.0524 -4.2874) (xy 6.1181 -4.2551) (xy 6.1589 -4.2275) (xy 6.1789 -4.2125) (xy 6.1916 -4.2199)
+						(xy 6.2076 -4.2367) (xy 6.253 -4.245) (xy 6.2657 -4.2451) (xy 6.2933 -4.2493) (xy 6.306 -4.268)
+						(xy 6.3072 -4.3118) (xy 6.3005 -4.3916) (xy 6.3002 -4.3939) (xy 6.2918 -4.4926) (xy 6.2829 -4.6134)
+						(xy 6.2741 -4.7449) (xy 6.2662 -4.8756) (xy 6.2598 -4.994) (xy 6.2557 -5.0886) (xy 6.2545 -5.1479)
+						(xy 6.2597 -5.2058) (xy 6.273 -5.2593) (xy 6.2773 -5.2771) (xy 6.2614 -5.2987) (xy 6.2193 -5.2989)
+						(xy 6.161 -5.2787) (xy 6.0965 -5.2393) (xy 6.0479 -5.2063) (xy 5.9636 -5.1568) (xy 5.875 -5.1107)
+						(xy 5.8038 -5.0762) (xy 5.7377 -5.0433) (xy 5.6991 -5.0231) (xy 5.672 -5.0081) (xy 5.617 -4.9792)
+						(xy 5.5951 -4.9646) (xy 5.5654 -4.9123) (xy 3.7391 -4.9123) (xy 3.6997 -4.9375) (xy 3.6667 -4.961)
+						(xy 3.6525 -5.0134) (xy 3.6512 -5.0462) (xy 3.6365 -5.0659) (xy 3.6315 -5.0669) (xy 3.608 -5.0958)
+						(xy 3.5882 -5.1528) (xy 3.5778 -5.2225) (xy 3.5658 -5.2669) (xy 3.5316 -5.3217) (xy 3.5254 -5.3287)
+						(xy 3.5024 -5.369) (xy 3.5151 -5.4025) (xy 3.5268 -5.4238) (xy 3.5283 -5.4715) (xy 3.525 -5.5023)
+						(xy 3.5397 -5.5553) (xy 3.5505 -5.5876) (xy 3.5414 -5.6302) (xy 3.5046 -5.692) (xy 3.4904 -5.714)
+						(xy 3.4526 -5.7857) (xy 3.4312 -5.8457) (xy 3.4166 -5.89) (xy 3.3977 -5.9102) (xy 3.3883 -5.9141)
+						(xy 3.3772 -5.9454) (xy 3.3744 -5.9616) (xy 3.3524 -5.9805) (xy 3.3449 -5.9816) (xy 3.3394 -5.9997)
+						(xy 3.3402 -6.0035) (xy 3.3198 -6.0247) (xy 3.2704 -6.0482) (xy 3.2584 -6.0528) (xy 3.2094 -6.0788)
+						(xy 3.1896 -6.1023) (xy 3.1893 -6.1049) (xy 3.1633 -6.1172) (xy 3.0998 -6.1129) (xy 3.0828 -6.1105)
+						(xy 3.0144 -6.1119) (xy 2.9649 -6.1394) (xy 2.9209 -6.1724) (xy 2.8566 -6.2083) (xy 2.8462 -6.2134)
+						(xy 2.7801 -6.2663) (xy 2.73 -6.3387) (xy 2.7096 -6.4118) (xy 2.695 -6.451) (xy 2.6443 -6.4915)
+						(xy 2.6442 -6.4915) (xy 2.5987 -6.5199) (xy 2.5798 -6.5447) (xy 2.5782 -6.5764) (xy 2.565 -6.6107)
+						(xy 2.5289 -6.6532) (xy 2.4854 -6.6881) (xy 2.4424 -6.7039) (xy 2.4063 -6.7093) (xy 2.3373 -6.7299)
+						(xy 2.2631 -6.7591) (xy 2.2045 -6.7894) (xy 2.1842 -6.7974) (xy 2.1232 -6.8082) (xy 2.046 -6.8126)
+						(xy 1.9732 -6.8101) (xy 1.9384 -6.8003) (xy 1.9349 -6.781) (xy 1.9344 -6.76) (xy 1.9 -6.7612)
+						(xy 1.8706 -6.7636) (xy 1.8527 -6.7424) (xy 1.8524 -6.7383) (xy 1.8345 -6.697) (xy 1.7981 -6.6449)
+						(xy 1.7937 -6.6394) (xy 1.7533 -6.5832) (xy 1.7286 -6.5378) (xy 1.7083 -6.5127) (xy 1.6601 -6.4963)
+						(xy 1.6211 -6.4958) (xy 1.5507 -6.4949) (xy 1.5024 -6.5067) (xy 1.4492 -6.5432) (xy 1.4129 -6.5719)
+						(xy 1.3584 -6.578) (xy 1.3315 -6.5743) (xy 1.3133 -6.5887) (xy 1.3006 -6.6047) (xy 1.2583 -6.6138)
+						(xy 1.2127 -6.625) (xy 1.1604 -6.6612) (xy 1.1288 -6.6863) (xy 1.0954 -6.689) (xy 1.0841 -6.664)
+						(xy 0.8867 -6.664) (xy 0.8899 -6.6653) (xy 0.9081 -6.6663) (xy 0.9442 -6.6929) (xy 0.9612 -6.7369)
+						(xy 0.9546 -6.7464) (xy 0.9193 -6.7545) (xy 0.909 -6.7549) (xy 0.853 -6.7748) (xy 0.8268 -6.8149)
+						(xy 0.8343 -6.8611) (xy 0.8794 -6.8995) (xy 0.9187 -6.9276) (xy 0.9381 -6.9654) (xy 0.9399 -6.9855)
+						(xy 0.9541 -7.0207) (xy 0.9591 -7.0273) (xy 0.9802 -7.071) (xy 0.9978 -7.118) (xy 1.1022 -7.118)
+						(xy 1.114 -7.1063) (xy 1.1257 -7.118) (xy 1.114 -7.1298) (xy 1.1022 -7.118) (xy 0.9978 -7.118)
+						(xy 1.0039 -7.1343) (xy 1.0233 -7.1976) (xy 1.0315 -7.2412) (xy 1.0229 -7.2583) (xy 0.985 -7.2705)
+						(xy 0.9577 -7.2749) (xy 0.9381 -7.2939) (xy 0.9235 -7.3094) (xy 0.8794 -7.3174) (xy 0.8702 -7.3176)
+						(xy 0.831 -7.3308) (xy 0.8208 -7.3741) (xy 0.818 -7.4149) (xy 0.8066 -7.4679) (xy 0.8048 -7.4731)
+						(xy 0.8102 -7.498) (xy 0.8535 -7.505) (xy 0.8851 -7.5024) (xy 0.9102 -7.4818) (xy 0.9184 -7.4288)
+						(xy 0.9221 -7.3526) (xy 0.9316 -7.4288) (xy 0.941 -7.505) (xy 4.2227 -7.505) (xy 7.5044 -7.505)
+						(xy 7.5048 0.0041)
+					)
+					(stroke
+						(width 0.01)
+						(type default)
+					)
+					(fill
+						(type outline)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "mx:MX1A-11NN"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -4.445 -3.81 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left bottom)
+				)
+			)
+			(property "Value" "MX1A-11NN"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+				)
+			)
+			(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "MF" "Cherry"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Package" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Price" "None"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "MP" "MX1A11NN"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Availability" "In Stock"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify bottom)
+					(hide yes)
+				)
+			)
+			(symbol "MX1A-11NN_0_0"
+				(polyline
+					(pts
+						(xy -2.54 2.54) (xy 0 2.54)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center -2.54 0)
+					(radius 0.762)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 4.318) (xy 1.524 4.318)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.524 3.81) (xy -1.524 4.318)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 3.81) (xy -1.524 3.81)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 2.54) (xy 0 3.81)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.524 4.318) (xy 1.524 3.81)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.524 3.81) (xy 0.254 3.81)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 2.54) (xy 0 2.54)
+					)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.54 0)
+					(radius 0.762)
+					(stroke
+						(width 0.4064)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "MX1A-11NN_1_0"
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.016 1.016)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "TRINIBOS1\n"
+		(exclude_from_sim no)
+		(at 149.86 243.84 0)
+		(effects
+			(font
+				(face "Segoe UI Black")
+				(size 6.35 6.35)
+			)
+		)
+		(uuid "2ef5f0dd-38d4-4654-b2f0-bae9aee955df")
+	)
+	(junction
+		(at 68.58 196.85)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0819f40e-1c43-4a06-8688-166117abf9f6")
+	)
+	(junction
+		(at 55.88 193.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "0ba80940-4605-4be5-8858-386c2e09f1a3")
+	)
+	(junction
+		(at 68.58 193.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "29dc17ea-577e-4d5d-b865-346aa75c3356")
+	)
+	(junction
+		(at 55.88 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "8c1d46a4-24fa-490e-b7a2-501790c8a8d6")
+	)
+	(junction
+		(at 116.84 227.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "91a29413-7da4-4788-9e6a-fc78e5614294")
+	)
+	(junction
+		(at 43.18 193.04)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "94438e0b-118b-4671-826c-51317993993e")
+	)
+	(junction
+		(at 68.58 227.33)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "b6f3c49a-8a6c-44b1-aa34-929abc01b4eb")
+	)
+	(junction
+		(at 43.18 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "bd3e37fd-dd82-46ff-a01a-1a558b30d397")
+	)
+	(junction
+		(at 93.98 191.77)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d13cd434-a24b-441c-8c12-06dbf6b48d9f")
+	)
+	(junction
+		(at 68.58 181.61)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "dfe068d3-5109-41e5-9bdf-d03a4b466a36")
+	)
+	(junction
+		(at 55.88 196.85)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "e0ed68a3-16cd-40c0-a603-8c61cbc060de")
+	)
+	(wire
+		(pts
+			(xy 68.58 181.61) (xy 68.58 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "080a73c6-eefa-4704-909d-6f1b6b131be3")
+	)
+	(wire
+		(pts
+			(xy 68.58 227.33) (xy 68.58 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d26fb6f-8f45-4e53-a714-568a37da4d7a")
+	)
+	(wire
+		(pts
+			(xy 173.99 173.99) (xy 139.7 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d88ca50-94d2-4b5f-898c-b6b81e9f6a57")
+	)
+	(wire
+		(pts
+			(xy 43.18 170.18) (xy 43.18 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0e4ea2ef-bf56-4e6b-8dc9-1f9245976c6e")
+	)
+	(wire
+		(pts
+			(xy 86.36 176.53) (xy 93.98 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0eec9f35-fd61-4f66-846b-cb6b6a4bcee9")
+	)
+	(wire
+		(pts
+			(xy 49.53 227.33) (xy 68.58 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1523233d-533c-4b75-bc11-51499036229d")
+	)
+	(wire
+		(pts
+			(xy 93.98 171.45) (xy 90.17 171.45)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1a9313ec-0cd8-43ea-81e5-e61e3c181fc0")
+	)
+	(wire
+		(pts
+			(xy 68.58 227.33) (xy 116.84 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e054030-1898-4bf7-b95b-f1cdf94abaf3")
+	)
+	(wire
+		(pts
+			(xy 83.82 179.07) (xy 83.82 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1fcb0a87-a12c-4a0e-9f41-eb586eb06538")
+	)
+	(wire
+		(pts
+			(xy 173.99 163.83) (xy 173.99 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2361137d-d7b1-4808-a3fe-af3f132e9147")
+	)
+	(wire
+		(pts
+			(xy 78.74 186.69) (xy 78.74 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "25e5ba9d-85f9-4a49-889a-f28cb0246cc3")
+	)
+	(wire
+		(pts
+			(xy 49.53 227.33) (xy 49.53 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "283e1df3-df5b-4bf7-aaab-d3ba53b689e9")
+	)
+	(wire
+		(pts
+			(xy 58.42 161.29) (xy 86.36 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2ebe0711-5500-49c6-8e03-e32fe0aae0d8")
+	)
+	(wire
+		(pts
+			(xy 161.29 144.78) (xy 161.29 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3395af8e-c081-4498-ae32-510c331d31e3")
+	)
+	(wire
+		(pts
+			(xy 58.42 185.42) (xy 58.42 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "357b719c-5dba-4faa-9a82-648b4eda379e")
+	)
+	(wire
+		(pts
+			(xy 93.98 181.61) (xy 82.55 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "36cc5fcd-0b3b-46df-8504-33db5f87ba0b")
+	)
+	(wire
+		(pts
+			(xy 45.72 160.02) (xy 45.72 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43750a98-0962-4462-a56c-9bff0fa0009f")
+	)
+	(wire
+		(pts
+			(xy 55.88 193.04) (xy 55.88 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f66aba5-02e5-423e-af0a-c44fa25478b6")
+	)
+	(wire
+		(pts
+			(xy 55.88 170.18) (xy 55.88 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "505f9a5e-c16d-4854-8a98-b11bdfe19db9")
+	)
+	(wire
+		(pts
+			(xy 90.17 204.47) (xy 93.98 204.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "52857adc-9cba-4c83-ade3-8d118e09d08f")
+	)
+	(wire
+		(pts
+			(xy 93.98 189.23) (xy 77.47 189.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "529559ca-0903-4ca4-9fa7-37185bfb7311")
+	)
+	(wire
+		(pts
+			(xy 78.74 182.88) (xy 33.02 182.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "57fa2258-1e69-4f1d-b0f3-0bf4c43d900e")
+	)
+	(wire
+		(pts
+			(xy 76.2 191.77) (xy 76.2 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5c2efe09-bdbd-4910-a365-041d731e24ec")
+	)
+	(wire
+		(pts
+			(xy 161.29 227.33) (xy 116.84 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "61378038-3cf3-401c-b53d-6603fc298478")
+	)
+	(wire
+		(pts
+			(xy 93.98 179.07) (xy 83.82 179.07)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6991f443-2850-4907-ac05-5cc61879dbb3")
+	)
+	(wire
+		(pts
+			(xy 161.29 161.29) (xy 176.53 161.29)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "71cba768-8573-4726-983d-fb7cf900572c")
+	)
+	(wire
+		(pts
+			(xy 43.18 196.85) (xy 43.18 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7397e292-9c6d-46ad-a6f3-582b5b65cabe")
+	)
+	(wire
+		(pts
+			(xy 93.98 173.99) (xy 87.63 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74070dee-e896-4d8e-9997-e26c9ce5b72c")
+	)
+	(wire
+		(pts
+			(xy 68.58 170.18) (xy 68.58 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "794a8095-7741-4c1e-818a-79d55daff831")
+	)
+	(wire
+		(pts
+			(xy 139.7 176.53) (xy 176.53 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7c8a0092-6082-4743-9f65-2a954e6f704d")
+	)
+	(wire
+		(pts
+			(xy 87.63 160.02) (xy 45.72 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7cba334d-b1fd-4e8b-986c-6b6d579f29be")
+	)
+	(wire
+		(pts
+			(xy 58.42 161.29) (xy 58.42 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "869d148a-2c9f-40ca-bc50-49c241647f95")
+	)
+	(wire
+		(pts
+			(xy 93.98 190.5) (xy 93.98 191.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "870ed529-ca9d-4957-a380-650d33d4b4c6")
+	)
+	(wire
+		(pts
+			(xy 90.17 213.36) (xy 90.17 204.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "88b176d1-5366-47f6-aa41-26bf1b5a11e6")
+	)
+	(wire
+		(pts
+			(xy 93.98 186.69) (xy 78.74 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c2f1ad3-84f5-43e1-8cbf-06ccebbf16d3")
+	)
+	(wire
+		(pts
+			(xy 86.36 161.29) (xy 86.36 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "93e41904-8d2c-47f5-b863-7e2162a986dc")
+	)
+	(wire
+		(pts
+			(xy 111.76 144.78) (xy 161.29 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96d0df22-9daa-4adc-8037-00eda540dfab")
+	)
+	(wire
+		(pts
+			(xy 68.58 196.85) (xy 68.58 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96fc9122-7438-43bc-84fb-b8baeeda6dea")
+	)
+	(wire
+		(pts
+			(xy 87.63 173.99) (xy 87.63 160.02)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97d418c4-ea95-494a-8da7-3e29e92e4956")
+	)
+	(wire
+		(pts
+			(xy 176.53 161.29) (xy 176.53 176.53)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98d5c10f-ac7c-4489-bb1d-b183bee0d488")
+	)
+	(wire
+		(pts
+			(xy 43.18 181.61) (xy 43.18 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9ea5b61b-9261-4a65-bd8b-813e1830f237")
+	)
+	(wire
+		(pts
+			(xy 76.2 185.42) (xy 58.42 185.42)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a15c5dc7-feed-4d01-8f4e-dbe44267e608")
+	)
+	(wire
+		(pts
+			(xy 45.72 184.15) (xy 45.72 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a4747ae5-ef17-4936-8499-30a830c7e199")
+	)
+	(wire
+		(pts
+			(xy 77.47 184.15) (xy 45.72 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a6670d73-241c-47c6-ad3d-4d4febe01a7c")
+	)
+	(wire
+		(pts
+			(xy 161.29 168.91) (xy 161.29 227.33)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ab0ff657-da8f-4677-9c9e-0bf51caa3327")
+	)
+	(wire
+		(pts
+			(xy 82.55 173.99) (xy 45.72 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b0a7a8f8-3177-43aa-9427-fdc8895da810")
+	)
+	(wire
+		(pts
+			(xy 33.02 182.88) (xy 33.02 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba0f207e-db33-49b1-9a9b-db525b0a7d34")
+	)
+	(wire
+		(pts
+			(xy 93.98 184.15) (xy 81.28 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0cfb40e-29ca-4e29-965c-27fbd0234c70")
+	)
+	(wire
+		(pts
+			(xy 90.17 171.45) (xy 90.17 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c1c66e51-15ee-4821-98d6-0ae8253a4864")
+	)
+	(wire
+		(pts
+			(xy 58.42 175.26) (xy 58.42 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c3820570-5bd9-410f-b2f5-b226d0a6440f")
+	)
+	(wire
+		(pts
+			(xy 161.29 163.83) (xy 173.99 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5a6a95c-0970-43d8-afe8-69b51b2b3b7b")
+	)
+	(wire
+		(pts
+			(xy 55.88 196.85) (xy 68.58 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c5cce12a-abdc-438a-ad74-cd3f6da1ad12")
+	)
+	(wire
+		(pts
+			(xy 81.28 184.15) (xy 81.28 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c73bdc89-4e30-4890-9b88-e17f68b14c64")
+	)
+	(wire
+		(pts
+			(xy 90.17 158.75) (xy 33.02 158.75)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c81b11b6-f076-4ffe-a049-c81a84be3ba8")
+	)
+	(wire
+		(pts
+			(xy 33.02 158.75) (xy 33.02 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d29a65ba-22f6-4e79-8dec-b6a9ad56c703")
+	)
+	(wire
+		(pts
+			(xy 83.82 172.72) (xy 33.02 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d2c43829-6c4d-45d6-bc58-15144fe4c8fb")
+	)
+	(wire
+		(pts
+			(xy 55.88 196.85) (xy 43.18 196.85)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d4018d54-85a0-4698-ab18-0a9672898744")
+	)
+	(wire
+		(pts
+			(xy 81.28 175.26) (xy 58.42 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d4995b75-a0cf-4b2e-aafc-be83338aabe7")
+	)
+	(wire
+		(pts
+			(xy 111.76 148.59) (xy 111.76 144.78)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dca63fc2-cd1f-4f2e-b054-71f07960948d")
+	)
+	(wire
+		(pts
+			(xy 82.55 181.61) (xy 82.55 173.99)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb8af919-c630-446d-8b54-c64c1b1e4a3c")
+	)
+	(wire
+		(pts
+			(xy 33.02 172.72) (xy 33.02 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0f1c4d2-fc7a-47c9-bda9-b3ad0a53fd56")
+	)
+	(wire
+		(pts
+			(xy 59.69 213.36) (xy 90.17 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f0ff7940-8898-451e-8a6d-ff573f9db5f2")
+	)
+	(wire
+		(pts
+			(xy 77.47 189.23) (xy 77.47 184.15)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f254e80f-783b-4a5f-a30f-d183cc0f492e")
+	)
+	(wire
+		(pts
+			(xy 93.98 191.77) (xy 76.2 191.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f2f4c06d-d038-4fdb-9800-8e98b2c303a0")
+	)
+	(wire
+		(pts
+			(xy 55.88 181.61) (xy 55.88 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6329dfa-615a-4c76-96a4-ac6b2c67a528")
+	)
+	(wire
+		(pts
+			(xy 45.72 173.99) (xy 45.72 181.61)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9b28ed0-cd80-4c7b-aedf-661e8f075a06")
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 54.61 213.36 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "0fabf92b-d76c-49ad-aaa2-5ae5168fed7a")
+		(property "Reference" "U10"
+			(at 54.61 204.47 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 54.61 207.01 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 54.61 213.36 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "9a03fd0c-0f00-43da-92a5-7c47652c0fb5")
+		)
+		(pin "2"
+			(uuid "cc0f7d16-33f5-4581-9eae-c31cc63b93fd")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 50.8 170.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "16df29f1-b1cc-41c4-a505-b3b81d2437a1")
+		(property "Reference" "U2"
+			(at 50.8 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 50.8 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 50.8 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "cdfe202f-6c4f-4758-b88e-c0cfae798480")
+		)
+		(pin "2"
+			(uuid "b7635217-589c-4099-b8a1-86523979a9ae")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 50.8 193.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "178c50e6-5fa9-4b6b-9cc9-566343e6670d")
+		(property "Reference" "U8"
+			(at 50.8 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 50.8 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 50.8 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "3090b478-486f-43d2-9d76-9cb1d814d872")
+		)
+		(pin "2"
+			(uuid "7174ef94-4dd3-40cc-9ead-7a5698406603")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 38.1 170.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3c13db94-8ac3-4f3e-94d2-a24a06d6b47c")
+		(property "Reference" "U1"
+			(at 38.1 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 38.1 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 38.1 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "22ea82e3-aa2b-4d3d-8215-e78185100f30")
+		)
+		(pin "2"
+			(uuid "9f386b71-bbe3-45d8-bca5-37f234715e76")
+		)
+		(instances
+			(project ""
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 63.5 193.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "52226785-b8a2-4119-86e9-970e2800bd49")
+		(property "Reference" "U9"
+			(at 63.5 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 63.5 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 63.5 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4a756cd6-594e-462c-9d5b-1d9f00488253")
+		)
+		(pin "2"
+			(uuid "49db241e-775d-4565-b5ea-ae7e8ab644d3")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 63.5 170.18 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "5ae70251-0be2-47d5-b822-0ff961869140")
+		(property "Reference" "U3"
+			(at 63.5 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 63.5 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 63.5 170.18 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "efec9c40-d541-4b25-8484-d2bf5e7734cc")
+		)
+		(pin "2"
+			(uuid "e366acf4-3443-4bd3-b265-c6bdbd407796")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "MCU_Module_RaspberryPi_Pico:RaspberryPi_Pico")
+		(at 116.84 189.23 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "7b8f11a0-a1f7-456f-86ba-aaba2b32e30e")
+		(property "Reference" "A1"
+			(at 118.9833 226.06 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "RaspberryPi_Pico"
+			(at 118.9833 228.6 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Module_RaspberryPi_Pico:RaspberryPi_Pico_Common"
+			(at 116.84 238.76 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "https://datasheets.raspberrypi.com/pico/pico-datasheet.pdf"
+			(at 116.84 241.3 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Versatile and inexpensive microcontroller module powered by RP2040 dual-core Arm Cortex-M0+ processor up to 133 MHz, 264kB SRAM, 2MB QSPI flash"
+			(at 116.84 243.84 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "33"
+			(uuid "bd1d8711-01c6-468a-ad8d-b7cac48503c7")
+		)
+		(pin "34"
+			(uuid "fa370f62-fe6e-4dcb-bc72-303ea0a6a01e")
+		)
+		(pin "23"
+			(uuid "85e9f76d-80f0-4c0e-9cfb-e01d94dea924")
+		)
+		(pin "20"
+			(uuid "70b58113-237b-421a-99b4-1d0314176d82")
+		)
+		(pin "28"
+			(uuid "893c2589-4ee3-4dbb-90fa-2e468d78fec3")
+		)
+		(pin "37"
+			(uuid "1aef3575-99ec-41aa-94ce-905a26b74bf4")
+		)
+		(pin "36"
+			(uuid "895662fb-59bc-47af-a666-640cc5913dae")
+		)
+		(pin "30"
+			(uuid "2b3b5df2-a0b6-49d5-bae2-5f164f4c80ea")
+		)
+		(pin "19"
+			(uuid "f28b91a7-f06d-4e76-afca-26862bc6f365")
+		)
+		(pin "39"
+			(uuid "0f806a94-464e-4c2e-90e5-39d0b06f9bed")
+		)
+		(pin "13"
+			(uuid "7e267c1f-30c3-40f9-b46e-bcbb92d68b58")
+		)
+		(pin "3"
+			(uuid "0e0843b0-c594-4769-84f1-8f5bf10b033a")
+		)
+		(pin "38"
+			(uuid "a6ee8a37-ad95-467e-b1e6-3300a500a544")
+		)
+		(pin "18"
+			(uuid "b8df5cdc-041d-4578-a85f-8482ce5b750f")
+		)
+		(pin "4"
+			(uuid "397ca130-3c3a-4f9c-bd4d-79ee0fcec556")
+		)
+		(pin "9"
+			(uuid "4ee8c59a-c86f-407b-aae9-386e3a72e8e9")
+		)
+		(pin "5"
+			(uuid "a7672966-754c-419a-9e20-0e6c70566d51")
+		)
+		(pin "10"
+			(uuid "09d9659f-ba40-4ab1-b1b0-a8a35938aab3")
+		)
+		(pin "2"
+			(uuid "d91fa93c-b542-4d39-90f4-d5044d00b076")
+		)
+		(pin "1"
+			(uuid "a2c7624a-1609-48e5-8cff-648e640095e7")
+		)
+		(pin "6"
+			(uuid "75e46a0f-547c-41c2-a62f-959649fa8f7e")
+		)
+		(pin "7"
+			(uuid "5a5920a9-5b36-4cf2-bd4a-a89f0c7441ca")
+		)
+		(pin "15"
+			(uuid "84dd1474-34c3-4dbd-9ccb-5f8afa8ee081")
+		)
+		(pin "16"
+			(uuid "b3540a51-5776-4ecb-9412-1c71274057e2")
+		)
+		(pin "17"
+			(uuid "a067d011-200f-427c-9ade-628228a66df8")
+		)
+		(pin "11"
+			(uuid "0a0c8bee-982f-4a3c-96be-8159c5bd4aa6")
+		)
+		(pin "12"
+			(uuid "692b0c90-7a24-482c-8c35-aad5f0ca5b54")
+		)
+		(pin "14"
+			(uuid "7d678bf7-47c2-46c1-a671-805f95b89a28")
+		)
+		(pin "35"
+			(uuid "67a933a5-8cd2-45df-8c5c-7f0fb26ecb5c")
+		)
+		(pin "21"
+			(uuid "78f08c44-a3d6-47fe-bfe2-cc85191a794f")
+		)
+		(pin "31"
+			(uuid "2e420d41-5c24-4b66-b124-a3819a9efd90")
+		)
+		(pin "8"
+			(uuid "5447b9df-ed4d-4535-8177-b95eba851fe8")
+		)
+		(pin "24"
+			(uuid "8cea7163-73b8-4e30-9f13-34a6e68ba8cf")
+		)
+		(pin "22"
+			(uuid "edeacb2c-d445-4355-a037-5961eb8e35be")
+		)
+		(pin "26"
+			(uuid "efad6358-ada8-4533-86f5-cd18a276fcea")
+		)
+		(pin "29"
+			(uuid "28a96637-ff1e-4e60-a00c-ceab4af2983d")
+		)
+		(pin "40"
+			(uuid "b4dc0d75-b99e-45bc-a770-b8d7df9dd1b9")
+		)
+		(pin "25"
+			(uuid "47f66ebd-8384-4f45-97aa-bafa09e5efa6")
+		)
+		(pin "27"
+			(uuid "77ebc2cf-a972-47cf-b41c-b278dc93b8dc")
+		)
+		(pin "32"
+			(uuid "21a607f1-cb26-4a28-a663-da00307d66d3")
+		)
+		(instances
+			(project ""
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "A1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 50.8 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "8a9e5b9e-e4be-4f34-8c00-705f74d5d5ef")
+		(property "Reference" "U5"
+			(at 50.8 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 50.8 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 50.8 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "4823a051-a80b-44b5-9b43-f70f1fb96f96")
+		)
+		(pin "2"
+			(uuid "74e2f340-9579-47cd-a63b-74e7b833931f")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "logo sign:LOGO")
+		(at 102.87 242.57 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "bc6d104d-81e7-41bd-996d-b480f81881eb")
+		(property "Reference" "#G1"
+			(at 102.87 235.6999 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "LOGO"
+			(at 102.87 249.4401 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Footprint" ""
+			(at 102.87 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 102.87 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 102.87 242.57 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "#G1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 38.1 193.04 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "c100f0ba-5b78-4dca-b572-83c030e26f95")
+		(property "Reference" "U7"
+			(at 38.1 184.15 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 38.1 186.69 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 38.1 193.04 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1eed996e-1f8f-4234-bcc6-6b3d33fc5ed2")
+		)
+		(pin "2"
+			(uuid "c975a5c3-e8ca-441e-8f91-d75392159bf3")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "DM-OLED096-636:DM-OLED096-636")
+		(at 148.59 163.83 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d94eb4c4-37d8-4d71-928b-fbd12b1d40ae")
+		(property "Reference" "U11"
+			(at 148.59 148.59 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "DM-OLED096-636"
+			(at 148.59 151.13 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "DM-OLED096-636:MODULE_DM-OLED096-636"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Display Module"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MAXIMUM_PACKAGE_HEIGHT" "11.3 mm"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "Package"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/DM-OLED096-636/Display+Module/view-part/?ref=eda"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "STANDARD" "Manufacturer Recommendations"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "PARTREV" "2018-09-10"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/DM-OLED096-636/Display+Module/view-part/?ref=snap"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "DM-OLED096-636"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "0.96” 128 X 64 MONOCHROME GRAPHIC OLED DISPLAY MODULE - I2C"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "Not in stock"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MANUFACTURER" "Displaymodule"
+			(at 148.59 163.83 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "ba446d42-f03b-42b3-a387-cd63a5e4bad7")
+		)
+		(pin "4"
+			(uuid "bd4e0e86-49b5-4ada-9303-05dcbfe578f1")
+		)
+		(pin "2"
+			(uuid "2d61fcc6-8a12-4a21-939d-24affc88c371")
+		)
+		(pin "3"
+			(uuid "feba66a8-d133-4913-9dcd-ed048a075cde")
+		)
+		(instances
+			(project ""
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 38.1 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "e0642ff2-3527-41af-8c80-e9b06c371ada")
+		(property "Reference" "U4"
+			(at 38.1 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 38.1 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 38.1 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "aabb9380-11ff-4b6a-9b93-dae460ad43a0")
+		)
+		(pin "2"
+			(uuid "ab5b5d28-6d67-4fb6-922c-ec9baf15e1bd")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "mx:MX1A-11NN")
+		(at 63.5 181.61 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "f756a32f-786e-4607-bc5d-e5ffb2b5874f")
+		(property "Reference" "U6"
+			(at 63.5 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "MX1A-11NN"
+			(at 63.5 175.26 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "PCM_Switch_Keyboard_Cherry_MX:SW_Cherry_MX_PCB_1.00u"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "MF" "Cherry"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Description_1" "SWITCH, TACTILE, SPST-NO, 10mA, THOUGH HOLE; Product Range:MX Series; Actuator Orientation:Top Actuated; Switch Mounting:Surface Mount; Actuator Style:Plunger for Cap; Actuating Force:59.5gf; Contact Rating:10mA at 12VDC RoHS Compliant: No"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Package" "None"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Price" "None"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "SnapEDA_Link" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=snap"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "MP" "MX1A11NN"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Availability" "In Stock"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(property "Check_prices" "https://www.snapeda.com/parts/MX1A11NN/Cherry/view-part/?ref=eda"
+			(at 63.5 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify bottom)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "a9f74c57-3820-4e12-847a-51cd793ca0f8")
+		)
+		(pin "2"
+			(uuid "456da034-25ca-47f7-a2fb-b0b779204235")
+		)
+		(instances
+			(project "v13macropad"
+				(path "/1ca75e7e-6003-4d70-8cc6-4acf294b4c5e"
+					(reference "U6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
