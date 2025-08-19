@@ -85,7 +85,11 @@ Contributions are welcome to **improve the key library**, including:
 * Improving key response and stability
 
 Submit issues or pull requests to collaborate.
+---
+## 🙌 Thanks
 
+Huge thanks to **[Adafruit](https://www.adafruit.com/)** for their amazing hardware and the **CircuitPython** + library ecosystem.  
+Without their work, projects like this macropad wouldn’t be possible. 💜
 ---
 
 ## License
