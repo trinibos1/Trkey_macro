@@ -15,22 +15,35 @@ from adafruit_hid.keyboard import Keyboard
 from adafruit_hid.keycode import Keycode
 from adafruit_hid.consumer_control import ConsumerControl
 from adafruit_hid.consumer_control_code import ConsumerControlCode
+from adafruit_hid.keyboard_layout_us import KeyboardLayoutUS
 
-# === Globals ===
+# === Globals / Config ===
 WIDTH, HEIGHT = 128, 64
 DEBOUNCE_TIME = 0.1
 PRESS_DISPLAY_TIME = 0.3
-last_press_time = 0
-pressed_index = None
-current_layer = 0
-layers = []
-
-# Repeat behavior
 REPEAT_DELAY = 0.4   # seconds before repeat starts
 REPEAT_RATE = 0.05   # seconds between repeats
+
+last_press_time = 0
+pressed_index = None
+
+# Layers
+current_layer = 0
+default_layer = 0
+layers = []
+grid_size = 3
+physical_layout = []
+macros = {}  # id -> sequence (string)
+
+# Repeat tracking
 repeat_active = [False] * 9
 repeat_start = [0] * 9
 repeat_last = [0] * 9
+
+# Momentary layer tracking (per key)
+mo_active = [False] * 9
+mo_prev_layer = [0] * 9
+mo_target_for_key = [None] * 9  # if this key is MO(x), store x
 
 # === USB CDC State ===
 uart = usb_cdc.console
@@ -39,23 +52,16 @@ receiving_file = False
 file = None
 filename = ""
 
-# === Key Maps ===
-keycode_map = {
-    "CONTROL_C": (Keycode.CONTROL, Keycode.C),
-    "CONTROL_V": (Keycode.CONTROL, Keycode.V),
-    "CONTROL_Z": (Keycode.CONTROL, Keycode.Z),
-    "CONTROL_X": (Keycode.CONTROL, Keycode.X),
-    "CONTROL_S": (Keycode.CONTROL, Keycode.S),
-    "CONTROL_F": (Keycode.CONTROL, Keycode.F),
-    "CONTROL_Y": (Keycode.CONTROL, Keycode.Y),
-}
-
+# === Known consumer/media codes ===
 consumer_map = {
     "PLAY_PAUSE": ConsumerControlCode.PLAY_PAUSE,
     "MUTE": ConsumerControlCode.MUTE,
     "VOLUME_DECREMENT": ConsumerControlCode.VOLUME_DECREMENT,
     "VOLUME_INCREMENT": ConsumerControlCode.VOLUME_INCREMENT,
     "SCAN_NEXT_TRACK": ConsumerControlCode.SCAN_NEXT_TRACK,
+    "SCAN_PREVIOUS_TRACK": ConsumerControlCode.SCAN_PREVIOUS_TRACK,
+    "STOP": ConsumerControlCode.STOP,
+    "RECORD": ConsumerControlCode.RECORD,
 }
 
 # === I2C Display ===
@@ -76,11 +82,14 @@ display.root_group = splash
 # === HID Devices ===
 kbd = Keyboard(usb_hid.devices)
 consumer_control = ConsumerControl(usb_hid.devices)
+kbd_layout = KeyboardLayoutUS(kbd)
 
 # === Buttons ===
-button_pins = [board.GP2, board.GP3, board.GP4,
-               board.GP5, board.GP6, board.GP7,
-               board.GP8, board.GP9, board.GP10]
+button_pins = [
+    board.GP2, board.GP3, board.GP4,
+    board.GP5, board.GP6, board.GP7,
+    board.GP8, board.GP9, board.GP10
+]
 buttons = []
 button_times = []
 for pin in button_pins:
@@ -95,25 +104,14 @@ layer_switch_btn.direction = digitalio.Direction.INPUT
 layer_switch_btn.pull = digitalio.Pull.UP
 last_layer_switch_state = True
 
-# === Load Layers ===
-def load_layers():
-    global layers
-    try:
-        with open("layers.json", "r") as f:
-            layers = json.load(f)
-        if not isinstance(layers, list) or not layers:
-            raise ValueError("Invalid format")
-    except Exception as e:
-        layers = [{"name": "ERROR", "keys": [""] * 9, "labels": ["ERR"] * 9}]
-        print("Failed to load layers.json:", e)
-
 # === UI ===
 key_labels = []
 title_label = None
 
 def init_ui():
     global key_labels, title_label
-    splash.pop() if len(splash) else None
+    if len(splash):
+        splash.pop()
     group = displayio.Group()
     title_label = label.Label(terminalio.FONT, text="", color=0xFFFFFF, x=0, y=4)
     group.append(title_label)
@@ -121,46 +119,299 @@ def init_ui():
     cell_w, cell_h, start_x, start_y = 40, 16, 4, 22
     key_labels = []
     for i in range(9):
-        lbl = label.Label(terminalio.FONT, text="", color=0xFFFFFF,
-                          x=start_x + (i % 3) * cell_w,
-                          y=start_y + (i // 3) * cell_h)
+        lbl = label.Label(
+            terminalio.FONT,
+            text="",
+            color=0xFFFFFF,
+            x=start_x + (i % 3) * cell_w,
+            y=start_y + (i // 3) * cell_h
+        )
         key_labels.append(lbl)
         group.append(lbl)
     splash.append(group)
 
+def safe_get(arr, idx, default=""):
+    try:
+        return arr[idx]
+    except Exception:
+        return default
+
 def update_ui(layer_index, pressed_idx=None):
-    layer = layers[layer_index]
-    title_label.text = f"Layer: {layer['name']} ({layer_index+1}/{len(layers)})"
+    lyr = layers[layer_index]
+    title_label.text = f"Layer: {lyr.get('name','?')} ({layer_index+1}/{len(layers)})"
+    labels = lyr.get("labels", [])
     for i in range(9):
-        lbl_text = layer["labels"][i] if i < len(layer["labels"]) else ""
-        key_labels[i].text = f"[{lbl_text.center(5) if lbl_text else '     '}]"
+        lbl_text = safe_get(labels, i, "")
+        txt = f"[{(lbl_text[:5]).center(5) if lbl_text else '     '}]"
+        key_labels[i].text = txt
         key_labels[i].color = 0x00FF00 if i == pressed_idx else 0xFFFFFF
 
-# === Key Send ===
-def send_key(keyname, hold_time=0.05):
-    if not keyname:
+# === JSON / Layers loader (per spec) ===
+def normalize_keys_or_labels(arr, target_len):
+    if not isinstance(arr, list):
+        arr = []
+    # pad or trim to target_len
+    if len(arr) < target_len:
+        arr = arr + [""] * (target_len - len(arr))
+    elif len(arr) > target_len:
+        arr = arr[:target_len]
+    return arr
+
+def load_layers():
+    global layers, grid_size, physical_layout, macros, default_layer, current_layer
+    try:
+        with open("layers.json", "r") as f:
+            data = json.load(f)
+
+        if not isinstance(data, dict) or "layers" not in data:
+            raise ValueError("layers.json must be an object with a 'layers' array")
+
+        grid_size_in = data.get("grid_size", 3)
+        # We keep hardware as 3x3, but use grid_size to validate/pad data
+        if not isinstance(grid_size_in, int) or grid_size_in < 2 or grid_size_in > 5:
+            grid_size_in = 3
+        grid_size = grid_size_in
+
+        physical_layout = data.get("physical_layout", [])
+        raw_layers = data["layers"]
+        if not isinstance(raw_layers, list) or not raw_layers:
+            raise ValueError("layers[] is empty")
+
+        target_len = grid_size * grid_size
+
+        # Build layers with normalized keys/labels
+        built_layers = []
+        for lyr in raw_layers:
+            if not isinstance(lyr, dict):
+                continue
+            name = lyr.get("name", "Layer")
+            labels = normalize_keys_or_labels(lyr.get("labels", []), target_len)
+            keys = normalize_keys_or_labels(lyr.get("keys", []), target_len)
+            built_layers.append({"name": name, "labels": labels, "keys": keys, "macros": lyr.get("macros", [])})
+
+        if not built_layers:
+            raise ValueError("No valid layer entries parsed")
+
+        layers = built_layers
+
+        # Load macros from layer 0 (by spec, UI manages them there)
+        macros = {}
+        if layers and isinstance(layers[0].get("macros", []), list):
+            for m in layers[0]["macros"]:
+                try:
+                    mid = int(m["id"])
+                    macros[mid] = str(m.get("sequence", ""))
+                except Exception:
+                    pass
+
+        # Reset layer indices safely
+        default_layer = 0 if default_layer >= len(layers) else default_layer
+        current_layer = 0 if current_layer >= len(layers) else current_layer
+
+        print(f"Loaded layers.json: layers={len(layers)} grid={grid_size} keys_per_layer={grid_size*grid_size}")
+    except Exception as e:
+        print("Failed to load layers.json:", e)
+        # Safe fallback: 1 error layer visible on UI
+        layers = [{
+            "name": "ERROR",
+            "keys": [""] * 9,
+            "labels": ["ERR"] * 9,
+            "macros": []
+        }]
+        default_layer = 0
+        current_layer = 0
+
+# === Key utilities ===
+def _to_keycode(name):
+    """Map a token (e.g., 'CONTROL', 'ALT', 'A') to Keycode attr; returns None if not found."""
+    if not name:
+        return None
+    n = name.upper()
+    # Common synonyms
+    if n in ("CTRL", "CONTROL"):
+        n = "CONTROL"
+    elif n in ("CMD", "GUI", "WIN", "WINDOWS", "COMMAND"):
+        n = "GUI"
+    elif n in ("SHIFT", "LSHIFT", "RSHIFT"):
+        n = "SHIFT"
+    elif n in ("ALT", "OPTION"):
+        n = "ALT"
+
+    return getattr(Keycode, n, None)
+
+def parse_combo_name(name):
+    """
+    Parse strings like 'CONTROL_C' or 'LEFT_SHIFT_A' into a tuple of Keycodes.
+    Returns tuple() if unknown.
+    """
+    try:
+        parts = [p for p in name.split("_") if p]
+        kc_list = []
+        for p in parts:
+            kc = _to_keycode(p)
+            if kc is None:
+                # Try direct Keycode attribute (e.g., ENTER, ESCAPE)
+                kc = getattr(Keycode, p.upper(), None)
+            if kc is None:
+                return tuple()
+            kc_list.append(kc)
+        return tuple(kc_list)
+    except Exception:
+        return tuple()
+
+def is_noop(val):
+    return (val is None) or (val == "") or (val == "NO_OP")
+
+def parse_layer_fn(name):
+    """
+    Detect layer switching functions and return (fn, target:int) or (None, None).
+    Supports MO(x), TO(x), TT(x), DF(x).
+    """
+    if not isinstance(name, str) or "(" not in name or ")" not in name:
+        return (None, None)
+    prefix = name.split("(")[0].strip().upper()
+    try:
+        inside = name[name.index("(") + 1 : name.index(")")]
+        target = int(inside)
+    except Exception:
+        return (None, None)
+    if prefix in ("MO", "TO", "TT", "DF"):
+        return (prefix, target)
+    return (None, None)
+
+# === Sending actions ===
+def send_combo(kc_tuple, hold_time=0.05):
+    if not kc_tuple:
         return
     try:
-        if keyname in keycode_map:
-            combo = keycode_map[keyname]
-            for k in combo:
-                kbd.press(k)
-            time.sleep(hold_time)
-            for k in combo:
-                kbd.release(k)
-        elif keyname in consumer_map:
-            consumer_control.send(consumer_map[keyname])
-            time.sleep(hold_time)
+        # press all
+        for k in kc_tuple:
+            kbd.press(k)
+        time.sleep(hold_time)
+        # release all
+        for k in kc_tuple:
+            kbd.release(k)
+    except Exception as e:
+        print("Combo send error:", e)
+
+def send_macro_sequence(seq):
+    """
+    If the sequence contains '+', treat it as a single combo (e.g., 'control+alt+t').
+    Otherwise, type literal text.
+    """
+    try:
+        s = seq.strip()
+        if "+" in s:
+            tokens = [t.strip().upper() for t in s.split("+") if t.strip()]
+            kc_list = []
+            for t in tokens:
+                kc = _to_keycode(t)
+                if kc is None:
+                    # allow direct letters/numbers like 'T'
+                    kc = getattr(Keycode, t, None)
+                if kc is None:
+                    print("Unknown token in macro combo:", t)
+                    return
+                kc_list.append(kc)
+            send_combo(tuple(kc_list))
         else:
-            kc = getattr(Keycode, keyname, None)
-            if kc is None:
-                print(f"Unknown key: {keyname}")
-                return
+            # literal typing
+            kbd_layout.write(s)
+    except Exception as e:
+        print("Macro sequence error:", e)
+
+def handle_layer_fn(fn, target, key_index=None, on_press=True):
+    """Apply layer switching behavior."""
+    global current_layer, default_layer
+
+    if fn == "MO":
+        # Momentary: switch on press, revert on release
+        if on_press:
+            if key_index is not None:
+                mo_prev_layer[key_index] = current_layer
+                mo_active[key_index] = True
+                mo_target_for_key[key_index] = target
+            current_layer = min(max(target, 0), len(layers) - 1)
+            update_ui(current_layer)
+        else:
+            if key_index is not None and mo_active[key_index]:
+                current_layer = mo_prev_layer[key_index]
+                mo_active[key_index] = False
+                mo_target_for_key[key_index] = None
+                update_ui(current_layer)
+        return
+
+    if on_press:
+        if fn == "TO":
+            current_layer = min(max(target, 0), len(layers) - 1)
+            update_ui(current_layer)
+        elif fn == "TT":
+            # Toggle between default_layer and target
+            tgt = min(max(target, 0), len(layers) - 1)
+            current_layer = tgt if current_layer != tgt else default_layer
+            update_ui(current_layer)
+        elif fn == "DF":
+            default_layer = min(max(target, 0), len(layers) - 1)
+            current_layer = default_layer
+            update_ui(current_layer)
+
+def send_key_entry(entry, key_index=None, on_press=True, hold_time=0.05):
+    """
+    entry is a string from keys[].
+    on_press=True for press edge; False for release edge (used for MO()).
+    """
+    if is_noop(entry):
+        return
+
+    # Layer functions
+    fn, tgt = parse_layer_fn(entry)
+    if fn:
+        handle_layer_fn(fn, tgt, key_index=key_index, on_press=on_press)
+        return
+
+    # Consumer/media
+    up = entry.upper()
+    if up in consumer_map:
+        if on_press:  # only send on initial press
+            try:
+                consumer_control.send(consumer_map[up])
+            except Exception as e:
+                print("Consumer send error:", e)
+        return
+
+    # Macros: "MACRO_X"
+    if up.startswith("MACRO_"):
+        if on_press:
+            try:
+                mid = int(up.split("_", 1)[1])
+                seq = macros.get(mid, None)
+                if seq:
+                    send_macro_sequence(seq)
+                else:
+                    print(f"Macro id {mid} not found")
+            except Exception as e:
+                print("Macro parse error:", e)
+        return
+
+    # Combos like CONTROL_C or LEFT_SHIFT_A
+    kc_tuple = parse_combo_name(up)
+    if kc_tuple:
+        if on_press:
+            send_combo(kc_tuple, hold_time=hold_time)
+        return
+
+    # Single keycode (e.g., "A", "ENTER", "F1", etc.)
+    try:
+        kc = getattr(Keycode, up, None)
+        if kc is None:
+            print(f"Unknown key entry: {entry}")
+            return
+        if on_press:
             kbd.press(kc)
             time.sleep(hold_time)
             kbd.release(kc)
     except Exception as e:
-        print(f"Key send error for {keyname}: {e}")
+        print(f"Key send error for {entry}: {e}")
 
 # === USB CDC File Handling ===
 def handle_command(cmd):
@@ -227,6 +478,7 @@ def process_usb_cdc():
             if file:
                 file.write(data)
         return
+
     if uart.in_waiting:
         char = uart.read(1)
         if char == b'\r':
@@ -250,7 +502,7 @@ while True:
     now = time.monotonic()
     process_usb_cdc()
 
-    # Layer switch check
+    # Physical button to cycle layers (kept from your original)
     current_state = layer_switch_btn.value
     if last_layer_switch_state and not current_state:
         current_layer = (current_layer + 1) % len(layers)
@@ -258,14 +510,17 @@ while True:
         time.sleep(0.2)
     last_layer_switch_state = current_state
 
-    # Key input handling with repeat
+    # Key input handling with repeat + MO()
     for i, btn in enumerate(buttons):
-        state = btn.value
+        state = btn.value  # True = released (pull-up), False = pressed
+        keyname = layers[current_layer]["keys"][i] if i < len(layers[current_layer]["keys"]) else ""
+
         if not state:
+            # pressed
             if (now - button_times[i]) > DEBOUNCE_TIME:
                 if not repeat_active[i]:
-                    keyname = layers[current_layer]["keys"][i]
-                    send_key(keyname)
+                    # First press edge
+                    send_key_entry(keyname, key_index=i, on_press=True)
                     pressed_index = i
                     last_press_time = now
                     repeat_start[i] = now
@@ -273,14 +528,24 @@ while True:
                     repeat_active[i] = True
                     update_ui(current_layer, pressed_index)
                 else:
-                    # check repeat timing
-                    if now - repeat_start[i] > REPEAT_DELAY and (now - repeat_last[i]) > REPEAT_RATE:
-                        keyname = layers[current_layer]["keys"][i]
-                        send_key(keyname)
-                        repeat_last[i] = now
-                        pressed_index = i
-                        update_ui(current_layer, pressed_index)
+                    # hold repeat (skip repeats for MO keys)
+                    fn, _tgt = parse_layer_fn(keyname)
+                    if fn == "MO":
+                        # Do nothing on hold; layer remains switched until release
+                        pass
+                    else:
+                        if (now - repeat_start[i]) > REPEAT_DELAY and (now - repeat_last[i]) > REPEAT_RATE:
+                            send_key_entry(keyname, key_index=i, on_press=True)
+                            repeat_last[i] = now
+                            pressed_index = i
+                            update_ui(current_layer, pressed_index)
         else:
+            # released
+            if repeat_active[i]:
+                # Release edge for momentary layer
+                fn, _tgt = parse_layer_fn(keyname)
+                if fn == "MO":
+                    send_key_entry(keyname, key_index=i, on_press=False)
             repeat_active[i] = False
 
     if pressed_index is not None and (now - last_press_time) > PRESS_DISPLAY_TIME:
