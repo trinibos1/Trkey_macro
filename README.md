@@ -33,7 +33,7 @@ please note that there is are new uf2 coming soon
 | Power           | USB only                                                                   |
 
 PCB 
-![PCB Image](https://via.placeholder.com/300x200.png?text=PCB+Layout)
+![PCB Image](images/pcb.png)
 
 
 ---
