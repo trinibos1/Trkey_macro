@@ -2,7 +2,7 @@
 ## Overview
 
 This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, running **CircuitPython**. It connects via **USB** using the **Adafruit HID library**, allowing you to assign keyboard shortcuts, media keys, and macros. An **OLED display** shows layer and status information for easy feedback.
-please note that there is a big update that changes the Json formate and connections coming soon 
+please note that there is are new uf2 coming soon 
 * **OLED Display:** [Amazon Link](https://a.co/d/afDOQYH)
 * **PCB Design:** [OSH Park Project](https://oshpark.com/shared_projects/1jOtq57X)
 * **Web Key Mapper:** [trinibos1/Trkey\_mapper](https://trinibos1.github.io/TRkey_mapper/)
