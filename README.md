@@ -7,6 +7,7 @@ please note that there is are new uf2 coming soon
 * **PCB Design:** [OSH Park Project](https://oshpark.com/shared_projects/1jOtq57X)
 * **Web Key Mapper:** [trinibos1/Trkey\_mapper](https://trinibos1.github.io/TRkey_mapper/)
 
+![PCB Image](images/pcb.jpg)
 ---
 
 ## Features
@@ -33,7 +34,7 @@ please note that there is are new uf2 coming soon
 | Power           | USB only                                                                   |
 
 PCB 
-![PCB Image](images/pcb.png)
+![PCB Image](images/pcb.jpg)
 
 
 ---
