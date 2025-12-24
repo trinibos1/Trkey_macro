@@ -11,7 +11,7 @@ This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, r
 ## Update
 
 * UF2 file is old but code is up to date
-* Change code from circuit python to C++ sdk
+* Change code from circuit python to arduino C++
 ---
 ## Features
 
