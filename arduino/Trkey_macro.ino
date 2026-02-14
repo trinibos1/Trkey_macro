@@ -738,7 +738,16 @@ void configureUsbIdentity() {
   TinyUSBDevice.setSerialDescriptor(USB_SERIAL_NAME);
 }
 
+struct UsbIdentityPreInit {
+  UsbIdentityPreInit() {
+    configureUsbIdentity();
+  }
+};
+
+UsbIdentityPreInit usbIdentityPreInit;
+
 void setup() {
+  // Re-apply in setup as some cores rebuild descriptors during early init.
   configureUsbIdentity();
   Serial.begin(115200);
 
