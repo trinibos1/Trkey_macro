@@ -51,6 +51,19 @@ cdc_buffer = b""
 receiving_file = False
 file = None
 filename = ""
+companion_connected = False
+
+# === Optional companion app state ===
+SHOW_NOW_PLAYING_TIMEOUT = 10.0
+show_now_playing = False
+last_now_playing_update = 0.0
+now_playing = {
+    "title": "",
+    "artist": "",
+    "position": 0,
+    "duration": 0,
+    "source": "",
+}
 
 # === Known consumer/media codes ===
 consumer_map = {
@@ -107,14 +120,83 @@ last_layer_switch_state = True
 # === UI ===
 key_labels = []
 title_label = None
+layer_group = None
+now_playing_group = None
+np_title_label = None
+np_line_1 = None
+np_line_2 = None
+np_line_3 = None
+
+app_action_fallback = {
+    "APP_PLAY_PAUSE": "PLAY_PAUSE",
+    "APP_NEXT": "SCAN_NEXT_TRACK",
+    "APP_PREV": "SCAN_PREVIOUS_TRACK",
+    "APP_MUTE": "MUTE",
+    "APP_VOL_UP": "VOLUME_INCREMENT",
+    "APP_VOL_DOWN": "VOLUME_DECREMENT",
+}
+
+
+def _fmt_seconds(value):
+    try:
+        total = max(0, int(value))
+    except Exception:
+        total = 0
+    return f"{total // 60}:{total % 60:02d}"
+
+
+def _truncate(text, length):
+    text = str(text or "")
+    if len(text) <= length:
+        return text
+    return text[: max(0, length - 1)] + "…"
+
+
+def should_show_now_playing(now=None):
+    if not show_now_playing:
+        return False
+    if now is None:
+        now = time.monotonic()
+    return (now - last_now_playing_update) <= SHOW_NOW_PLAYING_TIMEOUT
+
+
+def render_layer_view(layer_index, pressed_idx=None):
+    now_playing_group.hidden = True
+    layer_group.hidden = False
+
+    lyr = layers[layer_index]
+    title_label.text = f"Layer: {lyr.get('name','?')} ({layer_index+1}/{len(layers)})"
+    labels = lyr.get("labels", [])
+    for i in range(9):
+        lbl_text = safe_get(labels, i, "")
+        txt = f"[{(lbl_text[:5]).center(5) if lbl_text else '     '}]"
+        key_labels[i].text = txt
+        key_labels[i].color = 0x00FF00 if i == pressed_idx else 0xFFFFFF
+
+
+def render_now_playing_view():
+    layer_group.hidden = True
+    now_playing_group.hidden = False
+
+    np_title_label.text = "Now Playing (Beta)"
+    np_line_1.text = _truncate(now_playing.get("title", "No track"), 20)
+    np_line_2.text = _truncate(now_playing.get("artist", "Unknown artist"), 20)
+
+    pos = _fmt_seconds(now_playing.get("position", 0))
+    dur = _fmt_seconds(now_playing.get("duration", 0))
+    src = _truncate(now_playing.get("source", ""), 8)
+    np_line_3.text = _truncate(f"{pos}/{dur} {src}".strip(), 20)
 
 def init_ui():
     global key_labels, title_label
+    global layer_group, now_playing_group
+    global np_title_label, np_line_1, np_line_2, np_line_3
     if len(splash):
         splash.pop()
-    group = displayio.Group()
+
+    layer_group = displayio.Group()
     title_label = label.Label(terminalio.FONT, text="", color=0xFFFFFF, x=0, y=4)
-    group.append(title_label)
+    layer_group.append(title_label)
 
     cell_w, cell_h, start_x, start_y = 40, 16, 4, 22
     key_labels = []
@@ -127,8 +209,21 @@ def init_ui():
             y=start_y + (i // 3) * cell_h
         )
         key_labels.append(lbl)
-        group.append(lbl)
-    splash.append(group)
+        layer_group.append(lbl)
+
+    now_playing_group = displayio.Group()
+    np_title_label = label.Label(terminalio.FONT, text="", color=0xFFFFFF, x=0, y=8)
+    np_line_1 = label.Label(terminalio.FONT, text="", color=0xFFFFFF, x=0, y=24)
+    np_line_2 = label.Label(terminalio.FONT, text="", color=0xFFFFFF, x=0, y=38)
+    np_line_3 = label.Label(terminalio.FONT, text="", color=0x00FF00, x=0, y=52)
+    now_playing_group.append(np_title_label)
+    now_playing_group.append(np_line_1)
+    now_playing_group.append(np_line_2)
+    now_playing_group.append(np_line_3)
+    now_playing_group.hidden = True
+
+    splash.append(layer_group)
+    splash.append(now_playing_group)
 
 def safe_get(arr, idx, default=""):
     try:
@@ -137,14 +232,10 @@ def safe_get(arr, idx, default=""):
         return default
 
 def update_ui(layer_index, pressed_idx=None):
-    lyr = layers[layer_index]
-    title_label.text = f"Layer: {lyr.get('name','?')} ({layer_index+1}/{len(layers)})"
-    labels = lyr.get("labels", [])
-    for i in range(9):
-        lbl_text = safe_get(labels, i, "")
-        txt = f"[{(lbl_text[:5]).center(5) if lbl_text else '     '}]"
-        key_labels[i].text = txt
-        key_labels[i].color = 0x00FF00 if i == pressed_idx else 0xFFFFFF
+    if should_show_now_playing():
+        render_now_playing_view()
+    else:
+        render_layer_view(layer_index, pressed_idx=pressed_idx)
 
 # === JSON / Layers loader (per spec) ===
 def normalize_keys_or_labels(arr, target_len):
@@ -320,6 +411,43 @@ def send_macro_sequence(seq):
     except Exception as e:
         print("Macro sequence error:", e)
 
+
+def send_companion_event(event, payload=""):
+    if not companion_connected:
+        return
+    try:
+        if payload:
+            uart.write(f"{event} {payload}\n".encode())
+        else:
+            uart.write(f"{event}\n".encode())
+    except Exception:
+        pass
+
+
+def handle_app_action(action):
+    fallback = app_action_fallback.get(action, "")
+    if fallback and fallback in consumer_map:
+        try:
+            consumer_control.send(consumer_map[fallback])
+        except Exception as e:
+            print("Companion fallback send error:", e)
+
+    send_companion_event("APP_EVENT", action)
+
+
+def set_now_playing(payload):
+    global show_now_playing, last_now_playing_update
+    if not isinstance(payload, dict):
+        raise ValueError("NP_SET payload must be a JSON object")
+
+    now_playing["title"] = str(payload.get("title", ""))
+    now_playing["artist"] = str(payload.get("artist", ""))
+    now_playing["source"] = str(payload.get("source", ""))
+    now_playing["position"] = payload.get("position", 0)
+    now_playing["duration"] = payload.get("duration", 0)
+    last_now_playing_update = time.monotonic()
+    show_now_playing = True
+
 def handle_layer_fn(fn, target, key_index=None, on_press=True):
     """Apply layer switching behavior."""
     global current_layer, default_layer
@@ -393,6 +521,12 @@ def send_key_entry(entry, key_index=None, on_press=True, hold_time=0.05):
                 print("Macro parse error:", e)
         return
 
+    # Companion app actions (optional)
+    if up.startswith("APP_"):
+        if on_press:
+            handle_app_action(up)
+        return
+
     # Combos like CONTROL_C or LEFT_SHIFT_A
     kc_tuple = parse_combo_name(up)
     if kc_tuple:
@@ -415,8 +549,10 @@ def send_key_entry(entry, key_index=None, on_press=True, hold_time=0.05):
 
 # === USB CDC File Handling ===
 def handle_command(cmd):
-    global receiving_file, file, filename
+    global receiving_file, file, filename, companion_connected, show_now_playing
     cmd = cmd.strip()
+    companion_connected = True
+
     if cmd == "LIST":
         uart.write(b"Files:\n")
         for f in os.listdir("/"):
@@ -447,13 +583,29 @@ def handle_command(cmd):
             uart.write(b"<EOF>\n")
         except Exception as e:
             uart.write(f"ERROR: {e}\n".encode())
+    elif cmd.startswith("NP_SET "):
+        try:
+            payload = json.loads(cmd[7:].strip())
+            set_now_playing(payload)
+            update_ui(current_layer)
+            uart.write(b"NP_OK\n")
+        except Exception as e:
+            uart.write(f"ERROR: {e}\n".encode())
+    elif cmd == "NP_CLEAR":
+        show_now_playing = False
+        update_ui(current_layer)
+        uart.write(b"NP_CLEARED\n")
+    elif cmd == "NP_GET":
+        try:
+            uart.write((json.dumps(now_playing) + "\n").encode())
+        except Exception as e:
+            uart.write(f"ERROR: {e}\n".encode())
     elif cmd == "RELOAD":
         load_layers()
         update_ui(current_layer)
         uart.write(b"LAYERS RELOADED\n")
     else:
         uart.write(b"UNKNOWN COMMAND\n")
-
 def process_usb_cdc():
     global cdc_buffer, receiving_file, file, filename
     if receiving_file and uart.in_waiting:
@@ -550,6 +702,9 @@ while True:
 
     if pressed_index is not None and (now - last_press_time) > PRESS_DISPLAY_TIME:
         pressed_index = None
+        update_ui(current_layer)
+
+    if show_now_playing and not should_show_now_playing(now):
         update_ui(current_layer)
 
     time.sleep(0.01)

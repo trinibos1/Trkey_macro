@@ -226,3 +226,89 @@ It supports numeric key tokens (`"1".."0"`) and word aliases (`"ONE".."ZERO"`).
 - If the device returns `UNKNOWN COMMAND`, verify each command is newline-terminated.
 - If upload appears successful but config is unchanged, ensure app waits for `READY` before sending file bytes.
 - If filesystem is unavailable, behavior is session-persistent only (RAM), not power-cycle persistent.
+
+
+### 5) NP_SET <json>
+
+Send now-playing metadata from the optional PC companion app.
+
+**Send**
+
+`NP_SET {"title":"Track","artist":"Artist","position":12,"duration":180,"source":"Spotify"}`
+
+**Reply**
+
+`NP_OK`
+
+Notes:
+- Metadata is in RAM only.
+- OLED switches to a now-playing overlay and auto-hides after inactivity.
+
+### 6) NP_CLEAR
+
+**Send**
+
+`NP_CLEAR`
+
+**Reply**
+
+`NP_CLEARED`
+
+### 7) NP_GET
+
+**Send**
+
+`NP_GET`
+
+**Reply**
+
+single-line JSON of current now-playing state.
+
+### Companion action events
+
+When a key is mapped to an `APP_*` token in `layers.json`, firmware emits:
+
+`APP_EVENT <token>`
+
+Example:
+
+`APP_EVENT APP_PLAY_PAUSE`
+
+These actions are optional companion features. The macropad does not require a companion app for normal HID operation.
+
+
+
+### 8) MODE <name-or-index>
+
+Switch active layer by index or name.
+
+**Examples**
+- `MODE 3`
+- `MODE music`
+
+Name matching is case-insensitive and supports partial match.
+
+**Reply**
+- `MODE LOADED`
+- or `ERROR: MODE NOT FOUND`
+
+### 9) MODE LIST
+
+List available layer names for mode switching.
+
+**Send**
+
+`MODE LIST`
+
+**Reply**
+- `Modes:`
+- `<index>: <layer-name>` per line
+- `<END>`
+
+### PC app
+
+A basic optional PC companion CLI app is included at:
+
+`pc_companion/trkey_music_companion.py`
+
+It supports `music` shortcut (`MODE music`), metadata pushes (`NP_SET`), and prints `APP_EVENT` lines.

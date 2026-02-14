@@ -111,6 +111,34 @@ Documentation:
 
 ---
 
+
+## Companion App (Beta)
+
+This beta feature is implemented in **Arduino firmware** (`arduino/Trkey_macro.ino`) and an optional PC CLI app (`pc_companion/trkey_music_companion.py`).
+
+- The macropad still works fully without the companion app.
+- Companion mode adds now-playing OLED metadata and app events.
+- You can switch to music layer by name with: `MODE music`.
+
+Quick start:
+1. Flash Arduino firmware (`arduino/Trkey_macro.ino`).
+2. Run companion app: `python pc_companion/trkey_music_companion.py --port <PORT>`.
+3. In app CLI, type:
+   - `music` to load the music layer by name.
+   - `np Song|Artist|45|180|Spotify` to update metadata.
+
+Supported companion key tokens (in `layers.json`):
+- `APP_PLAY_PAUSE`
+- `APP_NEXT`
+- `APP_PREV`
+- `APP_MUTE`
+- `APP_VOL_UP`
+- `APP_VOL_DOWN`
+- `APP_SEEK_FWD_10`
+- `APP_SEEK_BACK_10`
+
+`APP_*` keys emit `APP_EVENT <token>` on serial and media actions also fallback to HID media controls.
+
 ## Web-Based Key Mapper
 
 Customize your macropad's key bindings using the **web-based key mapper**:
