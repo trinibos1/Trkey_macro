@@ -146,6 +146,10 @@ void sendEOFMarker() {
   Serial.flush();
 }
 
+bool hidReady() {
+  return usb_hid.ready();
+}
+
 void initKeyMaps() {
   keyMap["A"] = HID_KEY_A; keyMap["B"] = HID_KEY_B; keyMap["C"] = HID_KEY_C;
   keyMap["D"] = HID_KEY_D; keyMap["E"] = HID_KEY_E; keyMap["F"] = HID_KEY_F;
@@ -296,6 +300,9 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 }
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
+  if (!hidReady()) {
+    return;
+  }
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
 }
 
@@ -448,6 +455,9 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   up.toUpperCase();
 
   if (consumerMap.count(up)) {
+    if (!hidReady()) {
+      return;
+    }
     if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     delay(5);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
@@ -751,6 +761,16 @@ void handleCommand(const String& cmdRaw) {
     return;
   }
 
+  if (cmd == "HIDTEST") {
+    if (!hidReady()) {
+      sendLine("HID NOT READY");
+      return;
+    }
+    typeText("TRKEY HID TEST\n");
+    sendLine("HID SENT");
+    return;
+  }
+
   sendLine("UNKNOWN COMMAND");
 }
 
@@ -862,6 +882,8 @@ void setup() {
   usb_hid.setPollInterval(2);
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
+
+  tryInitFilesystem();
 
   tryInitFilesystem();
 
