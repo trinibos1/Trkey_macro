@@ -122,6 +122,7 @@ This beta feature is implemented in **Arduino firmware** (`arduino/Trkey_macro.i
 
 Quick start:
 1. Flash Arduino beta firmware (`arduino/Trkey_macro_Beta.ino`).
+1. Flash Arduino firmware (`arduino/Trkey_macro.ino`).
 2. Run companion app: `python pc_companion/trkey_music_companion.py --port <PORT>`.
 3. In app CLI, type:
    - `music` to load the music layer by name.
