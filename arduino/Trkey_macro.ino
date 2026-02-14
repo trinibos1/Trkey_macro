@@ -883,10 +883,7 @@ void setup() {
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  uint32_t hidWaitStart = millis();
-  while (!hidReady() && (millis() - hidWaitStart < 3000)) {
-    delay(10);
-  }
+  tryInitFilesystem();
 
   tryInitFilesystem();
 
