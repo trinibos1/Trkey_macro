@@ -30,6 +30,8 @@ uint8_t const hidReportDescriptor[] = {
   TUD_HID_REPORT_DESC_KEYBOARD(HID_REPORT_ID(1)),
   TUD_HID_REPORT_DESC_CONSUMER(HID_REPORT_ID(2))
 };
+static constexpr uint8_t KEYBOARD_REPORT_ID = 1;
+static constexpr uint8_t CONSUMER_REPORT_ID = 2;
 
 // ===== Config models =====
 struct MacroDef {
@@ -215,7 +217,7 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 }
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
-  usb_hid.keyboardReport(0, modifiers, keys);
+  usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
 }
 
 void tapKey(uint8_t keycode) {
@@ -345,9 +347,9 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   up.toUpperCase();
 
   if (consumerMap.count(up)) {
-    if (onPress) usb_hid.sendReport16(2, consumerMap[up]);
+    if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     delay(5);
-    usb_hid.sendReport16(2, 0);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
     return;
   }
 
