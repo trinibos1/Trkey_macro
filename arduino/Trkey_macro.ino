@@ -382,18 +382,43 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   if (onPress && keyMap.count(up)) tapKey(keyMap[up]);
 }
 
-void setFallbackLayer() {
+void loadHardcodedSafeLayer() {
   layers.clear();
-  Layer err;
-  err.name = "ERROR";
+  Layer safe;
+  safe.name = "Layer 0";
+
+  const char* defaults[9] = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
   for (int i = 0; i < 9; i++) {
-    err.labels[i] = "ERR";
-    err.keys[i] = "";
+    safe.labels[i] = defaults[i];
+    safe.keys[i] = defaults[i];
   }
-  layers.push_back(err);
+
+  layers.push_back(safe);
   macros.clear();
   currentLayer = 0;
   defaultLayer = 0;
+}
+
+int parseMacroId(JsonObject mo) {
+  if (!mo["id"].isNull()) {
+    int id = mo["id"].as<int>();
+    if (id >= 0) return id;
+  }
+
+  const char* macroName = mo["name"] | "";
+  if (macroName && macroName[0]) {
+    String name = String(macroName);
+    name.trim();
+    name.toUpperCase();
+    if (name.startsWith("MACRO ")) {
+      int parsed = name.substring(6).toInt();
+      if (parsed > 0) {
+        return parsed;
+      }
+    }
+  }
+
+  return -1;
 }
 
 void parseLayerArray(JsonArray arr) {
@@ -418,7 +443,7 @@ void parseLayerArray(JsonArray arr) {
         for (JsonVariant m : mArr) {
           if (!m.is<JsonObject>()) continue;
           JsonObject mo = m.as<JsonObject>();
-          int id = mo["id"].isNull() ? -1 : mo["id"].as<int>();
+          int id = parseMacroId(mo);
           if (id < 0) continue;
           macros[id] = String((const char*)(mo["sequence"] | ""));
         }
@@ -462,7 +487,7 @@ void loadLayers() {
 
   if (!fsReady) {
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -474,7 +499,7 @@ void loadLayers() {
   File f = LittleFS.open("/layers.json", "r");
   if (!f) {
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -484,9 +509,10 @@ void loadLayers() {
   f.close();
 
   if (err || !loadLayersFromJsonDocument(doc)) {
+    Serial.println("layers.json parse failed; loading safe defaults");
     // Keep firmware usable and UI readable even if uploaded JSON is malformed.
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
   }
 }
@@ -685,7 +711,7 @@ void setup() {
   }
 
   if (!fsReady) {
-    setFallbackLayer();
+    loadHardcodedSafeLayer();
   } else {
     writeDefaultLayersFile();
     loadLayers();
