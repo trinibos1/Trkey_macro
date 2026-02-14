@@ -54,6 +54,20 @@ std::map<int, String> macros;
 int currentLayer = 0;
 int defaultLayer = 0;
 
+// ===== Optional companion beta state =====
+struct NowPlayingState {
+  String title;
+  String artist;
+  int positionSec = 0;
+  int durationSec = 0;
+  String source;
+};
+
+NowPlayingState nowPlaying;
+bool showNowPlaying = false;
+uint32_t lastNowPlayingMs = 0;
+static constexpr uint32_t NOW_PLAYING_TIMEOUT_MS = 10000;
+
 // ===== Key state =====
 bool repeatActive[9] = {false};
 uint32_t repeatStart[9] = {0};
@@ -234,8 +248,78 @@ void playBootAnimation() {
   delay(450);
 }
 
+String trimText(const String& in, size_t maxLen) {
+  if (in.length() <= maxLen) return in;
+  if (maxLen == 0) return "";
+  return in.substring(0, maxLen - 1) + "~";
+}
+
+String fmtTimeMmSs(int sec) {
+  if (sec < 0) sec = 0;
+  int m = sec / 60;
+  int s = sec % 60;
+  char buf[10];
+  snprintf(buf, sizeof(buf), "%d:%02d", m, s);
+  return String(buf);
+}
+
+bool shouldShowNowPlaying(uint32_t nowMs) {
+  if (!showNowPlaying) return false;
+  return (nowMs - lastNowPlayingMs) <= NOW_PLAYING_TIMEOUT_MS;
+}
+
+int findLayerIndexByName(const String& queryRaw) {
+  if (layers.empty()) return -1;
+  String query = queryRaw;
+  query.trim();
+  query.toLowerCase();
+  if (!query.length()) return -1;
+
+  for (size_t i = 0; i < layers.size(); i++) {
+    String n = layers[i].name;
+    n.toLowerCase();
+    if (n == query || n.indexOf(query) >= 0) {
+      return static_cast<int>(i);
+    }
+  }
+  return -1;
+}
+
+void drawNowPlayingUI() {
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+
+  display.setCursor(0, 0);
+  display.print("Now Playing (Beta)");
+
+  display.setCursor(0, 16);
+  display.print(trimText(nowPlaying.title.length() ? nowPlaying.title : "No track", 21));
+
+  display.setCursor(0, 28);
+  display.print(trimText(nowPlaying.artist.length() ? nowPlaying.artist : "Unknown artist", 21));
+
+  String line = fmtTimeMmSs(nowPlaying.positionSec) + "/" + fmtTimeMmSs(nowPlaying.durationSec);
+  if (nowPlaying.source.length()) {
+    line += " ";
+    line += trimText(nowPlaying.source, 8);
+  }
+  display.setCursor(0, 44);
+  display.print(trimText(line, 21));
+
+  display.setCursor(0, 56);
+  display.print("MODE:");
+  display.print(trimText(layers[currentLayer].name, 14));
+  display.display();
+}
+
 void drawUI(int layerIdx, int activeIdx = -1) {
   if (layers.empty()) return;
+
+  if (shouldShowNowPlaying(millis())) {
+    drawNowPlayingUI();
+    return;
+  }
 
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
@@ -393,6 +477,48 @@ void handleLayerFn(const String& fn, int target, int keyIndex, bool onPress) {
   drawUI(currentLayer);
 }
 
+void sendCompanionEvent(const String& event, const String& payload = "") {
+  Serial.print(event);
+  if (payload.length()) {
+    Serial.print(" ");
+    Serial.print(payload);
+  }
+  Serial.print("\n");
+  Serial.flush();
+}
+
+
+void handleAppAction(const String& action) {
+  // Fallback to HID media where it makes sense so app is optional.
+  if (action == "APP_PLAY_PAUSE") {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, HID_USAGE_CONSUMER_PLAY_PAUSE);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  } else if (action == "APP_NEXT" && consumerMap.count("SCAN_NEXT_TRACK")) {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap["SCAN_NEXT_TRACK"]);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  } else if (action == "APP_PREV" && consumerMap.count("SCAN_PREVIOUS_TRACK")) {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap["SCAN_PREVIOUS_TRACK"]);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  } else if (action == "APP_MUTE") {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, HID_USAGE_CONSUMER_MUTE);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  } else if (action == "APP_VOL_UP") {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, HID_USAGE_CONSUMER_VOLUME_INCREMENT);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  } else if (action == "APP_VOL_DOWN") {
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, HID_USAGE_CONSUMER_VOLUME_DECREMENT);
+    delay(5);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+  }
+
+  sendCompanionEvent("APP_EVENT", action);
+}
+
 void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   String entry = rawEntry;
   entry.trim();
@@ -420,6 +546,11 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
       int id = up.substring(6).toInt();
       if (macros.count(id)) sendMacroSequence(macros[id]);
     }
+    return;
+  }
+
+  if (up.startsWith("APP_")) {
+    if (onPress) handleAppAction(up);
     return;
   }
 
@@ -703,6 +834,97 @@ void handleCommand(const String& cmdRaw) {
     return;
   }
 
+  if (cmd.startsWith("NP_SET ")) {
+    DynamicJsonDocument npDoc(1024);
+    auto err = deserializeJson(npDoc, cmd.substring(7));
+    if (err || !npDoc.is<JsonObject>()) {
+      sendLine("ERROR: INVALID NP_SET JSON");
+      return;
+    }
+
+    JsonObject obj = npDoc.as<JsonObject>();
+    nowPlaying.title = String((const char*)(obj["title"] | ""));
+    nowPlaying.artist = String((const char*)(obj["artist"] | ""));
+    nowPlaying.source = String((const char*)(obj["source"] | ""));
+    nowPlaying.positionSec = obj["position"] | 0;
+    nowPlaying.durationSec = obj["duration"] | 0;
+    if (nowPlaying.positionSec < 0) nowPlaying.positionSec = 0;
+    if (nowPlaying.durationSec < 0) nowPlaying.durationSec = 0;
+
+    showNowPlaying = true;
+    lastNowPlayingMs = millis();
+    drawUI(currentLayer);
+    sendLine("NP_OK");
+    return;
+  }
+
+  if (cmd == "NP_CLEAR") {
+    showNowPlaying = false;
+    drawUI(currentLayer);
+    sendLine("NP_CLEARED");
+    return;
+  }
+
+  if (cmd == "NP_GET") {
+    StaticJsonDocument<256> out;
+    out["title"] = nowPlaying.title;
+    out["artist"] = nowPlaying.artist;
+    out["source"] = nowPlaying.source;
+    out["position"] = nowPlaying.positionSec;
+    out["duration"] = nowPlaying.durationSec;
+    serializeJson(out, Serial);
+    Serial.print("\n");
+    return;
+  }
+
+  if (cmd == "MODE LIST") {
+    sendLine("Modes:");
+    for (size_t i = 0; i < layers.size(); i++) {
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print(layers[i].name);
+      Serial.print("\n");
+    }
+    sendLine("<END>");
+    return;
+  }
+
+  if (cmd.startsWith("MODE ")) {
+    String arg = cmd.substring(5);
+    arg.trim();
+    if (!arg.length()) {
+      sendLine("ERROR: MODE ARG");
+      return;
+    }
+
+    int idx = -1;
+    bool numeric = true;
+    for (size_t i = 0; i < arg.length(); i++) {
+      if (!isDigit(arg[i])) {
+        numeric = false;
+        break;
+      }
+    }
+
+    if (numeric) {
+      idx = arg.toInt();
+      if (idx >= 1) idx -= 1; // human-friendly mode numbers
+    } else {
+      idx = findLayerIndexByName(arg);
+    }
+
+    if (idx < 0 || idx >= static_cast<int>(layers.size())) {
+      sendLine("ERROR: MODE NOT FOUND");
+      return;
+    }
+
+    currentLayer = idx;
+    showNowPlaying = false;
+    drawUI(currentLayer);
+    sendLine("MODE LOADED");
+    return;
+  }
+
   if (cmd == "RELOAD") {
     loadLayers();
     drawUI(currentLayer);
@@ -893,6 +1115,11 @@ void loop() {
 
   if (pressedIndex >= 0 && now - lastPressMs > PRESS_DISPLAY_MS) {
     pressedIndex = -1;
+    drawUI(currentLayer);
+  }
+
+  if (showNowPlaying && !shouldShowNowPlaying(now)) {
+    showNowPlaying = false;
     drawUI(currentLayer);
   }
 
