@@ -549,7 +549,7 @@ void parseLayerArray(JsonArray arr) {
 }
 
 
-bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
+bool loadLayersFromJsonDocument(JsonDocument& doc) {
   macros.clear();
 
   if (doc.is<JsonArray>()) {
@@ -569,7 +569,7 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
 }
 
 bool loadBuiltinDefaultLayers() {
-  DynamicJsonDocument doc(2048);
+  JsonDocument doc;
   auto err = deserializeJson(doc, defaultLayersJson());
   if (err) {
     return false;
@@ -582,7 +582,7 @@ void loadLayers() {
 
   if (!fsReady) {
     if (ramLayersJsonValid) {
-      DynamicJsonDocument ramDoc(16384);
+      JsonDocument ramDoc;
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
       if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
         return;
@@ -608,7 +608,7 @@ void loadLayers() {
     return;
   }
 
-  DynamicJsonDocument doc(16384);
+  JsonDocument doc;
   auto err = deserializeJson(doc, f);
   f.close();
 
@@ -717,6 +717,12 @@ void handleCommand(const String& cmdRaw) {
 
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
+      if (!putFile) {
+        fsReady = false;
+        if (tryInitFilesystem()) {
+          putFile = LittleFS.open(putFilename, "w");
+        }
+      }
     }
 
     if (!putFile) {
@@ -761,6 +767,7 @@ void processSerial() {
 
       if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
         if (putFile) {
+          putFile.flush();
           putFile.close();
         }
         if (uploadToRam && putFilename == "/layers.json") {
