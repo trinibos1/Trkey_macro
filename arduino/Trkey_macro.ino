@@ -731,7 +731,23 @@ void processSerial() {
 }
 
 
+void configureUsbIdentity() {
+  USBDevice.setManufacturerDescriptor(USB_MANUFACTURER_NAME);
+  USBDevice.setProductDescriptor(USB_PRODUCT_NAME);
+  USBDevice.setSerialDescriptor(USB_SERIAL_NAME);
+}
+
+struct UsbIdentityPreInit {
+  UsbIdentityPreInit() {
+    configureUsbIdentity();
+  }
+};
+
+UsbIdentityPreInit usbIdentityPreInit;
+
 void setup() {
+  // Re-apply in setup as some cores rebuild descriptors during early init.
+  configureUsbIdentity();
   Serial.begin(115200);
 
   initKeyMaps();
