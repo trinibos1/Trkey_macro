@@ -396,6 +396,28 @@ void setFallbackLayer() {
   defaultLayer = 0;
 }
 
+int parseMacroId(JsonObject mo) {
+  if (!mo["id"].isNull()) {
+    int id = mo["id"].as<int>();
+    if (id >= 0) return id;
+  }
+
+  const char* macroName = mo["name"] | "";
+  if (macroName && macroName[0]) {
+    String name = String(macroName);
+    name.trim();
+    name.toUpperCase();
+    if (name.startsWith("MACRO ")) {
+      int parsed = name.substring(6).toInt();
+      if (parsed > 0) {
+        return parsed;
+      }
+    }
+  }
+
+  return -1;
+}
+
 void parseLayerArray(JsonArray arr) {
   layers.clear();
   for (JsonVariant v : arr) {
@@ -418,7 +440,7 @@ void parseLayerArray(JsonArray arr) {
         for (JsonVariant m : mArr) {
           if (!m.is<JsonObject>()) continue;
           JsonObject mo = m.as<JsonObject>();
-          int id = mo["id"].isNull() ? -1 : mo["id"].as<int>();
+          int id = parseMacroId(mo);
           if (id < 0) continue;
           macros[id] = String((const char*)(mo["sequence"] | ""));
         }
