@@ -382,15 +382,18 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   if (onPress && keyMap.count(up)) tapKey(keyMap[up]);
 }
 
-void setFallbackLayer() {
+void loadHardcodedSafeLayer() {
   layers.clear();
-  Layer err;
-  err.name = "ERROR";
+  Layer safe;
+  safe.name = "Layer 0";
+
+  const char* defaults[9] = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
   for (int i = 0; i < 9; i++) {
-    err.labels[i] = "ERR";
-    err.keys[i] = "";
+    safe.labels[i] = defaults[i];
+    safe.keys[i] = defaults[i];
   }
-  layers.push_back(err);
+
+  layers.push_back(safe);
   macros.clear();
   currentLayer = 0;
   defaultLayer = 0;
@@ -484,7 +487,7 @@ void loadLayers() {
 
   if (!fsReady) {
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -496,7 +499,7 @@ void loadLayers() {
   File f = LittleFS.open("/layers.json", "r");
   if (!f) {
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -506,9 +509,10 @@ void loadLayers() {
   f.close();
 
   if (err || !loadLayersFromJsonDocument(doc)) {
+    Serial.println("layers.json parse failed; loading safe defaults");
     // Keep firmware usable and UI readable even if uploaded JSON is malformed.
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
   }
 }
@@ -707,7 +711,7 @@ void setup() {
   }
 
   if (!fsReady) {
-    setFallbackLayer();
+    loadHardcodedSafeLayer();
   } else {
     writeDefaultLayersFile();
     loadLayers();
