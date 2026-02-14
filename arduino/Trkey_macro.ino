@@ -37,6 +37,9 @@ static constexpr const char* USB_MANUFACTURER_NAME = "Trkey";
 static constexpr const char* USB_PRODUCT_NAME = "Trkey";
 static constexpr const char* USB_SERIAL_NAME = "TRKEY";
 
+uint32_t hidSendAttempts = 0;
+uint32_t hidSendFailures = 0;
+
 // ===== Config models =====
 struct MacroDef {
   int id = -1;
