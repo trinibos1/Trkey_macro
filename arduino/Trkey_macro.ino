@@ -73,6 +73,10 @@ uint8_t eofWindow[5] = {0};
 uint8_t eofWindowLen = 0;
 bool fsReady = false;
 bool discardingUpload = false;
+bool uploadToRam = false;
+String putBuffer;
+String ramLayersJson;
+bool ramLayersJsonValid = false;
 
 // ===== HID maps =====
 std::map<String, uint8_t> keyMap;
@@ -488,6 +492,15 @@ void loadLayers() {
   macros.clear();
 
   if (!fsReady) {
+    if (ramLayersJsonValid) {
+      DynamicJsonDocument ramDoc(16384);
+      auto ramErr = deserializeJson(ramDoc, ramLayersJson);
+      if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
+        return;
+      }
+      Serial.println("RAM layers.json parse failed; loading safe defaults");
+    }
+
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
     }
@@ -524,6 +537,11 @@ void handleCommand(const String& cmdRaw) {
   cmd.trim();
 
   if (discardingUpload) {
+    return;
+  }
+
+  if (cmd == "<EOF>") {
+    // Ignore stray EOF markers received outside PUT mode.
     return;
   }
 
@@ -564,7 +582,11 @@ void handleCommand(const String& cmdRaw) {
 
     if (!fsReady) {
       if (fn == "/layers.json") {
-        Serial.print(defaultLayersJson());
+        if (ramLayersJsonValid) {
+          Serial.print(ramLayersJson);
+        } else {
+          Serial.print(defaultLayersJson());
+        }
       }
       sendEOFMarker();
       return;
@@ -596,17 +618,27 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd.startsWith("PUT ")) {
     putFilename = normalizePathArg(cmd.substring(4));
+    putBuffer = "";
+    uploadToRam = false;
+    discardingUpload = false;
+
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
     }
+
     if (!putFile) {
-      // Stay protocol-compatible: accept upload stream and discard it, then ACK.
-      discardingUpload = true;
+      if (!fsReady && putFilename == "/layers.json") {
+        uploadToRam = true;
+      } else {
+        // Stay protocol-compatible: accept upload stream and discard it, then ACK.
+        discardingUpload = true;
+      }
       receivingFile = true;
       eofWindowLen = 0;
       sendLine("READY");
       return;
     }
+
     receivingFile = true;
     eofWindowLen = 0;
     sendLine("READY");
@@ -638,6 +670,13 @@ void processSerial() {
         if (putFile) {
           putFile.close();
         }
+        if (uploadToRam && putFilename == "/layers.json") {
+          ramLayersJson = putBuffer;
+          ramLayersJsonValid = true;
+          putBuffer = "";
+          uploadToRam = false;
+        }
+
         receivingFile = false;
         eofWindowLen = 0;
 
@@ -657,6 +696,8 @@ void processSerial() {
       // Not EOF marker: write oldest byte, keep last 4 for boundary matching.
       if (putFile) {
         putFile.write(eofWindow[0]);
+      } else if (uploadToRam) {
+        putBuffer += static_cast<char>(eofWindow[0]);
       }
       for (uint8_t i = 1; i < 5; i++) {
         eofWindow[i - 1] = eofWindow[i];
