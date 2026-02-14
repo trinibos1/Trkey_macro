@@ -136,6 +136,12 @@ void initKeyMaps() {
   keyMap["V"] = HID_KEY_V; keyMap["W"] = HID_KEY_W; keyMap["X"] = HID_KEY_X;
   keyMap["Y"] = HID_KEY_Y; keyMap["Z"] = HID_KEY_Z;
 
+  keyMap["1"] = HID_KEY_1; keyMap["2"] = HID_KEY_2; keyMap["3"] = HID_KEY_3;
+  keyMap["4"] = HID_KEY_4; keyMap["5"] = HID_KEY_5; keyMap["6"] = HID_KEY_6;
+  keyMap["7"] = HID_KEY_7; keyMap["8"] = HID_KEY_8; keyMap["9"] = HID_KEY_9;
+  keyMap["0"] = HID_KEY_0;
+
+  // Backward-compatible aliases used by older configs.
   keyMap["ONE"] = HID_KEY_1; keyMap["TWO"] = HID_KEY_2; keyMap["THREE"] = HID_KEY_3;
   keyMap["FOUR"] = HID_KEY_4; keyMap["FIVE"] = HID_KEY_5; keyMap["SIX"] = HID_KEY_6;
   keyMap["SEVEN"] = HID_KEY_7; keyMap["EIGHT"] = HID_KEY_8; keyMap["NINE"] = HID_KEY_9;
