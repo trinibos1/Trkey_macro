@@ -77,6 +77,10 @@ RP2040 TinyUSB note (important):
 - Prefer the TinyUSB bundled with the RP2040 core (`Adafruit_TinyUSB_Arduino`).
 - If you installed `Documents/Arduino/libraries/Adafruit_TinyUSB_Library`, remove it to avoid library conflicts.
 
+Documentation:
+- `WEBSERIAL_CONNECTION.md` — USB CDC/WebSerial command flow, upload handshake, persistence behavior, and troubleshooting.
+- `layers.json` in repo root — example keymap/profile format used by firmware and mapper.
+
 ---
 
 ## Usage
