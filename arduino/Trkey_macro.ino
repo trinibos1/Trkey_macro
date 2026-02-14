@@ -304,6 +304,9 @@ void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
     return;
   }
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
+  if (KEYBOARD_REPORT_ID != 0) {
+    usb_hid.keyboardReport(0, modifiers, keys);
+  }
 }
 
 void tapKey(uint8_t keycode) {
