@@ -52,6 +52,31 @@ PCB
 
 **Key Features:** Tap/Hold, Layers, Media keys
 
+### Arduino IDE firmware (C/C++)
+
+If you want to move from CircuitPython to Arduino IDE, use `arduino/Trkey_macro.ino`.
+
+This sketch keeps the same behavior as `code.py`:
+- 3x3 key scanning with debounce + key repeat
+- Layer functions: `MO(x)`, `TO(x)`, `TT(x)`, `DF(x)`
+- Media keys + keyboard combos + text macros (`MACRO_n`)
+- OLED layer/key UI (with highlighted key and boxed grid)
+- Serial command protocol for `LIST`, `GET`, `PUT`, `DEL`, `RELOAD`
+
+Required Arduino libraries:
+- Adafruit SSD1306
+- Adafruit GFX Library
+- TinyUSB from the RP2040 board core (`Adafruit_TinyUSB_Arduino`)
+- ArduinoJson
+- LittleFS (included with RP2040 core)
+
+Recommended board core: **Raspberry Pi Pico/RP2040** (Earle Philhower core).
+
+RP2040 TinyUSB note (important):
+- Do **not** call `tusb_init()` in your sketch (the RP2040 Arduino core already initializes TinyUSB).
+- Prefer the TinyUSB bundled with the RP2040 core (`Adafruit_TinyUSB_Arduino`).
+- If you installed `Documents/Arduino/libraries/Adafruit_TinyUSB_Library`, remove it to avoid library conflicts.
+
 ---
 
 ## Usage
