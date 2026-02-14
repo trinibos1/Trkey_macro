@@ -46,9 +46,15 @@ mo_prev_layer = [0] * 9
 mo_target_for_key = [None] * 9  # if this key is MO(x), store x
 
 # === USB CDC State ===
-uart = usb_cdc.console
+try:
+    uart = usb_cdc.data if usb_cdc.data is not None else usb_cdc.console
+except Exception:
+    uart = usb_cdc.console
+
 cdc_buffer = b""
 receiving_file = False
+discarding_upload = False
+upload_buffer = b""
 file = None
 filename = ""
 
@@ -160,11 +166,18 @@ def normalize_keys_or_labels(arr, target_len):
 def load_layers():
     global layers, grid_size, physical_layout, macros, default_layer, current_layer
     try:
+        if "layers.json" not in os.listdir("/"):
+            # Keep device usable on first boot.
+            with open("/layers.json", "w") as f:
+                f.write('{"grid_size":3,"layers":[{"name":"Layer 0","labels":["A","B","C","D","E","F","G","H","I"],"keys":["A","B","C","D","E","F","G","H","I"],"macros":[]}]}')
+
         with open("layers.json", "r") as f:
             data = json.load(f)
 
+        if isinstance(data, list):
+            data = {"grid_size": 3, "layers": data}
         if not isinstance(data, dict) or "layers" not in data:
-            raise ValueError("layers.json must be an object with a 'layers' array")
+            raise ValueError("layers.json must be an object with a 'layers' array (or a legacy array)")
 
         grid_size_in = data.get("grid_size", 3)
         # We keep hardware as 3x3, but use grid_size to validate/pad data
@@ -415,7 +428,7 @@ def send_key_entry(entry, key_index=None, on_press=True, hold_time=0.05):
 
 # === USB CDC File Handling ===
 def handle_command(cmd):
-    global receiving_file, file, filename
+    global receiving_file, discarding_upload, upload_buffer, file, filename
     cmd = cmd.strip()
     if cmd == "LIST":
         uart.write(b"Files:\n")
@@ -429,13 +442,17 @@ def handle_command(cmd):
         except Exception as e:
             uart.write(f"ERROR: {e}\n".encode())
     elif cmd.startswith("PUT "):
+        filename = cmd[4:].strip()
+        receiving_file = True
+        discarding_upload = False
+        upload_buffer = b""
         try:
-            filename = cmd[4:].strip()
             file = open("/" + filename, "wb")
-            receiving_file = True
-            uart.write(b"READY\n")
-        except Exception as e:
-            uart.write(f"ERROR: {e}\n".encode())
+        except Exception:
+            # Keep protocol compatible with clients that always expect READY.
+            file = None
+            discarding_upload = True
+        uart.write(b"READY\n")
     elif cmd.startswith("GET "):
         try:
             with open("/" + cmd[4:].strip(), "rb") as f:
@@ -455,17 +472,30 @@ def handle_command(cmd):
         uart.write(b"UNKNOWN COMMAND\n")
 
 def process_usb_cdc():
-    global cdc_buffer, receiving_file, file, filename
+    global cdc_buffer, receiving_file, discarding_upload, upload_buffer, file, filename
     if receiving_file and uart.in_waiting:
         data = uart.read(uart.in_waiting)
-        if b"<EOF>" in data:
-            parts = data.split(b"<EOF>")
+        if not data:
+            return
+
+        upload_buffer += data
+        marker = b"<EOF>"
+        idx = upload_buffer.find(marker)
+
+        if idx != -1:
+            payload = upload_buffer[:idx]
+            tail = upload_buffer[idx + len(marker):]
+            if file and payload:
+                file.write(payload)
             if file:
-                file.write(parts[0])
                 file.close()
                 file = None
+
             receiving_file = False
+            discarding_upload = False
+            upload_buffer = b""
             uart.write(b"FILE RECEIVED\n")
+
             if filename.strip() == "layers.json":
                 try:
                     load_layers()
@@ -473,10 +503,15 @@ def process_usb_cdc():
                     uart.write(b"LAYERS RELOADED\n")
                 except Exception as e:
                     uart.write(f"ERROR reloading layers: {e}\n".encode())
-            cdc_buffer = parts[1] if len(parts) > 1 else b""
+
+            cdc_buffer = tail
         else:
-            if file:
-                file.write(data)
+            # Keep 4 bytes in case EOF marker is split across USB packets.
+            if len(upload_buffer) > 4:
+                chunk = upload_buffer[:-4]
+                if file and chunk:
+                    file.write(chunk)
+                upload_buffer = upload_buffer[-4:]
         return
 
     if uart.in_waiting:
