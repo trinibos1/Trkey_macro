@@ -1,1 +1,29 @@
-[{"name":"Layer 0","labels":["A","B","C","D","E","F","G","H","I"],"keys":["A","B","C","D","E","F","G","H","I"],"macros":[{"name":"Macro 1","sequence":"Hello World!"},{"name":"Macro 2","sequence":"John Doe\nSoftware Engineer"}]},{"name":"Layer 1","labels":["1","2","3","4","5","6","7","8","9"],"keys":["ONE","TWO","THREE","FOUR","FIVE","SIX","SEVEN","EIGHT","NINE"]},{"name":"Layer 2","labels":["Vol+","Mute","Vol-","-Trk","P&P","+Trk","","",""],"keys":["VOLUME_INCREMENT","MUTE","VOLUME_DECREMENT","SCAN_PREVIOUS_TRACK","PLAY_PAUSE","SCAN_NEXT_TRACK","","",""]},{"name":"Layer 3","labels":["App Switch","Desktop","Fullscreen","","","","","",""],"keys":["ALT_TAB","GUI_D","ALT_ENTER","","","","","",""]}]
+{
+  "grid_size": 3,
+  "layers": [
+    {
+      "name": "Layer 0",
+      "labels": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
+      "keys": ["A", "B", "C", "D", "E", "F", "G", "H", "I"],
+      "macros": [
+        {"id": 1, "name": "Macro 1", "sequence": "Hello World!"},
+        {"id": 2, "name": "Macro 2", "sequence": "John Doe\nSoftware Engineer"}
+      ]
+    },
+    {
+      "name": "Layer 1",
+      "labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+      "keys": ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT", "NINE"]
+    },
+    {
+      "name": "Layer 2",
+      "labels": ["Vol+", "Mute", "Vol-", "-Trk", "P&P", "+Trk", "", "", ""],
+      "keys": ["VOLUME_INCREMENT", "MUTE", "VOLUME_DECREMENT", "SCAN_PREVIOUS_TRACK", "PLAY_PAUSE", "SCAN_NEXT_TRACK", "", "", ""]
+    },
+    {
+      "name": "Layer 3",
+      "labels": ["App Switch", "Desktop", "Fullscreen", "", "", "", "", "", ""],
+      "keys": ["ALT_TAB", "GUI_D", "ALT_ENTER", "", "", "", "", "", ""]
+    }
+  ]
+}
