@@ -13,6 +13,18 @@ This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, r
 * UF2 file is old but code is up to date
 * V2 trkey macropad has started development
 ---
+## Changelog / Update Log
+
+- **2026-02-14**
+  - Added startup boot animation to main Arduino sketch (`arduino/Trkey_macro.ino`) with 3x3 box reveal, `TRKEY` splash, and version text.
+  - Added dedicated WebSerial + USB connection guide (`WEBSERIAL_CONNECTION.md`).
+  - Improved Arduino firmware compatibility and robustness:
+    - HID report ID fixes for keyboard/media reports.
+    - Numeric key token support (`"1".."0"`) plus legacy aliases (`"ONE".."ZERO"`).
+    - RAM-backed `layers.json` handling when LittleFS is unavailable.
+    - Safer JSON fallback behavior and macro ID parsing improvements.
+    - USB descriptor naming updates for Trkey product/manufacturer.
+
 ## Features
 
 * 3×3 Cherry MX Brown Hyperglide 45g tactile mechanical key matrix
@@ -56,6 +68,10 @@ PCB
 
 If you want to move from CircuitPython to Arduino IDE, use `arduino/Trkey_macro.ino`.
 
+Startup animation is now included in the main sketch (`arduino/Trkey_macro.ino`).
+
+For beta experiments, you can still use `arduino/Trkey_macro_Beta.ino` (also provided as `arduino/Trkey_macro Beta.ino`).
+
 This sketch keeps the same behavior as `code.py`:
 - 3x3 key scanning with debounce + key repeat
 - Layer functions: `MO(x)`, `TO(x)`, `TT(x)`, `DF(x)`
@@ -76,6 +92,10 @@ RP2040 TinyUSB note (important):
 - Do **not** call `tusb_init()` in your sketch (the RP2040 Arduino core already initializes TinyUSB).
 - Prefer the TinyUSB bundled with the RP2040 core (`Adafruit_TinyUSB_Arduino`).
 - If you installed `Documents/Arduino/libraries/Adafruit_TinyUSB_Library`, remove it to avoid library conflicts.
+
+Documentation:
+- `WEBSERIAL_CONNECTION.md` — USB CDC/WebSerial command flow, upload handshake, persistence behavior, and troubleshooting.
+- `layers.json` in repo root — example keymap/profile format used by firmware and mapper.
 
 ---
 
