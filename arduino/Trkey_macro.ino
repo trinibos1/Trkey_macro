@@ -32,6 +32,9 @@ uint8_t const hidReportDescriptor[] = {
 };
 static constexpr uint8_t KEYBOARD_REPORT_ID = 1;
 static constexpr uint8_t CONSUMER_REPORT_ID = 2;
+static constexpr const char* USB_MANUFACTURER_NAME = "Trkey";
+static constexpr const char* USB_PRODUCT_NAME = "Trkey";
+static constexpr const char* USB_SERIAL_NAME = "TRKEY";
 
 // ===== Config models =====
 struct MacroDef {
