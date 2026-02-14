@@ -37,6 +37,9 @@ static constexpr const char* USB_MANUFACTURER_NAME = "Trkey";
 static constexpr const char* USB_PRODUCT_NAME = "Trkey";
 static constexpr const char* USB_SERIAL_NAME = "TRKEY";
 
+uint32_t hidSendAttempts = 0;
+uint32_t hidSendFailures = 0;
+
 // ===== Config models =====
 struct MacroDef {
   int id = -1;
@@ -86,6 +89,23 @@ bool ramLayersJsonValid = false;
 std::map<String, uint8_t> keyMap;
 std::map<String, uint16_t> consumerMap;
 
+int parseMacroId(JsonObject mo);
+
+bool tryInitFilesystem() {
+  if (fsReady) {
+    return true;
+  }
+
+  if (LittleFS.begin()) {
+    fsReady = true;
+    return true;
+  }
+
+  LittleFS.format();
+  fsReady = LittleFS.begin();
+  return fsReady;
+}
+
 String normalizePathArg(const String& rawArg) {
   String f = rawArg;
   f.trim();
@@ -128,6 +148,7 @@ void sendEOFMarker() {
   Serial.write(reinterpret_cast<const uint8_t*>("<EOF>\n"), 6);
   Serial.flush();
 }
+
 
 void initKeyMaps() {
   keyMap["A"] = HID_KEY_A; keyMap["B"] = HID_KEY_B; keyMap["C"] = HID_KEY_C;
@@ -279,7 +300,21 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 }
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
-  usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
+  hid_keyboard_report_t report;
+  report.modifier = modifiers;
+  report.reserved = 0;
+  for (uint8_t i = 0; i < 6; i++) {
+    report.keycode[i] = keys[i];
+  }
+
+  hidSendAttempts++;
+  bool sent = usb_hid.sendReport(KEYBOARD_REPORT_ID, &report, sizeof(report));
+  if (!sent && KEYBOARD_REPORT_ID != 0) {
+    sent = usb_hid.sendReport(0, &report, sizeof(report));
+  }
+  if (!sent) {
+    hidSendFailures++;
+  }
 }
 
 void tapKey(uint8_t keycode) {
@@ -315,8 +350,30 @@ void typeText(const String& text) {
     }
     else if (c == ' ') tapKey(HID_KEY_SPACE);
     else if (c == '\n') tapKey(HID_KEY_ENTER);
-    else if (c >= '0' && c <= '9') tapKey(HID_KEY_0 + (c - '0'));
+    else if (c >= '1' && c <= '9') tapKey(HID_KEY_1 + (c - '1'));
+    else if (c == '0') tapKey(HID_KEY_0);
+    else if (c == '!') {
+      uint8_t keys[6] = {HID_KEY_1, 0, 0, 0, 0, 0};
+      sendKeyboardReport(KEYBOARD_MODIFIER_LEFTSHIFT, keys);
+      delay(50);
+      uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
+      sendKeyboardReport(0, empty);
+    }
     delay(5);
+  }
+}
+
+void parseMacros(JsonArray mArr) {
+  if (mArr.isNull()) {
+    return;
+  }
+
+  for (JsonVariant m : mArr) {
+    if (!m.is<JsonObject>()) continue;
+    JsonObject mo = m.as<JsonObject>();
+    int id = parseMacroId(mo);
+    if (id < 0) continue;
+    macros[id] = String((const char*)(mo["sequence"] | ""));
   }
 }
 
@@ -502,16 +559,7 @@ void parseLayerArray(JsonArray arr) {
     }
 
     if (layers.empty()) {
-      JsonArray mArr = obj["macros"].as<JsonArray>();
-      if (!mArr.isNull()) {
-        for (JsonVariant m : mArr) {
-          if (!m.is<JsonObject>()) continue;
-          JsonObject mo = m.as<JsonObject>();
-          int id = parseMacroId(mo);
-          if (id < 0) continue;
-          macros[id] = String((const char*)(mo["sequence"] | ""));
-        }
-      }
+      parseMacros(obj["macros"].as<JsonArray>());
     }
 
     layers.push_back(l);
@@ -519,12 +567,13 @@ void parseLayerArray(JsonArray arr) {
 }
 
 
-bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
+bool loadLayersFromJsonDocument(JsonDocument& doc) {
   macros.clear();
 
   if (doc.is<JsonArray>()) {
     parseLayerArray(doc.as<JsonArray>());
   } else if (doc.is<JsonObject>() && doc["layers"].is<JsonArray>()) {
+    parseMacros(doc["macros"].as<JsonArray>());
     parseLayerArray(doc["layers"].as<JsonArray>());
   }
 
@@ -538,7 +587,7 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
 }
 
 bool loadBuiltinDefaultLayers() {
-  DynamicJsonDocument doc(2048);
+  JsonDocument doc;
   auto err = deserializeJson(doc, defaultLayersJson());
   if (err) {
     return false;
@@ -551,7 +600,7 @@ void loadLayers() {
 
   if (!fsReady) {
     if (ramLayersJsonValid) {
-      DynamicJsonDocument ramDoc(16384);
+      JsonDocument ramDoc;
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
       if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
         return;
@@ -577,7 +626,7 @@ void loadLayers() {
     return;
   }
 
-  DynamicJsonDocument doc(16384);
+  JsonDocument doc;
   auto err = deserializeJson(doc, f);
   f.close();
 
@@ -593,6 +642,10 @@ void loadLayers() {
 void handleCommand(const String& cmdRaw) {
   String cmd = cmdRaw;
   cmd.trim();
+
+  if (!fsReady) {
+    tryInitFilesystem();
+  }
 
   if (discardingUpload) {
     return;
@@ -682,6 +735,12 @@ void handleCommand(const String& cmdRaw) {
 
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
+      if (!putFile) {
+        fsReady = false;
+        if (tryInitFilesystem()) {
+          putFile = LittleFS.open(putFilename, "w");
+        }
+      }
     }
 
     if (!putFile) {
@@ -710,6 +769,29 @@ void handleCommand(const String& cmdRaw) {
     return;
   }
 
+  if (cmd == "HIDTEST") {
+    typeText("TRKEY HID TEST\n");
+    sendLine("HID TEST SENT");
+    return;
+  }
+
+  if (cmd.startsWith("TYPE ")) {
+    typeText(cmd.substring(5));
+    sendLine("TYPE SENT");
+    return;
+  }
+
+  if (cmd == "HIDINFO") {
+    Serial.print(usb_hid.ready() ? "HID READY" : "HID NOT READY");
+    Serial.print(" attempts=");
+    Serial.print(hidSendAttempts);
+    Serial.print(" failures=");
+    Serial.print(hidSendFailures);
+    Serial.print("\n");
+    Serial.flush();
+    return;
+  }
+
   sendLine("UNKNOWN COMMAND");
 }
 
@@ -726,6 +808,7 @@ void processSerial() {
 
       if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
         if (putFile) {
+          putFile.flush();
           putFile.close();
         }
         if (uploadToRam && putFilename == "/layers.json") {
@@ -821,12 +904,7 @@ void setup() {
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  if (!LittleFS.begin()) {
-    LittleFS.format();
-    fsReady = LittleFS.begin();
-  } else {
-    fsReady = true;
-  }
+  tryInitFilesystem();
 
   if (!fsReady) {
     loadHardcodedSafeLayer();
