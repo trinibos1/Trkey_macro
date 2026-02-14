@@ -30,6 +30,8 @@ uint8_t const hidReportDescriptor[] = {
   TUD_HID_REPORT_DESC_KEYBOARD(HID_REPORT_ID(1)),
   TUD_HID_REPORT_DESC_CONSUMER(HID_REPORT_ID(2))
 };
+static constexpr uint8_t KEYBOARD_REPORT_ID = 1;
+static constexpr uint8_t CONSUMER_REPORT_ID = 2;
 
 // ===== Config models =====
 struct MacroDef {
@@ -71,6 +73,10 @@ uint8_t eofWindow[5] = {0};
 uint8_t eofWindowLen = 0;
 bool fsReady = false;
 bool discardingUpload = false;
+bool uploadToRam = false;
+String putBuffer;
+String ramLayersJson;
+bool ramLayersJsonValid = false;
 
 // ===== HID maps =====
 std::map<String, uint8_t> keyMap;
@@ -215,7 +221,7 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 }
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
-  usb_hid.keyboardReport(0, modifiers, keys);
+  usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
 }
 
 void tapKey(uint8_t keycode) {
@@ -345,9 +351,9 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   up.toUpperCase();
 
   if (consumerMap.count(up)) {
-    if (onPress) usb_hid.sendReport16(2, consumerMap[up]);
+    if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     delay(5);
-    usb_hid.sendReport16(2, 0);
+    usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
     return;
   }
 
@@ -382,18 +388,43 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   if (onPress && keyMap.count(up)) tapKey(keyMap[up]);
 }
 
-void setFallbackLayer() {
+void loadHardcodedSafeLayer() {
   layers.clear();
-  Layer err;
-  err.name = "ERROR";
+  Layer safe;
+  safe.name = "Layer 0";
+
+  const char* defaults[9] = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
   for (int i = 0; i < 9; i++) {
-    err.labels[i] = "ERR";
-    err.keys[i] = "";
+    safe.labels[i] = defaults[i];
+    safe.keys[i] = defaults[i];
   }
-  layers.push_back(err);
+
+  layers.push_back(safe);
   macros.clear();
   currentLayer = 0;
   defaultLayer = 0;
+}
+
+int parseMacroId(JsonObject mo) {
+  if (!mo["id"].isNull()) {
+    int id = mo["id"].as<int>();
+    if (id >= 0) return id;
+  }
+
+  const char* macroName = mo["name"] | "";
+  if (macroName && macroName[0]) {
+    String name = String(macroName);
+    name.trim();
+    name.toUpperCase();
+    if (name.startsWith("MACRO ")) {
+      int parsed = name.substring(6).toInt();
+      if (parsed > 0) {
+        return parsed;
+      }
+    }
+  }
+
+  return -1;
 }
 
 void parseLayerArray(JsonArray arr) {
@@ -418,7 +449,7 @@ void parseLayerArray(JsonArray arr) {
         for (JsonVariant m : mArr) {
           if (!m.is<JsonObject>()) continue;
           JsonObject mo = m.as<JsonObject>();
-          int id = mo["id"].isNull() ? -1 : mo["id"].as<int>();
+          int id = parseMacroId(mo);
           if (id < 0) continue;
           macros[id] = String((const char*)(mo["sequence"] | ""));
         }
@@ -461,8 +492,17 @@ void loadLayers() {
   macros.clear();
 
   if (!fsReady) {
+    if (ramLayersJsonValid) {
+      DynamicJsonDocument ramDoc(16384);
+      auto ramErr = deserializeJson(ramDoc, ramLayersJson);
+      if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
+        return;
+      }
+      Serial.println("RAM layers.json parse failed; loading safe defaults");
+    }
+
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -474,7 +514,7 @@ void loadLayers() {
   File f = LittleFS.open("/layers.json", "r");
   if (!f) {
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
     return;
   }
@@ -484,9 +524,10 @@ void loadLayers() {
   f.close();
 
   if (err || !loadLayersFromJsonDocument(doc)) {
+    Serial.println("layers.json parse failed; loading safe defaults");
     // Keep firmware usable and UI readable even if uploaded JSON is malformed.
     if (!loadBuiltinDefaultLayers()) {
-      setFallbackLayer();
+      loadHardcodedSafeLayer();
     }
   }
 }
@@ -496,6 +537,11 @@ void handleCommand(const String& cmdRaw) {
   cmd.trim();
 
   if (discardingUpload) {
+    return;
+  }
+
+  if (cmd == "<EOF>") {
+    // Ignore stray EOF markers received outside PUT mode.
     return;
   }
 
@@ -536,7 +582,11 @@ void handleCommand(const String& cmdRaw) {
 
     if (!fsReady) {
       if (fn == "/layers.json") {
-        Serial.print(defaultLayersJson());
+        if (ramLayersJsonValid) {
+          Serial.print(ramLayersJson);
+        } else {
+          Serial.print(defaultLayersJson());
+        }
       }
       sendEOFMarker();
       return;
@@ -568,17 +618,27 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd.startsWith("PUT ")) {
     putFilename = normalizePathArg(cmd.substring(4));
+    putBuffer = "";
+    uploadToRam = false;
+    discardingUpload = false;
+
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
     }
+
     if (!putFile) {
-      // Stay protocol-compatible: accept upload stream and discard it, then ACK.
-      discardingUpload = true;
+      if (!fsReady && putFilename == "/layers.json") {
+        uploadToRam = true;
+      } else {
+        // Stay protocol-compatible: accept upload stream and discard it, then ACK.
+        discardingUpload = true;
+      }
       receivingFile = true;
       eofWindowLen = 0;
       sendLine("READY");
       return;
     }
+
     receivingFile = true;
     eofWindowLen = 0;
     sendLine("READY");
@@ -610,6 +670,13 @@ void processSerial() {
         if (putFile) {
           putFile.close();
         }
+        if (uploadToRam && putFilename == "/layers.json") {
+          ramLayersJson = putBuffer;
+          ramLayersJsonValid = true;
+          putBuffer = "";
+          uploadToRam = false;
+        }
+
         receivingFile = false;
         eofWindowLen = 0;
 
@@ -629,6 +696,8 @@ void processSerial() {
       // Not EOF marker: write oldest byte, keep last 4 for boundary matching.
       if (putFile) {
         putFile.write(eofWindow[0]);
+      } else if (uploadToRam) {
+        putBuffer += static_cast<char>(eofWindow[0]);
       }
       for (uint8_t i = 1; i < 5; i++) {
         eofWindow[i - 1] = eofWindow[i];
@@ -685,7 +754,7 @@ void setup() {
   }
 
   if (!fsReady) {
-    setFallbackLayer();
+    loadHardcodedSafeLayer();
   } else {
     writeDefaultLayersFile();
     loadLayers();
