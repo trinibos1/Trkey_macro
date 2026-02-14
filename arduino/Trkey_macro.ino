@@ -86,6 +86,23 @@ bool ramLayersJsonValid = false;
 std::map<String, uint8_t> keyMap;
 std::map<String, uint16_t> consumerMap;
 
+int parseMacroId(JsonObject mo);
+
+bool tryInitFilesystem() {
+  if (fsReady) {
+    return true;
+  }
+
+  if (LittleFS.begin()) {
+    fsReady = true;
+    return true;
+  }
+
+  LittleFS.format();
+  fsReady = LittleFS.begin();
+  return fsReady;
+}
+
 String normalizePathArg(const String& rawArg) {
   String f = rawArg;
   f.trim();
@@ -315,8 +332,30 @@ void typeText(const String& text) {
     }
     else if (c == ' ') tapKey(HID_KEY_SPACE);
     else if (c == '\n') tapKey(HID_KEY_ENTER);
-    else if (c >= '0' && c <= '9') tapKey(HID_KEY_0 + (c - '0'));
+    else if (c >= '1' && c <= '9') tapKey(HID_KEY_1 + (c - '1'));
+    else if (c == '0') tapKey(HID_KEY_0);
+    else if (c == '!') {
+      uint8_t keys[6] = {HID_KEY_1, 0, 0, 0, 0, 0};
+      sendKeyboardReport(KEYBOARD_MODIFIER_LEFTSHIFT, keys);
+      delay(50);
+      uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
+      sendKeyboardReport(0, empty);
+    }
     delay(5);
+  }
+}
+
+void parseMacros(JsonArray mArr) {
+  if (mArr.isNull()) {
+    return;
+  }
+
+  for (JsonVariant m : mArr) {
+    if (!m.is<JsonObject>()) continue;
+    JsonObject mo = m.as<JsonObject>();
+    int id = parseMacroId(mo);
+    if (id < 0) continue;
+    macros[id] = String((const char*)(mo["sequence"] | ""));
   }
 }
 
@@ -502,16 +541,7 @@ void parseLayerArray(JsonArray arr) {
     }
 
     if (layers.empty()) {
-      JsonArray mArr = obj["macros"].as<JsonArray>();
-      if (!mArr.isNull()) {
-        for (JsonVariant m : mArr) {
-          if (!m.is<JsonObject>()) continue;
-          JsonObject mo = m.as<JsonObject>();
-          int id = parseMacroId(mo);
-          if (id < 0) continue;
-          macros[id] = String((const char*)(mo["sequence"] | ""));
-        }
-      }
+      parseMacros(obj["macros"].as<JsonArray>());
     }
 
     layers.push_back(l);
@@ -525,6 +555,7 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
   if (doc.is<JsonArray>()) {
     parseLayerArray(doc.as<JsonArray>());
   } else if (doc.is<JsonObject>() && doc["layers"].is<JsonArray>()) {
+    parseMacros(doc["macros"].as<JsonArray>());
     parseLayerArray(doc["layers"].as<JsonArray>());
   }
 
@@ -593,6 +624,10 @@ void loadLayers() {
 void handleCommand(const String& cmdRaw) {
   String cmd = cmdRaw;
   cmd.trim();
+
+  if (!fsReady) {
+    tryInitFilesystem();
+  }
 
   if (discardingUpload) {
     return;
@@ -821,12 +856,7 @@ void setup() {
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  if (!LittleFS.begin()) {
-    LittleFS.format();
-    fsReady = LittleFS.begin();
-  } else {
-    fsReady = true;
-  }
+  tryInitFilesystem();
 
   if (!fsReady) {
     loadHardcodedSafeLayer();
