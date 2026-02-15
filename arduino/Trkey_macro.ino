@@ -12,7 +12,6 @@
 static constexpr uint8_t OLED_ADDR = 0x3C;
 static constexpr int SCREEN_WIDTH = 128;
 static constexpr int SCREEN_HEIGHT = 64;
-static constexpr const char* FW_VERSION = "v2-stable";
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 // ===== Timing =====
@@ -36,9 +35,6 @@ static constexpr uint8_t CONSUMER_REPORT_ID = 2;
 static constexpr const char* USB_MANUFACTURER_NAME = "Trkey";
 static constexpr const char* USB_PRODUCT_NAME = "Trkey";
 static constexpr const char* USB_SERIAL_NAME = "TRKEY";
-
-uint32_t hidSendAttempts = 0;
-uint32_t hidSendFailures = 0;
 
 // ===== Config models =====
 struct MacroDef {
@@ -89,23 +85,6 @@ bool ramLayersJsonValid = false;
 std::map<String, uint8_t> keyMap;
 std::map<String, uint16_t> consumerMap;
 
-int parseMacroId(JsonObject mo);
-
-bool tryInitFilesystem() {
-  if (fsReady) {
-    return true;
-  }
-
-  if (LittleFS.begin()) {
-    fsReady = true;
-    return true;
-  }
-
-  LittleFS.format();
-  fsReady = LittleFS.begin();
-  return fsReady;
-}
-
 String normalizePathArg(const String& rawArg) {
   String f = rawArg;
   f.trim();
@@ -147,10 +126,6 @@ void sendLine(const char* msg) {
 void sendEOFMarker() {
   Serial.write(reinterpret_cast<const uint8_t*>("<EOF>\n"), 6);
   Serial.flush();
-}
-
-bool hidReady() {
-  return usb_hid.ready();
 }
 
 void initKeyMaps() {
@@ -210,54 +185,6 @@ bool isNoop(const String& s) {
   return s.length() == 0 || s == "NO_OP";
 }
 
-void playBootAnimation() {
-  const int startX = 2;
-  const int startY = 14;
-  const int cellW = 41;
-  const int cellH = 16;
-
-  // Step 1: animate 3x3 boxes appearing one by one.
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(22, 5);
-  display.print("Booting...");
-  display.display();
-
-  for (int i = 0; i < 9; i++) {
-    int x = startX + (i % 3) * cellW;
-    int y = startY + (i / 3) * cellH;
-    display.drawRect(x, y, 39, 14, SSD1306_WHITE);
-    display.display();
-    delay(40);
-  }
-
-  // Step 2: quick clear to transition.
-  delay(80);
-  display.clearDisplay();
-  display.display();
-  delay(200);
-
-  // Step 3: show TRKEY title + version in bottom-right.
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);
-  display.setTextSize(2);
-  display.setCursor(16, 18);
-  display.print("TRKEY");
-
-  display.setTextSize(1);
-  int16_t x1, y1;
-  uint16_t w, h;
-  display.getTextBounds(FW_VERSION, 0, 0, &x1, &y1, &w, &h);
-  int verX = SCREEN_WIDTH - static_cast<int>(w) - 2;
-  int verY = SCREEN_HEIGHT - static_cast<int>(h) - 1;
-  display.setCursor(verX, verY);
-  display.print(FW_VERSION);
-  display.display();
-
-  delay(1500);
-}
-
 void drawUI(int layerIdx, int activeIdx = -1) {
   if (layers.empty()) return;
 
@@ -303,7 +230,6 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 }
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
-  if (!hidReady()) return;
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
 }
 
@@ -340,30 +266,8 @@ void typeText(const String& text) {
     }
     else if (c == ' ') tapKey(HID_KEY_SPACE);
     else if (c == '\n') tapKey(HID_KEY_ENTER);
-    else if (c >= '1' && c <= '9') tapKey(HID_KEY_1 + (c - '1'));
-    else if (c == '0') tapKey(HID_KEY_0);
-    else if (c == '!') {
-      uint8_t keys[6] = {HID_KEY_1, 0, 0, 0, 0, 0};
-      sendKeyboardReport(KEYBOARD_MODIFIER_LEFTSHIFT, keys);
-      delay(50);
-      uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
-      sendKeyboardReport(0, empty);
-    }
+    else if (c >= '0' && c <= '9') tapKey(HID_KEY_0 + (c - '0'));
     delay(5);
-  }
-}
-
-void parseMacros(JsonArray mArr) {
-  if (mArr.isNull()) {
-    return;
-  }
-
-  for (JsonVariant m : mArr) {
-    if (!m.is<JsonObject>()) continue;
-    JsonObject mo = m.as<JsonObject>();
-    int id = parseMacroId(mo);
-    if (id < 0) continue;
-    macros[id] = String((const char*)(mo["sequence"] | ""));
   }
 }
 
@@ -456,9 +360,6 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   up.toUpperCase();
 
   if (consumerMap.count(up)) {
-    if (!hidReady()) {
-      return;
-    }
     if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     delay(5);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
@@ -552,7 +453,16 @@ void parseLayerArray(JsonArray arr) {
     }
 
     if (layers.empty()) {
-      parseMacros(obj["macros"].as<JsonArray>());
+      JsonArray mArr = obj["macros"].as<JsonArray>();
+      if (!mArr.isNull()) {
+        for (JsonVariant m : mArr) {
+          if (!m.is<JsonObject>()) continue;
+          JsonObject mo = m.as<JsonObject>();
+          int id = parseMacroId(mo);
+          if (id < 0) continue;
+          macros[id] = String((const char*)(mo["sequence"] | ""));
+        }
+      }
     }
 
     layers.push_back(l);
@@ -560,13 +470,12 @@ void parseLayerArray(JsonArray arr) {
 }
 
 
-bool loadLayersFromJsonDocument(JsonDocument& doc) {
+bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
   macros.clear();
 
   if (doc.is<JsonArray>()) {
     parseLayerArray(doc.as<JsonArray>());
   } else if (doc.is<JsonObject>() && doc["layers"].is<JsonArray>()) {
-    parseMacros(doc["macros"].as<JsonArray>());
     parseLayerArray(doc["layers"].as<JsonArray>());
   }
 
@@ -580,7 +489,7 @@ bool loadLayersFromJsonDocument(JsonDocument& doc) {
 }
 
 bool loadBuiltinDefaultLayers() {
-  JsonDocument doc;
+  DynamicJsonDocument doc(2048);
   auto err = deserializeJson(doc, defaultLayersJson());
   if (err) {
     return false;
@@ -593,7 +502,7 @@ void loadLayers() {
 
   if (!fsReady) {
     if (ramLayersJsonValid) {
-      JsonDocument ramDoc;
+      DynamicJsonDocument ramDoc(16384);
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
       if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
         return;
@@ -619,7 +528,7 @@ void loadLayers() {
     return;
   }
 
-  JsonDocument doc;
+  DynamicJsonDocument doc(16384);
   auto err = deserializeJson(doc, f);
   f.close();
 
@@ -635,10 +544,6 @@ void loadLayers() {
 void handleCommand(const String& cmdRaw) {
   String cmd = cmdRaw;
   cmd.trim();
-
-  if (!fsReady) {
-    tryInitFilesystem();
-  }
 
   if (discardingUpload) {
     return;
@@ -728,12 +633,6 @@ void handleCommand(const String& cmdRaw) {
 
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
-      if (!putFile) {
-        fsReady = false;
-        if (tryInitFilesystem()) {
-          putFile = LittleFS.open(putFilename, "w");
-        }
-      }
     }
 
     if (!putFile) {
@@ -762,16 +661,6 @@ void handleCommand(const String& cmdRaw) {
     return;
   }
 
-  if (cmd == "HIDTEST") {
-    if (!hidReady()) {
-      sendLine("HID NOT READY");
-      return;
-    }
-    typeText("TRKEY HID TEST\n");
-    sendLine("HID SENT");
-    return;
-  }
-
   sendLine("UNKNOWN COMMAND");
 }
 
@@ -788,7 +677,6 @@ void processSerial() {
 
       if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
         if (putFile) {
-          putFile.flush();
           putFile.close();
         }
         if (uploadToRam && putFilename == "/layers.json") {
@@ -877,16 +765,18 @@ void setup() {
   Wire.begin();
 
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
-  playBootAnimation();
 
   // RP2040 Arduino core initializes TinyUSB; do not call tusb_init()/TinyUSBDevice.begin() here.
   usb_hid.setPollInterval(2);
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  tryInitFilesystem();
-
-  tryInitFilesystem();
+  if (!LittleFS.begin()) {
+    LittleFS.format();
+    fsReady = LittleFS.begin();
+  } else {
+    fsReady = true;
+  }
 
   if (!fsReady) {
     loadHardcodedSafeLayer();
