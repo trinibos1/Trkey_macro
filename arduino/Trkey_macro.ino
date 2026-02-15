@@ -116,6 +116,21 @@ void writeDefaultLayersFile() {
   f.close();
 }
 
+bool ensureFilesystemReady() {
+  if (fsReady) {
+    return true;
+  }
+
+  if (LittleFS.begin()) {
+    fsReady = true;
+    return true;
+  }
+
+  LittleFS.format();
+  fsReady = LittleFS.begin();
+  return fsReady;
+}
+
 
 void sendLine(const char* msg) {
   Serial.print(msg);
@@ -489,7 +504,7 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
 }
 
 bool loadBuiltinDefaultLayers() {
-  DynamicJsonDocument doc(2048);
+  DynamicJsonDocument doc(4096);
   auto err = deserializeJson(doc, defaultLayersJson());
   if (err) {
     return false;
@@ -497,17 +512,32 @@ bool loadBuiltinDefaultLayers() {
   return loadLayersFromJsonDocument(doc);
 }
 
+size_t computeJsonDocCapacity(size_t inputSize) {
+  // Keep some headroom above payload size to avoid deserialize failures
+  // on larger layer maps/macros while still bounding memory usage.
+  size_t suggested = inputSize + (inputSize / 2) + 4096;
+  if (suggested < 4096) {
+    suggested = 4096;
+  }
+  if (suggested > 65536) {
+    suggested = 65536;
+  }
+  return suggested;
+}
+
 void loadLayers() {
   macros.clear();
 
-  if (!fsReady) {
+  if (!ensureFilesystemReady()) {
     if (ramLayersJsonValid) {
-      DynamicJsonDocument ramDoc(16384);
+      DynamicJsonDocument ramDoc(computeJsonDocCapacity(ramLayersJson.length()));
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
       if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
         return;
       }
-      Serial.println("RAM layers.json parse failed; loading safe defaults");
+      Serial.print("RAM layers.json parse failed (");
+      Serial.print(ramErr.c_str());
+      Serial.println("); loading safe defaults");
     }
 
     if (!loadBuiltinDefaultLayers()) {
@@ -528,12 +558,15 @@ void loadLayers() {
     return;
   }
 
-  DynamicJsonDocument doc(16384);
+  size_t jsonSize = static_cast<size_t>(f.size());
+  DynamicJsonDocument doc(computeJsonDocCapacity(jsonSize));
   auto err = deserializeJson(doc, f);
   f.close();
 
   if (err || !loadLayersFromJsonDocument(doc)) {
-    Serial.println("layers.json parse failed; loading safe defaults");
+    Serial.print("layers.json parse failed (");
+    Serial.print(err.c_str());
+    Serial.println("); loading safe defaults");
     // Keep firmware usable and UI readable even if uploaded JSON is malformed.
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
@@ -556,7 +589,8 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd == "LIST") {
     sendLine("Files:");
-    if (!fsReady) {
+    bool fsAvailable = ensureFilesystemReady();
+    if (!fsAvailable) {
       sendLine("layers.json");
       sendLine("<END>");
       return;
@@ -578,7 +612,7 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd.startsWith("DEL ")) {
     String fn = normalizePathArg(cmd.substring(4));
-    if (!fsReady) {
+    if (!ensureFilesystemReady()) {
       sendLine("ERROR");
       return;
     }
@@ -589,7 +623,7 @@ void handleCommand(const String& cmdRaw) {
   if (cmd.startsWith("GET ")) {
     String fn = normalizePathArg(cmd.substring(4));
 
-    if (!fsReady) {
+    if (!ensureFilesystemReady()) {
       if (fn == "/layers.json") {
         if (ramLayersJsonValid) {
           Serial.print(ramLayersJson);
@@ -631,12 +665,13 @@ void handleCommand(const String& cmdRaw) {
     uploadToRam = false;
     discardingUpload = false;
 
-    if (fsReady) {
+    bool fsAvailable = ensureFilesystemReady();
+    if (fsAvailable) {
       putFile = LittleFS.open(putFilename, "w");
     }
 
     if (!putFile) {
-      if (!fsReady && putFilename == "/layers.json") {
+      if (!fsAvailable && putFilename == "/layers.json") {
         uploadToRam = true;
       } else {
         // Stay protocol-compatible: accept upload stream and discard it, then ACK.
