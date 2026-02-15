@@ -12,7 +12,6 @@
 static constexpr uint8_t OLED_ADDR = 0x3C;
 static constexpr int SCREEN_WIDTH = 128;
 static constexpr int SCREEN_HEIGHT = 64;
-static constexpr const char* FW_VERSION = "v0.9-beta";
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 // ===== Timing =====
@@ -33,9 +32,6 @@ uint8_t const hidReportDescriptor[] = {
 };
 static constexpr uint8_t KEYBOARD_REPORT_ID = 1;
 static constexpr uint8_t CONSUMER_REPORT_ID = 2;
-static constexpr const char* USB_MANUFACTURER_NAME = "Trkey";
-static constexpr const char* USB_PRODUCT_NAME = "Trkey";
-static constexpr const char* USB_SERIAL_NAME = "TRKEY";
 
 // ===== Config models =====
 struct MacroDef {
@@ -184,54 +180,6 @@ void initKeyMaps() {
 
 bool isNoop(const String& s) {
   return s.length() == 0 || s == "NO_OP";
-}
-
-void playBootAnimation() {
-  const int startX = 2;
-  const int startY = 14;
-  const int cellW = 41;
-  const int cellH = 16;
-
-  // Step 1: animate 3x3 boxes appearing one by one.
-  display.clearDisplay();
-  display.setTextSize(1);
-  display.setTextColor(SSD1306_WHITE);
-  display.setCursor(22, 5);
-  display.print("Booting...");
-  display.display();
-
-  for (int i = 0; i < 9; i++) {
-    int x = startX + (i % 3) * cellW;
-    int y = startY + (i / 3) * cellH;
-    display.drawRect(x, y, 39, 14, SSD1306_WHITE);
-    display.display();
-    delay(40);
-  }
-
-  // Step 2: quick clear to transition.
-  delay(80);
-  display.clearDisplay();
-  display.display();
-  delay(40);
-
-  // Step 3: show TRKEY title + version in bottom-right.
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);
-  display.setTextSize(2);
-  display.setCursor(16, 18);
-  display.print("TRKEY");
-
-  display.setTextSize(1);
-  int16_t x1, y1;
-  uint16_t w, h;
-  display.getTextBounds(FW_VERSION, 0, 0, &x1, &y1, &w, &h);
-  int verX = SCREEN_WIDTH - static_cast<int>(w) - 2;
-  int verY = SCREEN_HEIGHT - static_cast<int>(h) - 1;
-  display.setCursor(verX, verY);
-  display.print(FW_VERSION);
-  display.display();
-
-  delay(450);
 }
 
 void drawUI(int layerIdx, int activeIdx = -1) {
@@ -783,23 +731,7 @@ void processSerial() {
 }
 
 
-void configureUsbIdentity() {
-  USBDevice.setManufacturerDescriptor(USB_MANUFACTURER_NAME);
-  USBDevice.setProductDescriptor(USB_PRODUCT_NAME);
-  USBDevice.setSerialDescriptor(USB_SERIAL_NAME);
-}
-
-struct UsbIdentityPreInit {
-  UsbIdentityPreInit() {
-    configureUsbIdentity();
-  }
-};
-
-UsbIdentityPreInit usbIdentityPreInit;
-
 void setup() {
-  // Re-apply in setup as some cores rebuild descriptors during early init.
-  configureUsbIdentity();
   Serial.begin(115200);
 
   initKeyMaps();
@@ -814,7 +746,6 @@ void setup() {
   Wire.begin();
 
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
-  playBootAnimation();
 
   // RP2040 Arduino core initializes TinyUSB; do not call tusb_init()/TinyUSBDevice.begin() here.
   usb_hid.setPollInterval(2);
