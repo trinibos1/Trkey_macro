@@ -116,6 +116,21 @@ void writeDefaultLayersFile() {
   f.close();
 }
 
+bool ensureFilesystemReady() {
+  if (fsReady) {
+    return true;
+  }
+
+  if (LittleFS.begin()) {
+    fsReady = true;
+    return true;
+  }
+
+  LittleFS.format();
+  fsReady = LittleFS.begin();
+  return fsReady;
+}
+
 
 void sendLine(const char* msg) {
   Serial.print(msg);
@@ -513,7 +528,7 @@ size_t computeJsonDocCapacity(size_t inputSize) {
 void loadLayers() {
   macros.clear();
 
-  if (!fsReady) {
+  if (!ensureFilesystemReady()) {
     if (ramLayersJsonValid) {
       DynamicJsonDocument ramDoc(computeJsonDocCapacity(ramLayersJson.length()));
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
@@ -574,7 +589,8 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd == "LIST") {
     sendLine("Files:");
-    if (!fsReady) {
+    bool fsAvailable = ensureFilesystemReady();
+    if (!fsAvailable) {
       sendLine("layers.json");
       sendLine("<END>");
       return;
@@ -596,7 +612,7 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd.startsWith("DEL ")) {
     String fn = normalizePathArg(cmd.substring(4));
-    if (!fsReady) {
+    if (!ensureFilesystemReady()) {
       sendLine("ERROR");
       return;
     }
@@ -607,7 +623,7 @@ void handleCommand(const String& cmdRaw) {
   if (cmd.startsWith("GET ")) {
     String fn = normalizePathArg(cmd.substring(4));
 
-    if (!fsReady) {
+    if (!ensureFilesystemReady()) {
       if (fn == "/layers.json") {
         if (ramLayersJsonValid) {
           Serial.print(ramLayersJson);
@@ -649,12 +665,13 @@ void handleCommand(const String& cmdRaw) {
     uploadToRam = false;
     discardingUpload = false;
 
-    if (fsReady) {
+    bool fsAvailable = ensureFilesystemReady();
+    if (fsAvailable) {
       putFile = LittleFS.open(putFilename, "w");
     }
 
     if (!putFile) {
-      if (!fsReady && putFilename == "/layers.json") {
+      if (!fsAvailable && putFilename == "/layers.json") {
         uploadToRam = true;
       } else {
         // Stay protocol-compatible: accept upload stream and discard it, then ACK.
