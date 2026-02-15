@@ -72,9 +72,8 @@ bool receivingFile = false;
 File putFile;
 String putFilename;
 String serialLineBuffer;
-uint8_t eofWindow[5] = {0};
-uint8_t eofWindowLen = 0;
 bool fsReady = false;
+bool triedFormatRecovery = false;
 bool discardingUpload = false;
 bool uploadToRam = false;
 String putBuffer;
@@ -109,10 +108,12 @@ void writeDefaultLayersFile() {
 
   File f = LittleFS.open("/layers.json", "w");
   if (!f) {
+    fsReady = false;
     return;
   }
 
   f.print(defaultLayersJson());
+  f.flush();
   f.close();
 }
 
@@ -126,6 +127,11 @@ bool ensureFilesystemReady() {
     return true;
   }
 
+  if (triedFormatRecovery) {
+    return false;
+  }
+
+  triedFormatRecovery = true;
   LittleFS.format();
   fsReady = LittleFS.begin();
   return fsReady;
@@ -251,7 +257,6 @@ void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
 void tapKey(uint8_t keycode) {
   uint8_t keys[6] = {keycode, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, keys);
-  delay(50);
   uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, empty);
 }
@@ -275,14 +280,12 @@ void typeText(const String& text) {
     else if (c >= 'A' && c <= 'Z') {
       uint8_t keys[6] = {static_cast<uint8_t>(HID_KEY_A + (c - 'A')), 0, 0, 0, 0, 0};
       sendKeyboardReport(KEYBOARD_MODIFIER_LEFTSHIFT, keys);
-      delay(50);
       uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
       sendKeyboardReport(0, empty);
     }
     else if (c == ' ') tapKey(HID_KEY_SPACE);
     else if (c == '\n') tapKey(HID_KEY_ENTER);
     else if (c >= '0' && c <= '9') tapKey(HID_KEY_0 + (c - '0'));
-    delay(5);
   }
 }
 
@@ -304,7 +307,6 @@ void sendCombo(const std::vector<uint8_t>& combo) {
   }
 
   sendKeyboardReport(modifiers, keys);
-  delay(50);
   uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, empty);
 }
@@ -376,7 +378,6 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
 
   if (consumerMap.count(up)) {
     if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
-    delay(5);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
     return;
   }
@@ -467,16 +468,14 @@ void parseLayerArray(JsonArray arr) {
       l.keys[i] = keys.isNull() || i >= keys.size() ? "" : String((const char*)keys[i]);
     }
 
-    if (layers.empty()) {
-      JsonArray mArr = obj["macros"].as<JsonArray>();
-      if (!mArr.isNull()) {
-        for (JsonVariant m : mArr) {
-          if (!m.is<JsonObject>()) continue;
-          JsonObject mo = m.as<JsonObject>();
-          int id = parseMacroId(mo);
-          if (id < 0) continue;
-          macros[id] = String((const char*)(mo["sequence"] | ""));
-        }
+    JsonArray mArr = obj["macros"].as<JsonArray>();
+    if (!mArr.isNull()) {
+      for (JsonVariant m : mArr) {
+        if (!m.is<JsonObject>()) continue;
+        JsonObject mo = m.as<JsonObject>();
+        int id = parseMacroId(mo);
+        if (id < 0) continue;
+        macros[id] = String((const char*)(mo["sequence"] | ""));
       }
     }
 
@@ -552,6 +551,7 @@ void loadLayers() {
 
   File f = LittleFS.open("/layers.json", "r");
   if (!f) {
+    fsReady = false;
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
     }
@@ -664,10 +664,14 @@ void handleCommand(const String& cmdRaw) {
     putBuffer = "";
     uploadToRam = false;
     discardingUpload = false;
+    putFile = File();
 
     bool fsAvailable = ensureFilesystemReady();
     if (fsAvailable) {
       putFile = LittleFS.open(putFilename, "w");
+      if (!putFile) {
+        fsReady = false;
+      }
     }
 
     if (!putFile) {
@@ -678,13 +682,11 @@ void handleCommand(const String& cmdRaw) {
         discardingUpload = true;
       }
       receivingFile = true;
-      eofWindowLen = 0;
       sendLine("READY");
       return;
     }
 
     receivingFile = true;
-    eofWindowLen = 0;
     sendLine("READY");
     return;
   }
@@ -704,49 +706,56 @@ void processSerial() {
     uint8_t b = static_cast<uint8_t>(Serial.read());
 
     if (receivingFile) {
-      // Windowed EOF detector for binary-safe streaming writes.
-      eofWindow[eofWindowLen++] = b;
-      if (eofWindowLen < 5) {
-        continue;
+      static String eofBuf = "";
+
+      eofBuf += static_cast<char>(b);
+      if (eofBuf.length() > 5) {
+        char out = eofBuf[0];
+        eofBuf.remove(0, 1);
+
+        if (putFile) {
+          size_t written = putFile.write(static_cast<uint8_t>(out));
+          if (written != 1) {
+            fsReady = false;
+            putFile.close();
+            putFile = File();
+            uploadToRam = false;
+            discardingUpload = true;
+          }
+        } else if (uploadToRam) {
+          putBuffer += out;
+        }
       }
 
-      if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
+      if (eofBuf == "<EOF>") {
         if (putFile) {
+          putFile.flush();
           putFile.close();
         }
+
         if (uploadToRam && putFilename == "/layers.json") {
           ramLayersJson = putBuffer;
           ramLayersJsonValid = true;
           putBuffer = "";
-          uploadToRam = false;
         }
 
+        uploadToRam = false;
+        eofBuf = "";
         receivingFile = false;
-        eofWindowLen = 0;
 
         sendLine("FILE RECEIVED");
+
         if (discardingUpload) {
           discardingUpload = false;
           continue;
         }
+
         if (putFilename == "/layers.json") {
           loadLayers();
           drawUI(currentLayer);
           sendLine("LAYERS RELOADED");
         }
-        continue;
       }
-
-      // Not EOF marker: write oldest byte, keep last 4 for boundary matching.
-      if (putFile) {
-        putFile.write(eofWindow[0]);
-      } else if (uploadToRam) {
-        putBuffer += static_cast<char>(eofWindow[0]);
-      }
-      for (uint8_t i = 1; i < 5; i++) {
-        eofWindow[i - 1] = eofWindow[i];
-      }
-      eofWindowLen = 4;
       continue;
     }
 
@@ -806,12 +815,7 @@ void setup() {
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  if (!LittleFS.begin()) {
-    LittleFS.format();
-    fsReady = LittleFS.begin();
-  } else {
-    fsReady = true;
-  }
+  fsReady = ensureFilesystemReady();
 
   if (!fsReady) {
     loadHardcodedSafeLayer();
@@ -826,11 +830,12 @@ void loop() {
   uint32_t now = millis();
   processSerial();
 
+  static uint32_t lastLayerSwitchMs = 0;
   bool layerState = digitalRead(layerSwitchPin);
-  if (lastLayerSwitchState && !layerState && !layers.empty()) {
+  if (lastLayerSwitchState && !layerState && !layers.empty() && (now - lastLayerSwitchMs > 200)) {
     currentLayer = (currentLayer + 1) % layers.size();
     drawUI(currentLayer);
-    delay(200);
+    lastLayerSwitchMs = now;
   }
   lastLayerSwitchState = layerState;
 
@@ -839,7 +844,11 @@ void loop() {
     String keyname = layers.empty() ? "" : layers[currentLayer].keys[i];
 
     if (!released) {
-      if (now - keyDebounceStart[i] > DEBOUNCE_MS) {
+      if (!repeatActive[i] && keyDebounceStart[i] == 0) {
+        keyDebounceStart[i] = now;
+      }
+
+      if (keyDebounceStart[i] != 0 && (now - keyDebounceStart[i] > DEBOUNCE_MS)) {
         if (!repeatActive[i]) {
           sendKeyEntry(keyname, i, true);
           repeatActive[i] = true;
@@ -871,8 +880,14 @@ void loop() {
           sendKeyEntry(keyname, i, false);
         }
       }
+
+      if (pressedIndex == i) {
+        pressedIndex = -1;
+        drawUI(currentLayer);
+      }
+
       repeatActive[i] = false;
-      keyDebounceStart[i] = now;
+      keyDebounceStart[i] = 0;
     }
   }
 
@@ -881,5 +896,5 @@ void loop() {
     drawUI(currentLayer);
   }
 
-  delay(10);
+  delay(2);
 }
