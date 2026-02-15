@@ -71,6 +71,7 @@ bool lastLayerSwitchState = true;
 bool receivingFile = false;
 File putFile;
 String putFilename;
+String putFinalFilename;
 String serialLineBuffer;
 bool fsReady = false;
 bool triedFormatRecovery = false;
@@ -252,6 +253,7 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
+  yield();
 }
 
 void tapKey(uint8_t keycode) {
@@ -379,6 +381,7 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   if (consumerMap.count(up)) {
     if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
+    yield();
     return;
   }
 
@@ -538,7 +541,14 @@ void loadLayers() {
       Serial.print(ramErr.c_str());
       Serial.println("); loading safe defaults");
     }
+    Serial.print("RAM layers.json parse failed (");
+    Serial.print(ramErr.c_str());
+    Serial.println("); falling back to filesystem/defaults");
+    ramLayersJsonValid = false;
+    ramLayersJson = "";
+  }
 
+  if (!ensureFilesystemReady()) {
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
     }
@@ -660,7 +670,8 @@ void handleCommand(const String& cmdRaw) {
   }
 
   if (cmd.startsWith("PUT ")) {
-    putFilename = normalizePathArg(cmd.substring(4));
+    putFinalFilename = normalizePathArg(cmd.substring(4));
+    putFilename = putFinalFilename;
     putBuffer = "";
     uploadToRam = false;
     discardingUpload = false;
@@ -731,6 +742,17 @@ void processSerial() {
         if (putFile) {
           putFile.flush();
           putFile.close();
+
+          if (putFilename != putFinalFilename) {
+            LittleFS.remove(putFinalFilename);
+            if (!LittleFS.rename(putFilename, putFinalFilename)) {
+              fsReady = false;
+              discardingUpload = true;
+            }
+          }
+
+          ramLayersJsonValid = false;
+          ramLayersJson = "";
         }
 
         if (uploadToRam && putFilename == "/layers.json") {
