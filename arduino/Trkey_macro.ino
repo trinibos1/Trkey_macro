@@ -628,17 +628,25 @@ void handleCommand(const String& cmdRaw) {
     uploadToRam = false;
     discardingUpload = false;
 
+    // FIX 1: Always write to flash when FS is ready, RAM only as temporary fallback
     if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
     }
 
     if (!putFile) {
-      if (!fsReady && putFilename == "/layers.json") {
-        uploadToRam = true;
+      if (!fsReady) {
+        // FS unavailable → temporary RAM buffer only for layers.json
+        if (putFilename == "/layers.json") {
+          uploadToRam = true;
+        } else {
+          // Can't save other files without FS
+          discardingUpload = true;
+        }
       } else {
-        // Stay protocol-compatible: accept upload stream and discard it, then ACK.
+        // FS SHOULD be ready but open failed → hard error
         discardingUpload = true;
       }
+
       receivingFile = true;
       eofWindowLen = 0;
       sendLine("READY");
@@ -681,6 +689,16 @@ void processSerial() {
           ramLayersJsonValid = true;
           putBuffer = "";
           uploadToRam = false;
+          
+          // FIX 2: When RAM upload finishes, immediately write to flash if FS is ready
+          if (ramLayersJsonValid && fsReady) {
+            File f = LittleFS.open("/layers.json", "w");
+            if (f) {
+              f.print(ramLayersJson);
+              f.close();
+              ramLayersJsonValid = false; // now persisted to flash
+            }
+          }
         }
 
         receivingFile = false;
@@ -757,6 +775,16 @@ void setup() {
     fsReady = LittleFS.begin();
   } else {
     fsReady = true;
+  }
+
+  // FIX 3: On boot, if we have RAM data and FS is now ready, flush RAM → flash
+  if (ramLayersJsonValid && fsReady) {
+    File f = LittleFS.open("/layers.json", "w");
+    if (f) {
+      f.print(ramLayersJson);
+      f.close();
+      ramLayersJsonValid = false; // Now persisted
+    }
   }
 
   if (!fsReady) {
