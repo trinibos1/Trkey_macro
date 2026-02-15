@@ -79,7 +79,7 @@ This sketch keeps the same behavior as `code.py`:
 - Text macro typing fallback is ASCII-only (`A-Z`, `a-z`, `0-9`, space, newline)
 - OLED layer/key UI (with highlighted key and boxed grid)
 - Serial command protocol for `LIST`, `GET`, `PUT`, `DEL`, `RELOAD`
-- Macros are resolved globally at runtime; definitions can be in any layer and duplicate IDs use the last parsed definition
+- Macros can be defined on any layer; duplicate IDs use the last parsed definition
 
 Required Arduino libraries:
 - Adafruit SSD1306

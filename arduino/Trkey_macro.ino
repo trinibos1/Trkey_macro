@@ -379,10 +379,7 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
   up.toUpperCase();
 
   if (consumerMap.count(up)) {
-    if (onPress) {
-      usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
-      yield();
-    }
+    if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
     yield();
     return;
@@ -533,11 +530,16 @@ size_t computeJsonDocCapacity(size_t inputSize) {
 void loadLayers() {
   macros.clear();
 
-  if (ramLayersJsonValid) {
-    DynamicJsonDocument ramDoc(computeJsonDocCapacity(ramLayersJson.length()));
-    auto ramErr = deserializeJson(ramDoc, ramLayersJson);
-    if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
-      return;
+  if (!ensureFilesystemReady()) {
+    if (ramLayersJsonValid) {
+      DynamicJsonDocument ramDoc(computeJsonDocCapacity(ramLayersJson.length()));
+      auto ramErr = deserializeJson(ramDoc, ramLayersJson);
+      if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
+        return;
+      }
+      Serial.print("RAM layers.json parse failed (");
+      Serial.print(ramErr.c_str());
+      Serial.println("); loading safe defaults");
     }
     Serial.print("RAM layers.json parse failed (");
     Serial.print(ramErr.c_str());
@@ -677,8 +679,6 @@ void handleCommand(const String& cmdRaw) {
 
     bool fsAvailable = ensureFilesystemReady();
     if (fsAvailable) {
-      putFilename = putFinalFilename + ".tmp";
-      LittleFS.remove(putFilename);
       putFile = LittleFS.open(putFilename, "w");
       if (!putFile) {
         fsReady = false;
@@ -686,7 +686,7 @@ void handleCommand(const String& cmdRaw) {
     }
 
     if (!putFile) {
-      if (putFinalFilename == "/layers.json") {
+      if (!fsAvailable && putFilename == "/layers.json") {
         uploadToRam = true;
       } else {
         // Stay protocol-compatible: accept upload stream and discard it, then ACK.
@@ -755,7 +755,7 @@ void processSerial() {
           ramLayersJson = "";
         }
 
-        if (uploadToRam && putFinalFilename == "/layers.json") {
+        if (uploadToRam && putFilename == "/layers.json") {
           ramLayersJson = putBuffer;
           ramLayersJsonValid = true;
           putBuffer = "";
@@ -772,7 +772,7 @@ void processSerial() {
           continue;
         }
 
-        if (putFinalFilename == "/layers.json") {
+        if (putFilename == "/layers.json") {
           loadLayers();
           drawUI(currentLayer);
           sendLine("LAYERS RELOADED");
