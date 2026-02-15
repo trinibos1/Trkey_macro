@@ -12,6 +12,7 @@
 static constexpr uint8_t OLED_ADDR = 0x3C;
 static constexpr int SCREEN_WIDTH = 128;
 static constexpr int SCREEN_HEIGHT = 64;
+static constexpr const char* FW_VERSION = "v0.9-beta";
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 // ===== Timing =====
@@ -71,10 +72,10 @@ bool lastLayerSwitchState = true;
 bool receivingFile = false;
 File putFile;
 String putFilename;
-String putFinalFilename;
 String serialLineBuffer;
+uint8_t eofWindow[5] = {0};
+uint8_t eofWindowLen = 0;
 bool fsReady = false;
-bool triedFormatRecovery = false;
 bool discardingUpload = false;
 bool uploadToRam = false;
 String putBuffer;
@@ -109,33 +110,11 @@ void writeDefaultLayersFile() {
 
   File f = LittleFS.open("/layers.json", "w");
   if (!f) {
-    fsReady = false;
     return;
   }
 
   f.print(defaultLayersJson());
-  f.flush();
   f.close();
-}
-
-bool ensureFilesystemReady() {
-  if (fsReady) {
-    return true;
-  }
-
-  if (LittleFS.begin()) {
-    fsReady = true;
-    return true;
-  }
-
-  if (triedFormatRecovery) {
-    return false;
-  }
-
-  triedFormatRecovery = true;
-  LittleFS.format();
-  fsReady = LittleFS.begin();
-  return fsReady;
 }
 
 
@@ -207,6 +186,54 @@ bool isNoop(const String& s) {
   return s.length() == 0 || s == "NO_OP";
 }
 
+void playBootAnimation() {
+  const int startX = 2;
+  const int startY = 14;
+  const int cellW = 41;
+  const int cellH = 16;
+
+  // Step 1: animate 3x3 boxes appearing one by one.
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(22, 5);
+  display.print("Booting...");
+  display.display();
+
+  for (int i = 0; i < 9; i++) {
+    int x = startX + (i % 3) * cellW;
+    int y = startY + (i / 3) * cellH;
+    display.drawRect(x, y, 39, 14, SSD1306_WHITE);
+    display.display();
+    delay(40);
+  }
+
+  // Step 2: quick clear to transition.
+  delay(80);
+  display.clearDisplay();
+  display.display();
+  delay(40);
+
+  // Step 3: show TRKEY title + version in bottom-right.
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(2);
+  display.setCursor(16, 18);
+  display.print("TRKEY");
+
+  display.setTextSize(1);
+  int16_t x1, y1;
+  uint16_t w, h;
+  display.getTextBounds(FW_VERSION, 0, 0, &x1, &y1, &w, &h);
+  int verX = SCREEN_WIDTH - static_cast<int>(w) - 2;
+  int verY = SCREEN_HEIGHT - static_cast<int>(h) - 1;
+  display.setCursor(verX, verY);
+  display.print(FW_VERSION);
+  display.display();
+
+  delay(450);
+}
+
 void drawUI(int layerIdx, int activeIdx = -1) {
   if (layers.empty()) return;
 
@@ -253,12 +280,12 @@ void drawUI(int layerIdx, int activeIdx = -1) {
 
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
-  yield();
 }
 
 void tapKey(uint8_t keycode) {
   uint8_t keys[6] = {keycode, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, keys);
+  delay(50);
   uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, empty);
 }
@@ -282,12 +309,14 @@ void typeText(const String& text) {
     else if (c >= 'A' && c <= 'Z') {
       uint8_t keys[6] = {static_cast<uint8_t>(HID_KEY_A + (c - 'A')), 0, 0, 0, 0, 0};
       sendKeyboardReport(KEYBOARD_MODIFIER_LEFTSHIFT, keys);
+      delay(50);
       uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
       sendKeyboardReport(0, empty);
     }
     else if (c == ' ') tapKey(HID_KEY_SPACE);
     else if (c == '\n') tapKey(HID_KEY_ENTER);
     else if (c >= '0' && c <= '9') tapKey(HID_KEY_0 + (c - '0'));
+    delay(5);
   }
 }
 
@@ -309,6 +338,7 @@ void sendCombo(const std::vector<uint8_t>& combo) {
   }
 
   sendKeyboardReport(modifiers, keys);
+  delay(50);
   uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
   sendKeyboardReport(0, empty);
 }
@@ -380,8 +410,8 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
 
   if (consumerMap.count(up)) {
     if (onPress) usb_hid.sendReport16(CONSUMER_REPORT_ID, consumerMap[up]);
+    delay(5);
     usb_hid.sendReport16(CONSUMER_REPORT_ID, 0);
-    yield();
     return;
   }
 
@@ -471,14 +501,16 @@ void parseLayerArray(JsonArray arr) {
       l.keys[i] = keys.isNull() || i >= keys.size() ? "" : String((const char*)keys[i]);
     }
 
-    JsonArray mArr = obj["macros"].as<JsonArray>();
-    if (!mArr.isNull()) {
-      for (JsonVariant m : mArr) {
-        if (!m.is<JsonObject>()) continue;
-        JsonObject mo = m.as<JsonObject>();
-        int id = parseMacroId(mo);
-        if (id < 0) continue;
-        macros[id] = String((const char*)(mo["sequence"] | ""));
+    if (layers.empty()) {
+      JsonArray mArr = obj["macros"].as<JsonArray>();
+      if (!mArr.isNull()) {
+        for (JsonVariant m : mArr) {
+          if (!m.is<JsonObject>()) continue;
+          JsonObject mo = m.as<JsonObject>();
+          int id = parseMacroId(mo);
+          if (id < 0) continue;
+          macros[id] = String((const char*)(mo["sequence"] | ""));
+        }
       }
     }
 
@@ -506,7 +538,7 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
 }
 
 bool loadBuiltinDefaultLayers() {
-  DynamicJsonDocument doc(4096);
+  DynamicJsonDocument doc(2048);
   auto err = deserializeJson(doc, defaultLayersJson());
   if (err) {
     return false;
@@ -514,41 +546,19 @@ bool loadBuiltinDefaultLayers() {
   return loadLayersFromJsonDocument(doc);
 }
 
-size_t computeJsonDocCapacity(size_t inputSize) {
-  // Keep some headroom above payload size to avoid deserialize failures
-  // on larger layer maps/macros while still bounding memory usage.
-  size_t suggested = inputSize + (inputSize / 2) + 4096;
-  if (suggested < 4096) {
-    suggested = 4096;
-  }
-  if (suggested > 65536) {
-    suggested = 65536;
-  }
-  return suggested;
-}
-
 void loadLayers() {
   macros.clear();
 
-  if (!ensureFilesystemReady()) {
+  if (!fsReady) {
     if (ramLayersJsonValid) {
-      DynamicJsonDocument ramDoc(computeJsonDocCapacity(ramLayersJson.length()));
+      DynamicJsonDocument ramDoc(16384);
       auto ramErr = deserializeJson(ramDoc, ramLayersJson);
       if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
         return;
       }
-      Serial.print("RAM layers.json parse failed (");
-      Serial.print(ramErr.c_str());
-      Serial.println("); loading safe defaults");
+      Serial.println("RAM layers.json parse failed; loading safe defaults");
     }
-    Serial.print("RAM layers.json parse failed (");
-    Serial.print(ramErr.c_str());
-    Serial.println("); falling back to filesystem/defaults");
-    ramLayersJsonValid = false;
-    ramLayersJson = "";
-  }
 
-  if (!ensureFilesystemReady()) {
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
     }
@@ -561,22 +571,18 @@ void loadLayers() {
 
   File f = LittleFS.open("/layers.json", "r");
   if (!f) {
-    fsReady = false;
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
     }
     return;
   }
 
-  size_t jsonSize = static_cast<size_t>(f.size());
-  DynamicJsonDocument doc(computeJsonDocCapacity(jsonSize));
+  DynamicJsonDocument doc(16384);
   auto err = deserializeJson(doc, f);
   f.close();
 
   if (err || !loadLayersFromJsonDocument(doc)) {
-    Serial.print("layers.json parse failed (");
-    Serial.print(err.c_str());
-    Serial.println("); loading safe defaults");
+    Serial.println("layers.json parse failed; loading safe defaults");
     // Keep firmware usable and UI readable even if uploaded JSON is malformed.
     if (!loadBuiltinDefaultLayers()) {
       loadHardcodedSafeLayer();
@@ -599,8 +605,7 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd == "LIST") {
     sendLine("Files:");
-    bool fsAvailable = ensureFilesystemReady();
-    if (!fsAvailable) {
+    if (!fsReady) {
       sendLine("layers.json");
       sendLine("<END>");
       return;
@@ -622,7 +627,7 @@ void handleCommand(const String& cmdRaw) {
 
   if (cmd.startsWith("DEL ")) {
     String fn = normalizePathArg(cmd.substring(4));
-    if (!ensureFilesystemReady()) {
+    if (!fsReady) {
       sendLine("ERROR");
       return;
     }
@@ -633,7 +638,7 @@ void handleCommand(const String& cmdRaw) {
   if (cmd.startsWith("GET ")) {
     String fn = normalizePathArg(cmd.substring(4));
 
-    if (!ensureFilesystemReady()) {
+    if (!fsReady) {
       if (fn == "/layers.json") {
         if (ramLayersJsonValid) {
           Serial.print(ramLayersJson);
@@ -670,34 +675,30 @@ void handleCommand(const String& cmdRaw) {
   }
 
   if (cmd.startsWith("PUT ")) {
-    putFinalFilename = normalizePathArg(cmd.substring(4));
-    putFilename = putFinalFilename;
+    putFilename = normalizePathArg(cmd.substring(4));
     putBuffer = "";
     uploadToRam = false;
     discardingUpload = false;
-    putFile = File();
 
-    bool fsAvailable = ensureFilesystemReady();
-    if (fsAvailable) {
+    if (fsReady) {
       putFile = LittleFS.open(putFilename, "w");
-      if (!putFile) {
-        fsReady = false;
-      }
     }
 
     if (!putFile) {
-      if (!fsAvailable && putFilename == "/layers.json") {
+      if (!fsReady && putFilename == "/layers.json") {
         uploadToRam = true;
       } else {
         // Stay protocol-compatible: accept upload stream and discard it, then ACK.
         discardingUpload = true;
       }
       receivingFile = true;
+      eofWindowLen = 0;
       sendLine("READY");
       return;
     }
 
     receivingFile = true;
+    eofWindowLen = 0;
     sendLine("READY");
     return;
   }
@@ -717,67 +718,49 @@ void processSerial() {
     uint8_t b = static_cast<uint8_t>(Serial.read());
 
     if (receivingFile) {
-      static String eofBuf = "";
-
-      eofBuf += static_cast<char>(b);
-      if (eofBuf.length() > 5) {
-        char out = eofBuf[0];
-        eofBuf.remove(0, 1);
-
-        if (putFile) {
-          size_t written = putFile.write(static_cast<uint8_t>(out));
-          if (written != 1) {
-            fsReady = false;
-            putFile.close();
-            putFile = File();
-            uploadToRam = false;
-            discardingUpload = true;
-          }
-        } else if (uploadToRam) {
-          putBuffer += out;
-        }
+      // Windowed EOF detector for binary-safe streaming writes.
+      eofWindow[eofWindowLen++] = b;
+      if (eofWindowLen < 5) {
+        continue;
       }
 
-      if (eofBuf == "<EOF>") {
+      if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
         if (putFile) {
-          putFile.flush();
           putFile.close();
-
-          if (putFilename != putFinalFilename) {
-            LittleFS.remove(putFinalFilename);
-            if (!LittleFS.rename(putFilename, putFinalFilename)) {
-              fsReady = false;
-              discardingUpload = true;
-            }
-          }
-
-          ramLayersJsonValid = false;
-          ramLayersJson = "";
         }
-
         if (uploadToRam && putFilename == "/layers.json") {
           ramLayersJson = putBuffer;
           ramLayersJsonValid = true;
           putBuffer = "";
+          uploadToRam = false;
         }
 
-        uploadToRam = false;
-        eofBuf = "";
         receivingFile = false;
+        eofWindowLen = 0;
 
         sendLine("FILE RECEIVED");
-
         if (discardingUpload) {
           discardingUpload = false;
           continue;
         }
-
         if (putFilename == "/layers.json") {
           loadLayers();
           drawUI(currentLayer);
           sendLine("LAYERS RELOADED");
         }
+        continue;
       }
+
+      // Not EOF marker: write oldest byte, keep last 4 for boundary matching.
+      if (putFile) {
+        putFile.write(eofWindow[0]);
+      } else if (uploadToRam) {
+        putBuffer += static_cast<char>(eofWindow[0]);
+      }
+      for (uint8_t i = 1; i < 5; i++) {
+        eofWindow[i - 1] = eofWindow[i];
+      }
+      eofWindowLen = 4;
       continue;
     }
 
@@ -831,13 +814,19 @@ void setup() {
   Wire.begin();
 
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
+  playBootAnimation();
 
   // RP2040 Arduino core initializes TinyUSB; do not call tusb_init()/TinyUSBDevice.begin() here.
   usb_hid.setPollInterval(2);
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  fsReady = ensureFilesystemReady();
+  if (!LittleFS.begin()) {
+    LittleFS.format();
+    fsReady = LittleFS.begin();
+  } else {
+    fsReady = true;
+  }
 
   if (!fsReady) {
     loadHardcodedSafeLayer();
@@ -852,12 +841,11 @@ void loop() {
   uint32_t now = millis();
   processSerial();
 
-  static uint32_t lastLayerSwitchMs = 0;
   bool layerState = digitalRead(layerSwitchPin);
-  if (lastLayerSwitchState && !layerState && !layers.empty() && (now - lastLayerSwitchMs > 200)) {
+  if (lastLayerSwitchState && !layerState && !layers.empty()) {
     currentLayer = (currentLayer + 1) % layers.size();
     drawUI(currentLayer);
-    lastLayerSwitchMs = now;
+    delay(200);
   }
   lastLayerSwitchState = layerState;
 
@@ -866,11 +854,7 @@ void loop() {
     String keyname = layers.empty() ? "" : layers[currentLayer].keys[i];
 
     if (!released) {
-      if (!repeatActive[i] && keyDebounceStart[i] == 0) {
-        keyDebounceStart[i] = now;
-      }
-
-      if (keyDebounceStart[i] != 0 && (now - keyDebounceStart[i] > DEBOUNCE_MS)) {
+      if (now - keyDebounceStart[i] > DEBOUNCE_MS) {
         if (!repeatActive[i]) {
           sendKeyEntry(keyname, i, true);
           repeatActive[i] = true;
@@ -902,14 +886,8 @@ void loop() {
           sendKeyEntry(keyname, i, false);
         }
       }
-
-      if (pressedIndex == i) {
-        pressedIndex = -1;
-        drawUI(currentLayer);
-      }
-
       repeatActive[i] = false;
-      keyDebounceStart[i] = 0;
+      keyDebounceStart[i] = now;
     }
   }
 
@@ -918,5 +896,5 @@ void loop() {
     drawUI(currentLayer);
   }
 
-  delay(2);
+  delay(10);
 }
