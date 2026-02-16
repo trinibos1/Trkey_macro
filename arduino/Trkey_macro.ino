@@ -4,9 +4,12 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_TinyUSB.h>
 #include <ArduinoJson.h>
-#include <LittleFS.h>
+#include <EEPROM.h>
 #include <map>
 #include <vector>
+
+// ===== Firmware Version =====
+#define FW_VERSION "v2.5.4"
 
 // ===== Display =====
 static constexpr uint8_t OLED_ADDR = 0x3C;
@@ -20,11 +23,11 @@ static constexpr uint32_t PRESS_DISPLAY_MS = 300;
 static constexpr uint32_t REPEAT_DELAY_MS = 400;
 static constexpr uint32_t REPEAT_RATE_MS = 50;
 
-// ===== Pins (RP2040 Pico wiring from CircuitPython build) =====
+// ===== Pins =====
 const uint8_t keyPins[9] = {2, 3, 4, 5, 6, 7, 8, 9, 10};
 const uint8_t layerSwitchPin = 15;
 
-// ===== TinyUSB HID =====
+// ===== TinyUSB HID (WORKING from your code) =====
 Adafruit_USBD_HID usb_hid;
 uint8_t const hidReportDescriptor[] = {
   TUD_HID_REPORT_DESC_KEYBOARD(HID_REPORT_ID(1)),
@@ -33,12 +36,12 @@ uint8_t const hidReportDescriptor[] = {
 static constexpr uint8_t KEYBOARD_REPORT_ID = 1;
 static constexpr uint8_t CONSUMER_REPORT_ID = 2;
 
-// ===== Config models =====
-struct MacroDef {
-  int id = -1;
-  String sequence;
-};
+// ===== EEPROM Config Storage =====
+#define EEPROM_SIZE 16384
+#define CONFIG_ADDR 0
+#define CONFIG_MAGIC 0xDEADBEEF
 
+// ===== Config models =====
 struct Layer {
   String name;
   String labels[9];
@@ -55,28 +58,21 @@ bool repeatActive[9] = {false};
 uint32_t repeatStart[9] = {0};
 uint32_t repeatLast[9] = {0};
 uint32_t keyDebounceStart[9] = {0};
-
 bool moActive[9] = {false};
 int moPrevLayer[9] = {0};
 int moTargetForKey[9] = {0};
-
 int pressedIndex = -1;
 uint32_t lastPressMs = 0;
 bool lastLayerSwitchState = true;
 
-// ===== CDC file transfer state =====
+// ===== CDC transfer state =====
 bool receivingFile = false;
-File putFile;
 String putFilename;
 String serialLineBuffer;
 uint8_t eofWindow[5] = {0};
 uint8_t eofWindowLen = 0;
-bool fsReady = false;
 bool discardingUpload = false;
-bool uploadToRam = false;
 String putBuffer;
-String ramLayersJson;
-bool ramLayersJsonValid = false;
 
 // ===== HID maps =====
 std::map<String, uint8_t> keyMap;
@@ -85,34 +81,13 @@ std::map<String, uint16_t> consumerMap;
 String normalizePathArg(const String& rawArg) {
   String f = rawArg;
   f.trim();
-  while (f.startsWith("/")) {
-    f.remove(0, 1);
-  }
-  if (!f.length()) {
-    return String("/");
-  }
-  return String("/") + f;
+  while (f.startsWith("/")) f.remove(0, 1);
+  return f.length() ? String("/") + f : String("/");
 }
-
 
 const char* defaultLayersJson() {
   return R"JSON({"grid_size":3,"layers":[{"name":"Layer 0","labels":["A","B","C","D","E","F","G","H","I"],"keys":["A","B","C","D","E","F","G","H","I"]}]})JSON";
 }
-
-void writeDefaultLayersFile() {
-  if (LittleFS.exists("/layers.json")) {
-    return;
-  }
-
-  File f = LittleFS.open("/layers.json", "w");
-  if (!f) {
-    return;
-  }
-
-  f.print(defaultLayersJson());
-  f.close();
-}
-
 
 void sendLine(const char* msg) {
   Serial.print(msg);
@@ -135,26 +110,15 @@ void initKeyMaps() {
   keyMap["S"] = HID_KEY_S; keyMap["T"] = HID_KEY_T; keyMap["U"] = HID_KEY_U;
   keyMap["V"] = HID_KEY_V; keyMap["W"] = HID_KEY_W; keyMap["X"] = HID_KEY_X;
   keyMap["Y"] = HID_KEY_Y; keyMap["Z"] = HID_KEY_Z;
-
   keyMap["1"] = HID_KEY_1; keyMap["2"] = HID_KEY_2; keyMap["3"] = HID_KEY_3;
   keyMap["4"] = HID_KEY_4; keyMap["5"] = HID_KEY_5; keyMap["6"] = HID_KEY_6;
   keyMap["7"] = HID_KEY_7; keyMap["8"] = HID_KEY_8; keyMap["9"] = HID_KEY_9;
   keyMap["0"] = HID_KEY_0;
-
-  // Backward-compatible aliases used by older configs.
-  keyMap["ONE"] = HID_KEY_1; keyMap["TWO"] = HID_KEY_2; keyMap["THREE"] = HID_KEY_3;
-  keyMap["FOUR"] = HID_KEY_4; keyMap["FIVE"] = HID_KEY_5; keyMap["SIX"] = HID_KEY_6;
-  keyMap["SEVEN"] = HID_KEY_7; keyMap["EIGHT"] = HID_KEY_8; keyMap["NINE"] = HID_KEY_9;
-  keyMap["ZERO"] = HID_KEY_0;
-
   keyMap["ENTER"] = HID_KEY_ENTER;
   keyMap["ESCAPE"] = HID_KEY_ESCAPE;
   keyMap["TAB"] = HID_KEY_TAB;
   keyMap["SPACE"] = HID_KEY_SPACE;
-  keyMap["MINUS"] = HID_KEY_MINUS;
-  keyMap["EQUAL"] = HID_KEY_EQUAL;
   keyMap["BACKSPACE"] = HID_KEY_BACKSPACE;
-
   keyMap["CONTROL"] = HID_KEY_CONTROL_LEFT;
   keyMap["CTRL"] = HID_KEY_CONTROL_LEFT;
   keyMap["SHIFT"] = HID_KEY_SHIFT_LEFT;
@@ -184,11 +148,9 @@ bool isNoop(const String& s) {
 
 void drawUI(int layerIdx, int activeIdx = -1) {
   if (layers.empty()) return;
-
   display.clearDisplay();
   display.setTextColor(SSD1306_WHITE);
   display.setTextSize(1);
-
   display.setCursor(0, 0);
   display.print("Layer: ");
   display.print(layers[layerIdx].name);
@@ -197,16 +159,10 @@ void drawUI(int layerIdx, int activeIdx = -1) {
   display.print("/");
   display.print(layers.size());
 
-  // improved UI: cell outlines + centered short labels
-  const int startX = 2;
-  const int startY = 14;
-  const int cellW = 41;
-  const int cellH = 16;
-
+  const int startX = 2, startY = 14, cellW = 41, cellH = 16;
   for (int i = 0; i < 9; i++) {
     int x = startX + (i % 3) * cellW;
     int y = startY + (i / 3) * cellH;
-
     display.drawRect(x, y, 39, 14, SSD1306_WHITE);
     if (i == activeIdx) {
       display.fillRect(x + 1, y + 1, 37, 12, SSD1306_WHITE);
@@ -214,18 +170,15 @@ void drawUI(int layerIdx, int activeIdx = -1) {
     } else {
       display.setTextColor(SSD1306_WHITE);
     }
-
     String txt = layers[layerIdx].labels[i];
     if (txt.length() > 5) txt = txt.substring(0, 5);
-    int cursorX = x + 2;
-    int cursorY = y + 4;
-    display.setCursor(cursorX, cursorY);
+    display.setCursor(x + 2, y + 4);
     display.print(txt);
   }
-
   display.display();
 }
 
+// WORKING HID from your code
 void sendKeyboardReport(uint8_t modifiers, uint8_t keys[6]) {
   usb_hid.keyboardReport(KEYBOARD_REPORT_ID, modifiers, keys);
 }
@@ -242,7 +195,6 @@ bool parseLayerFn(const String& in, String& fn, int& target) {
   int p1 = in.indexOf('(');
   int p2 = in.indexOf(')');
   if (p1 < 0 || p2 < 0 || p2 <= p1 + 1) return false;
-
   fn = in.substring(0, p1);
   fn.toUpperCase();
   target = in.substring(p1 + 1, p2).toInt();
@@ -252,7 +204,6 @@ bool parseLayerFn(const String& in, String& fn, int& target) {
 void typeText(const String& text) {
   for (size_t i = 0; i < text.length(); i++) {
     char c = text[i];
-    // Lightweight ASCII typing fallback
     if (c >= 'a' && c <= 'z') tapKey(HID_KEY_A + (c - 'a'));
     else if (c >= 'A' && c <= 'Z') {
       uint8_t keys[6] = {static_cast<uint8_t>(HID_KEY_A + (c - 'A')), 0, 0, 0, 0, 0};
@@ -272,7 +223,6 @@ void sendCombo(const std::vector<uint8_t>& combo) {
   uint8_t modifiers = 0;
   uint8_t keys[6] = {0, 0, 0, 0, 0, 0};
   int keySlot = 0;
-
   for (uint8_t kc : combo) {
     switch (kc) {
       case HID_KEY_CONTROL_LEFT: modifiers |= KEYBOARD_MODIFIER_LEFTCTRL; break;
@@ -284,7 +234,6 @@ void sendCombo(const std::vector<uint8_t>& combo) {
         break;
     }
   }
-
   sendKeyboardReport(modifiers, keys);
   delay(50);
   uint8_t empty[6] = {0, 0, 0, 0, 0, 0};
@@ -311,7 +260,6 @@ void sendMacroSequence(const String& seq) {
 
 void handleLayerFn(const String& fn, int target, int keyIndex, bool onPress) {
   target = constrain(target, 0, static_cast<int>(layers.size()) - 1);
-
   if (fn == "MO") {
     if (onPress) {
       moPrevLayer[keyIndex] = currentLayer;
@@ -322,22 +270,14 @@ void handleLayerFn(const String& fn, int target, int keyIndex, bool onPress) {
     } else if (moActive[keyIndex]) {
       currentLayer = moPrevLayer[keyIndex];
       moActive[keyIndex] = false;
-      moTargetForKey[keyIndex] = 0;
       drawUI(currentLayer);
     }
     return;
   }
-
   if (!onPress) return;
-
-  if (fn == "TO") {
-    currentLayer = target;
-  } else if (fn == "TT") {
-    currentLayer = currentLayer == target ? defaultLayer : target;
-  } else if (fn == "DF") {
-    defaultLayer = target;
-    currentLayer = target;
-  }
+  if (fn == "TO") currentLayer = target;
+  else if (fn == "TT") currentLayer = currentLayer == target ? defaultLayer : target;
+  else if (fn == "DF") { defaultLayer = target; currentLayer = target; }
   drawUI(currentLayer);
 }
 
@@ -371,7 +311,6 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
     return;
   }
 
-  // combos like CONTROL_C
   if (up.indexOf('_') >= 0) {
     std::vector<uint8_t> combo;
     int start = 0;
@@ -386,7 +325,6 @@ void sendKeyEntry(const String& rawEntry, int keyIndex, bool onPress) {
       }
       start = sep < 0 ? up.length() : sep + 1;
     }
-
     if (onPress && !combo.empty()) sendCombo(combo);
     return;
   }
@@ -398,13 +336,11 @@ void loadHardcodedSafeLayer() {
   layers.clear();
   Layer safe;
   safe.name = "Layer 0";
-
   const char* defaults[9] = {"A", "B", "C", "D", "E", "F", "G", "H", "I"};
   for (int i = 0; i < 9; i++) {
     safe.labels[i] = defaults[i];
     safe.keys[i] = defaults[i];
   }
-
   layers.push_back(safe);
   macros.clear();
   currentLayer = 0;
@@ -416,7 +352,6 @@ int parseMacroId(JsonObject mo) {
     int id = mo["id"].as<int>();
     if (id >= 0) return id;
   }
-
   const char* macroName = mo["name"] | "";
   if (macroName && macroName[0]) {
     String name = String(macroName);
@@ -424,12 +359,9 @@ int parseMacroId(JsonObject mo) {
     name.toUpperCase();
     if (name.startsWith("MACRO ")) {
       int parsed = name.substring(6).toInt();
-      if (parsed > 0) {
-        return parsed;
-      }
+      if (parsed > 0) return parsed;
     }
   }
-
   return -1;
 }
 
@@ -438,17 +370,14 @@ void parseLayerArray(JsonArray arr) {
   for (JsonVariant v : arr) {
     if (!v.is<JsonObject>()) continue;
     JsonObject obj = v.as<JsonObject>();
-
     Layer l;
     l.name = obj["name"] | "Layer";
-
     JsonArray labels = obj["labels"].as<JsonArray>();
     JsonArray keys = obj["keys"].as<JsonArray>();
     for (int i = 0; i < 9; i++) {
       l.labels[i] = labels.isNull() || i >= labels.size() ? "" : String((const char*)labels[i]);
       l.keys[i] = keys.isNull() || i >= keys.size() ? "" : String((const char*)keys[i]);
     }
-
     if (layers.empty()) {
       JsonArray mArr = obj["macros"].as<JsonArray>();
       if (!mArr.isNull()) {
@@ -461,25 +390,18 @@ void parseLayerArray(JsonArray arr) {
         }
       }
     }
-
     layers.push_back(l);
   }
 }
 
-
 bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
   macros.clear();
-
   if (doc.is<JsonArray>()) {
     parseLayerArray(doc.as<JsonArray>());
   } else if (doc.is<JsonObject>() && doc["layers"].is<JsonArray>()) {
     parseLayerArray(doc["layers"].as<JsonArray>());
   }
-
-  if (layers.empty()) {
-    return false;
-  }
-
+  if (layers.empty()) return false;
   currentLayer = constrain(currentLayer, 0, static_cast<int>(layers.size()) - 1);
   defaultLayer = constrain(defaultLayer, 0, static_cast<int>(layers.size()) - 1);
   return true;
@@ -488,136 +410,149 @@ bool loadLayersFromJsonDocument(DynamicJsonDocument& doc) {
 bool loadBuiltinDefaultLayers() {
   DynamicJsonDocument doc(2048);
   auto err = deserializeJson(doc, defaultLayersJson());
-  if (err) {
-    return false;
-  }
+  if (err) return false;
   return loadLayersFromJsonDocument(doc);
+}
+
+// ===== EEPROM Storage Functions =====
+
+void saveConfigToEEPROM(const String& json) {
+  EEPROM.begin(EEPROM_SIZE);
+  
+  int len = json.length();
+  if (len > EEPROM_SIZE - 10) {
+    Serial.println("ERROR: Config too large for EEPROM");
+    return;
+  }
+  
+  uint32_t ulen = (uint32_t)len;
+  EEPROM.write(CONFIG_ADDR, (CONFIG_MAGIC >> 24) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 1, (CONFIG_MAGIC >> 16) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 2, (CONFIG_MAGIC >> 8) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 3, CONFIG_MAGIC & 0xFF);
+  
+  EEPROM.write(CONFIG_ADDR + 4, (ulen >> 24) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 5, (ulen >> 16) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 6, (ulen >> 8) & 0xFF);
+  EEPROM.write(CONFIG_ADDR + 7, ulen & 0xFF);
+  
+  for (uint32_t i = 0; i < ulen; i++) {
+    EEPROM.write(CONFIG_ADDR + 8 + i, (uint8_t)json[i]);
+  }
+  
+  EEPROM.write(CONFIG_ADDR + 8 + ulen, 0);
+  
+  EEPROM.commit();
+  Serial.print("Config saved: ");
+  Serial.print(len);
+  Serial.println(" bytes");
+}
+
+String loadConfigFromEEPROM() {
+  EEPROM.begin(EEPROM_SIZE);
+  
+  uint32_t magic = ((uint32_t)EEPROM.read(CONFIG_ADDR) << 24) |
+                   ((uint32_t)EEPROM.read(CONFIG_ADDR + 1) << 16) |
+                   ((uint32_t)EEPROM.read(CONFIG_ADDR + 2) << 8) |
+                   (uint32_t)EEPROM.read(CONFIG_ADDR + 3);
+  
+  if (magic != CONFIG_MAGIC) {
+    return "";
+  }
+  
+  uint32_t len = ((uint32_t)EEPROM.read(CONFIG_ADDR + 4) << 24) |
+                 ((uint32_t)EEPROM.read(CONFIG_ADDR + 5) << 16) |
+                 ((uint32_t)EEPROM.read(CONFIG_ADDR + 6) << 8) |
+                 (uint32_t)EEPROM.read(CONFIG_ADDR + 7);
+            
+  if (len == 0 || len > EEPROM_SIZE - 10) {
+    Serial.println("ERROR: Invalid config length");
+    return "";
+  }
+  
+  char* buffer = (char*)malloc(len + 1);
+  if (!buffer) {
+    Serial.println("ERROR: malloc failed");
+    return "";
+  }
+  
+  for (uint32_t i = 0; i < len; i++) {
+    buffer[i] = (char)EEPROM.read(CONFIG_ADDR + 8 + i);
+  }
+  buffer[len] = '\0';
+  
+  String result = String(buffer);
+  free(buffer);
+  
+  Serial.print("Config loaded: ");
+  Serial.print(len);
+  Serial.println(" bytes");
+  
+  return result;
 }
 
 void loadLayers() {
   macros.clear();
-
-  if (!fsReady) {
-    if (ramLayersJsonValid) {
-      DynamicJsonDocument ramDoc(16384);
-      auto ramErr = deserializeJson(ramDoc, ramLayersJson);
-      if (!ramErr && loadLayersFromJsonDocument(ramDoc)) {
-        return;
-      }
-      Serial.println("RAM layers.json parse failed; loading safe defaults");
+  
+  String eepromConfig = loadConfigFromEEPROM();
+  if (eepromConfig.length() > 0) {
+    Serial.println("EEPROM config preview:");
+    Serial.println(eepromConfig.substring(0, min(100, (int)eepromConfig.length())));
+    
+    DynamicJsonDocument doc(16384);
+    auto err = deserializeJson(doc, eepromConfig);
+    
+    if (err) {
+      Serial.print("JSON error: ");
+      Serial.println(err.c_str());
+    } else if (loadLayersFromJsonDocument(doc)) {
+      Serial.println("Loaded from EEPROM OK");
+      return;
+    } else {
+      Serial.println("loadLayersFromJsonDocument failed");
     }
-
-    if (!loadBuiltinDefaultLayers()) {
-      loadHardcodedSafeLayer();
-    }
-    return;
   }
-
-  if (!LittleFS.exists("/layers.json")) {
-    writeDefaultLayersFile();
-  }
-
-  File f = LittleFS.open("/layers.json", "r");
-  if (!f) {
-    if (!loadBuiltinDefaultLayers()) {
-      loadHardcodedSafeLayer();
-    }
-    return;
-  }
-
-  DynamicJsonDocument doc(16384);
-  auto err = deserializeJson(doc, f);
-  f.close();
-
-  if (err || !loadLayersFromJsonDocument(doc)) {
-    Serial.println("layers.json parse failed; loading safe defaults");
-    // Keep firmware usable and UI readable even if uploaded JSON is malformed.
-    if (!loadBuiltinDefaultLayers()) {
-      loadHardcodedSafeLayer();
-    }
+  
+  Serial.println("Loading defaults");
+  if (!loadBuiltinDefaultLayers()) {
+    loadHardcodedSafeLayer();
   }
 }
 
 void handleCommand(const String& cmdRaw) {
   String cmd = cmdRaw;
   cmd.trim();
-
-  if (discardingUpload) {
-    return;
-  }
-
-  if (cmd == "<EOF>") {
-    // Ignore stray EOF markers received outside PUT mode.
-    return;
-  }
+  if (discardingUpload) return;
+  if (cmd == "<EOF>") return;
 
   if (cmd == "LIST") {
     sendLine("Files:");
-    if (!fsReady) {
-      sendLine("layers.json");
-      sendLine("<END>");
-      return;
-    }
-    File root = LittleFS.open("/", "r");
-    if (!root) {
-      sendLine("layers.json");
-      sendLine("<END>");
-      return;
-    }
-    File f = root.openNextFile();
-    while (f) {
-      Serial.println(f.name());
-      f = root.openNextFile();
+    String eepromConfig = loadConfigFromEEPROM();
+    if (eepromConfig.length() > 0) {
+      sendLine("layers.json (EEPROM)");
     }
     sendLine("<END>");
     return;
   }
 
   if (cmd.startsWith("DEL ")) {
-    String fn = normalizePathArg(cmd.substring(4));
-    if (!fsReady) {
-      sendLine("ERROR");
-      return;
-    }
-    sendLine(LittleFS.remove(fn) ? "DELETED" : "ERROR");
+    EEPROM.begin(EEPROM_SIZE);
+    EEPROM.write(CONFIG_ADDR, 0);
+    EEPROM.commit();
+    sendLine("DELETED");
     return;
   }
 
   if (cmd.startsWith("GET ")) {
     String fn = normalizePathArg(cmd.substring(4));
-
-    if (!fsReady) {
-      if (fn == "/layers.json") {
-        if (ramLayersJsonValid) {
-          Serial.print(ramLayersJson);
-        } else {
-          Serial.print(defaultLayersJson());
-        }
-      }
-      sendEOFMarker();
-      return;
-    }
-
-    File f = LittleFS.open(fn, "r");
-    if (!f) {
-      if (fn == "/layers.json") {
-        writeDefaultLayersFile();
-        f = LittleFS.open(fn, "r");
-      }
-      if (!f) {
-        if (fn == "/layers.json") {
-          Serial.print(defaultLayersJson());
-        }
-        sendEOFMarker();
-        return;
+    if (fn == "/layers.json") {
+      String eepromConfig = loadConfigFromEEPROM();
+      if (eepromConfig.length() > 0) {
+        Serial.print(eepromConfig);
+      } else {
+        Serial.print(defaultLayersJson());
       }
     }
-    while (f.available()) {
-      uint8_t buf[256];
-      size_t n = f.read(buf, sizeof(buf));
-      Serial.write(buf, n);
-    }
-    f.close();
     sendEOFMarker();
     return;
   }
@@ -625,26 +560,15 @@ void handleCommand(const String& cmdRaw) {
   if (cmd.startsWith("PUT ")) {
     putFilename = normalizePathArg(cmd.substring(4));
     putBuffer = "";
-    uploadToRam = false;
     discardingUpload = false;
 
-    if (fsReady) {
-      putFile = LittleFS.open(putFilename, "w");
+    if (putFilename != "/layers.json") {
+      discardingUpload = true;
+      Serial.println("ERROR: Only /layers.json supported");
+    } else {
+      Serial.println("Ready to receive layers.json");
     }
-
-    if (!putFile) {
-      if (!fsReady && putFilename == "/layers.json") {
-        uploadToRam = true;
-      } else {
-        // Stay protocol-compatible: accept upload stream and discard it, then ACK.
-        discardingUpload = true;
-      }
-      receivingFile = true;
-      eofWindowLen = 0;
-      sendLine("READY");
-      return;
-    }
-
+    
     receivingFile = true;
     eofWindowLen = 0;
     sendLine("READY");
@@ -666,31 +590,25 @@ void processSerial() {
     uint8_t b = static_cast<uint8_t>(Serial.read());
 
     if (receivingFile) {
-      // Windowed EOF detector for binary-safe streaming writes.
       eofWindow[eofWindowLen++] = b;
-      if (eofWindowLen < 5) {
-        continue;
-      }
+      if (eofWindowLen < 5) continue;
 
       if (eofWindow[0] == '<' && eofWindow[1] == 'E' && eofWindow[2] == 'O' && eofWindow[3] == 'F' && eofWindow[4] == '>') {
-        if (putFile) {
-          putFile.close();
-        }
-        if (uploadToRam && putFilename == "/layers.json") {
-          ramLayersJson = putBuffer;
-          ramLayersJsonValid = true;
-          putBuffer = "";
-          uploadToRam = false;
-        }
-
         receivingFile = false;
         eofWindowLen = 0;
 
-        sendLine("FILE RECEIVED");
         if (discardingUpload) {
           discardingUpload = false;
+          putBuffer = "";
+          sendLine("ERROR: Upload discarded");
           continue;
         }
+        
+        saveConfigToEEPROM(putBuffer);
+        putBuffer = "";
+        
+        sendLine("FILE RECEIVED");
+        
         if (putFilename == "/layers.json") {
           loadLayers();
           drawUI(currentLayer);
@@ -699,37 +617,75 @@ void processSerial() {
         continue;
       }
 
-      // Not EOF marker: write oldest byte, keep last 4 for boundary matching.
-      if (putFile) {
-        putFile.write(eofWindow[0]);
-      } else if (uploadToRam) {
+      if (!discardingUpload) {
         putBuffer += static_cast<char>(eofWindow[0]);
       }
-      for (uint8_t i = 1; i < 5; i++) {
-        eofWindow[i - 1] = eofWindow[i];
-      }
+      
+      for (uint8_t i = 1; i < 5; i++) eofWindow[i - 1] = eofWindow[i];
       eofWindowLen = 4;
       continue;
     }
 
-    if (b == '\r') {
-      continue;
-    }
-
+    if (b == '\r') continue;
     if (b == '\n') {
       String cmd = serialLineBuffer;
       serialLineBuffer = "";
       cmd.trim();
-      if (cmd.length()) {
-        handleCommand(cmd);
-      }
+      if (cmd.length()) handleCommand(cmd);
       continue;
     }
-
     serialLineBuffer += static_cast<char>(b);
   }
 }
 
+// ===== Boot Animation =====
+void playBootAnimation() {
+  const int startX = 2;
+  const int startY = 14;
+  const int cellW = 41;
+  const int cellH = 16;
+
+  // Step 1: animate 3x3 boxes appearing one by one.
+  display.clearDisplay();
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_WHITE);
+  display.setCursor(22, 5);
+  display.print("Booting...");
+  display.display();
+
+  for (int i = 0; i < 9; i++) {
+    int x = startX + (i % 3) * cellW;
+    int y = startY + (i / 3) * cellH;
+    display.drawRect(x, y, 39, 14, SSD1306_WHITE);
+    display.display();
+    delay(40);
+  }
+
+  // Step 2: quick clear to transition.
+  delay(80);
+  display.clearDisplay();
+  display.display();
+  delay(40);
+
+  // Step 3: show TRKEY title + version in bottom-right.
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(2);
+  display.setCursor(16, 18);
+  display.print("TRKEY");
+
+  display.setTextSize(1);
+  int16_t x1, y1;
+  uint16_t w, h;
+  display.getTextBounds(FW_VERSION, 0, 0, &x1, &y1, &w, &h);
+  int verX = SCREEN_WIDTH - static_cast<int>(w) - 2;
+  int verY = SCREEN_HEIGHT - static_cast<int>(h) - 1;
+  display.setCursor(verX, verY);
+  display.print(FW_VERSION);
+  display.display();
+
+  delay(2000);
+}
 
 void setup() {
   Serial.begin(115200);
@@ -747,24 +703,28 @@ void setup() {
 
   display.begin(SSD1306_SWITCHCAPVCC, OLED_ADDR);
 
-  // RP2040 Arduino core initializes TinyUSB; do not call tusb_init()/TinyUSBDevice.begin() here.
+  // WORKING HID initialization from your code
   usb_hid.setPollInterval(2);
   usb_hid.setReportDescriptor(hidReportDescriptor, sizeof(hidReportDescriptor));
   usb_hid.begin();
 
-  if (!LittleFS.begin()) {
-    LittleFS.format();
-    fsReady = LittleFS.begin();
+  // Initialize EEPROM
+  Serial.println("Initializing EEPROM...");
+  EEPROM.begin(EEPROM_SIZE);
+  
+  String testConfig = loadConfigFromEEPROM();
+  if (testConfig.length() > 0) {
+    Serial.print("Found config: ");
+    Serial.print(testConfig.length());
+    Serial.println(" bytes");
   } else {
-    fsReady = true;
+    Serial.println("No config in EEPROM");
   }
 
-  if (!fsReady) {
-    loadHardcodedSafeLayer();
-  } else {
-    writeDefaultLayersFile();
-    loadLayers();
-  }
+  // Play boot animation before loading layers
+  playBootAnimation();
+
+  loadLayers();
   drawUI(currentLayer);
 }
 
