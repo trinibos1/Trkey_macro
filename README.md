@@ -11,7 +11,7 @@ This is a **compact 3×3 macropad** built with **Raspberry Pi Pico / RP2040**, r
 ## Update
 
 * UF2 file is old but code is up to date
-* V2 trkey macropad has started development
+* wireless trkey macropad has started development
 ---
 ## Changelog / Update Log
 
