@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Trkey Music Companion (beta).
-
+///so many bugs
 Simple optional PC companion app for Arduino firmware.
 - Sends now-playing metadata via NP_SET.
 - Loads layer by name, e.g. `music` -> MODE music.
